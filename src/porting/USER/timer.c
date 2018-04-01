@@ -1,0 +1,49 @@
+ï»¿/*
+ * timer.c
+ *
+ */
+ 
+ #include "main.h"	
+
+void Timer_Init(void)
+{		 					 
+	
+	
+	GPIO_InitTypeDef GPIO_InitStructure;
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+	TIM_OCInitTypeDef  TIM_OCInitStructure;
+	
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14,ENABLE);  	//TIM14¨º¡À?¨®¨º1?¨¹    
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE); 	//¨º1?¨¹PORTF¨º¡À?¨®	
+	
+	GPIO_PinAFConfig(GPIOF,GPIO_PinSource9,GPIO_AF_TIM14); //GPIOF9?¡ä¨®??a?¡§¨º¡À?¡Â14
+	
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;           //GPIOF9
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;        //?¡ä¨®?1|?¨¹
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;	//?¨´?¨¨100MHz
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;      //¨ª?¨ª¨¬?¡ä¨®?¨º?3?
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;        //¨¦?¨¤-
+	GPIO_Init(GPIOF,&GPIO_InitStructure);              //3?¨º??¡¥PF9
+	  
+	TIM_TimeBaseStructure.TIM_Prescaler= 1 - 1;  //?¡§¨º¡À?¡Â¡¤??¦Ì
+	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; //?¨°¨¦???¨ºy?¡ê¨º?
+	TIM_TimeBaseStructure.TIM_Period=42-1;   //¡Á??¡¥??¡Á¡ã???¦Ì
+	TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; 	
+	TIM_TimeBaseInit(TIM14,&TIM_TimeBaseStructure);//3?¨º??¡¥?¡§¨º¡À?¡Â14
+	
+	//3?¨º??¡¥TIM14 Channel1 PWM?¡ê¨º?	 
+	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1; //?????¡§¨º¡À?¡Â?¡ê¨º?:TIM??3??¨ª?¨¨¦Ì¡Â???¡ê¨º?2
+ 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //¡À¨¨??¨º?3?¨º1?¨¹
+	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low; //¨º?3???D?:TIM¨º?3?¡À¨¨????D?¦Ì¨ª
+	TIM_OCInitStructure.TIM_Pulse = 21;
+	TIM_OC1Init(TIM14, &TIM_OCInitStructure);  //?¨´?YT???¡§¦Ì?2?¨ºy3?¨º??¡¥¨ªa¨¦¨¨TIM1 4OC1
+
+	TIM_OC1PreloadConfig(TIM14, TIM_OCPreload_Enable);  //¨º1?¨¹TIM14?¨²CCR1¨¦?¦Ì??¡è¡Á¡ã????¡ä??¡Â
+ 
+  TIM_ARRPreloadConfig(TIM14,ENABLE);//ARPE¨º1?¨¹ 
+	
+	TIM_Cmd(TIM14, ENABLE);  //¨º1?¨¹TIM14
+										  
+}  
+
+

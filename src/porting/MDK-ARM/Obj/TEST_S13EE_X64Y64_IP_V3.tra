@@ -1,0 +1,33 @@
+*** Creating Trace Output File '.\Obj\TEST_S13EE_X64Y64_IP_V3.tra' Ok.
+### Preparing for ADS-LD.
+### Creating ADS-LD Command Line
+### List of Objects: adding '".\obj\startup_stm32f4xx.o"'
+### List of Objects: adding '".\obj\bsp_printf.o"'
+### List of Objects: adding '".\obj\datarom.o"'
+### List of Objects: adding '".\obj\eeprom.o"'
+### List of Objects: adding '".\obj\main.o"'
+### List of Objects: adding '".\obj\ra8875.o"'
+### List of Objects: adding '".\obj\stm32f4xx_it.o"'
+### List of Objects: adding '".\obj\system_stm32f4xx.o"'
+### List of Objects: adding '".\obj\timer.o"'
+### List of Objects: adding '".\obj\misc.o"'
+### List of Objects: adding '".\obj\stm32f4xx_gpio.o"'
+### List of Objects: adding '".\obj\stm32f4xx_rcc.o"'
+### List of Objects: adding '".\obj\stm32f4xx_usart.o"'
+### List of Objects: adding '".\obj\stm32f4xx_wwdg.o"'
+### List of Objects: adding '".\obj\stm32f4xx_tim.o"'
+### ADS-LD Command completed:
+--cpu Cortex-M4.fp ".\obj\startup_stm32f4xx.o" ".\obj\bsp_printf.o" ".\obj\datarom.o" ".\obj\eeprom.o" ".\obj\main.o" ".\obj\ra8875.o" ".\obj\stm32f4xx_it.o" ".\obj\system_stm32f4xx.o" ".\obj\timer.o" ".\obj\misc.o" ".\obj\stm32f4xx_gpio.o" ".\obj\stm32f4xx_rcc.o" ".\obj\stm32f4xx_usart.o" ".\obj\stm32f4xx_wwdg.o" ".\obj\stm32f4xx_tim.o" --strict --scatter ".\Obj\TEST_S13EE_X64Y64_IP_V3.sct" 
+--autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--info sizes --info totals --info unused --info veneers 
+ --list ".\TEST_S13EE_X64Y64_IP_V3.map" -o ".\Obj\TEST_S13EE_X64Y64_IP_V3.axf"### Preparing Environment (PrepEnvAds)
+### ADS-LD Output File: '.\Obj\TEST_S13EE_X64Y64_IP_V3.axf'
+### ADS-LD Command File: '.\Obj\TEST_S13EE_X64Y64_IP_V3.lnp'
+### Checking for dirty Components...
+### Creating CmdFile '.\Obj\TEST_S13EE_X64Y64_IP_V3.lnp', Handle=0x00000754
+### Writing '.lnp' file
+### ADS-LD Command file '.\Obj\TEST_S13EE_X64Y64_IP_V3.lnp' is ready.
+### ADS-LD: About to start ADS-LD Thread.
+### ADS-LD: executed with 0 errors
+### Updating obj list
+### LDADS_file() completed.
