@@ -1,0 +1,11 @@
+# PROMGEN: Xilinx Prom Generator P.20131013
+# Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+SOFTWARE_VERSION P.20131013
+DATE            07/19/2016 - 07:01
+SOURCE          E:\Xilinx\SW\Software_DDR3\led\led_top.mcs
+DEVICE          1024K
+DATA_WIDTH      1
+FILL_DATA       0xFF
+SIGNATURE       0x08E75FC4
+START_ADDRESS   0x00000000 END_ADDRESS 0x00071543 DIRECTION_UP   "E:/Xilinx/SW/Software_DDR3/led/led_top.bit" 6slx16ftg256

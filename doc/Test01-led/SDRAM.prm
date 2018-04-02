@@ -1,0 +1,17 @@
+PROMGEN: Xilinx Prom Generator P.20131013
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+promgen -w -p mcs -c FF -o E:\Xilinx\SW\Software\led\//SDRAM -s 1024 -u 0000 E:/Xilinx/SW/Software/Test06-SDRAM/SDRAM/sdram_test.bit -spi 
+
+PROM E:\Xilinx\SW\Software\led\SDRAM.prm map: Sat Jun 25 10:18:50 2016
+
+Calculating PROM checksum with fill value ff
+
+Format        Mcs86 (32-bit)
+Size          1024K
+PROM start    0000:0000
+PROM end      000f:ffff
+PROM checksum 08e934a9
+
+        Addr1        Addr2                     Date File(s)
+    0000:0000    0007:1543     Jun 13 23:15:09 2016 E:/Xilinx/SW/Software/Test06-SDRAM/SDRAM/sdram_test.bit

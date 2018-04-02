@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=D:\FPGA\timer_chipscope\Test01-led\Test01-led\led_top.ncd
+OUTFILE=D:\FPGA\timer_chipscope\Test01-led\Test01-led\led_top.bit
+FAMILY=Spartan6
+PART=xc6slx16-2ftg256
+WORKINGDIR=D:\FPGA\timer_chipscope\Test01-led\Test01-led
+LICENSE=WebPack
+USER_INFO=_

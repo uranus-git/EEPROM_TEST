@@ -1,0 +1,8 @@
+INTSTYLE=impact
+INFILE=E:\Xilinx\SW\Software_DDR3\Test01-led\impact.xsl
+OUTFILE=E:\Xilinx\SW\Software_DDR3\Test01-led\impact.xsl
+FAMILY=Single
+PART=Single
+WORKINGDIR=E:\Xilinx\SW\Software_DDR3\Test01-led
+LICENSE=iMPACT
+USER_INFO=iMPACT

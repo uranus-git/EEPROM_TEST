@@ -1,0 +1,417 @@
+Release 14.7 - xst P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.14 secs
+ 
+--> Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.14 secs
+ 
+--> Reading design: led_top.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "led_top.prj"
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "led_top"
+Output Format                      : NGC
+Target Device                      : xc6slx16-2-ftg256
+
+---- Source Options
+Top Module Name                    : led_top
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Analyzing Verilog file "D:\FPGA\timer_chipscope\Test01-led\Test01-led\led_top.v" into library work
+Parsing module <led_top>.
+WARNING:HDLCompiler:751 - "D:\FPGA\timer_chipscope\Test01-led\Test01-led\led_top.v" Line 32: Redeclaration of ansi port pwm_in is not allowed
+WARNING:HDLCompiler:751 - "D:\FPGA\timer_chipscope\Test01-led\Test01-led\led_top.v" Line 36: Redeclaration of ansi port timer_out is not allowed
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating module <led_top>.
+WARNING:Xst:2848 - User-defined property "keep = "ture"" for signal<pwm_in> in unit <led_top> is ignored: not applicable to primary ports
+WARNING:Xst:2848 - User-defined property "keep = "ture"" for signal<timer_out> in unit <led_top> is ignored: not applicable to primary ports
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <led_top>.
+    Related source file is "D:\FPGA\timer_chipscope\Test01-led\Test01-led\led_top.v".
+        DLY_CNT = 32'b00000010111110101111000010000000
+        HALF_DLY_CNT = 32'b00000001011111010111100001000000
+WARNING:Xst - Value "ture" of property "keep" is not applicable. List of valid values is "false, no, soft, true, yes" 
+WARNING:Xst - Value "ture" of property "keep" is not applicable. List of valid values is "false, no, soft, true, yes" 
+WARNING:Xst - Value "ture" of property "keep" is not applicable. List of valid values is "false, no, soft, true, yes" 
+    Found 32-bit register for signal <count>.
+    Found 1-bit register for signal <led_1>.
+    Found 1-bit register for signal <led_2>.
+    Found 1-bit register for signal <pwm_reg1>.
+    Found 1-bit register for signal <pwm_reg2>.
+    Found 32-bit adder for signal <count[31]_GND_1_o_add_1_OUT> created at line 50.
+    Found 32-bit comparator greater for signal <count[31]_GND_1_o_LessThan_5_o> created at line 62
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+	inferred  36 D-type flip-flop(s).
+	inferred   1 Comparator(s).
+	inferred   1 Multiplexer(s).
+Unit <led_top> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 1
+ 32-bit adder                                          : 1
+# Registers                                            : 5
+ 1-bit register                                        : 4
+ 32-bit register                                       : 1
+# Comparators                                          : 1
+ 32-bit comparator greater                             : 1
+# Multiplexers                                         : 1
+ 32-bit 2-to-1 multiplexer                             : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+Synthesizing (advanced) Unit <led_top>.
+The following registers are absorbed into counter <count>: 1 register on signal <count>.
+Unit <led_top> synthesized (advanced).
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Counters                                             : 1
+ 32-bit up counter                                     : 1
+# Registers                                            : 4
+ Flip-Flops                                            : 4
+# Comparators                                          : 1
+ 32-bit comparator greater                             : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <led_top> ...
+WARNING:Xst:1710 - FF/Latch <count_26> (without init value) has a constant value of 0 in block <led_top>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <count_27> (without init value) has a constant value of 0 in block <led_top>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <count_28> (without init value) has a constant value of 0 in block <led_top>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <count_29> (without init value) has a constant value of 0 in block <led_top>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <count_30> (without init value) has a constant value of 0 in block <led_top>. This FF/Latch will be trimmed during the optimization process.
+WARNING:Xst:1895 - Due to other FF/Latch trimming, FF/Latch <count_31> (without init value) has a constant value of 0 in block <led_top>. This FF/Latch will be trimmed during the optimization process.
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block led_top, actual ratio is 0.
+
+Final Macro Processing ...
+
+Processing Unit <led_top> :
+	Found 2-bit shift register for signal <pwm_reg2>.
+Unit <led_top> processed.
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 28
+ Flip-Flops                                            : 28
+# Shift Registers                                      : 1
+ 2-bit shift register                                  : 1
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : led_top.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 127
+#      GND                         : 1
+#      INV                         : 3
+#      LUT1                        : 25
+#      LUT2                        : 27
+#      LUT3                        : 1
+#      LUT4                        : 2
+#      LUT5                        : 4
+#      LUT6                        : 6
+#      MUXCY                       : 31
+#      VCC                         : 1
+#      XORCY                       : 26
+# FlipFlops/Latches                : 29
+#      FDC                         : 28
+#      FDE                         : 1
+# Shift Registers                  : 1
+#      SRLC16E                     : 1
+# Clock Buffers                    : 1
+#      BUFGP                       : 1
+# IO Buffers                       : 5
+#      IBUF                        : 2
+#      OBUF                        : 3
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 6slx16ftg256-2 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:              29  out of  18224     0%  
+ Number of Slice LUTs:                   69  out of   9112     0%  
+    Number used as Logic:                68  out of   9112     0%  
+    Number used as Memory:                1  out of   2176     0%  
+       Number used as SRL:                1
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:     70
+   Number with an unused Flip Flop:      41  out of     70    58%  
+   Number with an unused LUT:             1  out of     70     1%  
+   Number of fully used LUT-FF pairs:    28  out of     70    40%  
+   Number of unique control sets:         2
+
+IO Utilization: 
+ Number of IOs:                           6
+ Number of bonded IOBs:                   6  out of    186     3%  
+
+Specific Feature Utilization:
+ Number of BUFG/BUFGCTRLs:                1  out of     16     6%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+sys_clk                            | BUFGP                  | 30    |
+-----------------------------------+------------------------+-------+
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -2
+
+   Minimum period: 4.671ns (Maximum Frequency: 214.087MHz)
+   Minimum input arrival time before clock: 4.175ns
+   Maximum output required time after clock: 5.202ns
+   Maximum combinational path delay: No path found
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'sys_clk'
+  Clock period: 4.671ns (frequency: 214.087MHz)
+  Total number of paths / destination ports: 1092 / 29
+-------------------------------------------------------------------------
+Delay:               4.671ns (Levels of Logic = 3)
+  Source:            count_1 (FF)
+  Destination:       count_0 (FF)
+  Source Clock:      sys_clk rising
+  Destination Clock: sys_clk rising
+
+  Data Path: count_1 to count_0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              2   0.525   1.181  count_1 (count_1)
+     LUT6:I0->O            2   0.254   1.002  count[31]_GND_1_o_equal_1_o<31>3 (count[31]_GND_1_o_equal_1_o<31>2)
+     LUT6:I2->O           14   0.254   1.127  count[31]_GND_1_o_equal_1_o<31>5 (count[31]_GND_1_o_equal_1_o)
+     LUT2:I1->O            1   0.254   0.000  Mcount_count_eqn_01 (Mcount_count_eqn_0)
+     FDC:D                     0.074          count_0
+    ----------------------------------------
+    Total                      4.671ns (1.361ns logic, 3.310ns route)
+                                       (29.1% logic, 70.9% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'sys_clk'
+  Total number of paths / destination ports: 29 / 29
+-------------------------------------------------------------------------
+Offset:              4.175ns (Levels of Logic = 2)
+  Source:            sys_rst_n (PAD)
+  Destination:       l_led (FF)
+  Destination Clock: sys_clk rising
+
+  Data Path: sys_rst_n to l_led
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             1   1.328   0.681  sys_rst_n_IBUF (sys_rst_n_IBUF)
+     INV:I->O             28   0.255   1.452  sys_rst_n_inv1_INV_0 (sys_rst_n_inv)
+     FDC:CLR                   0.459          l_led
+    ----------------------------------------
+    Total                      4.175ns (2.042ns logic, 2.133ns route)
+                                       (48.9% logic, 51.1% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'sys_clk'
+  Total number of paths / destination ports: 4 / 3
+-------------------------------------------------------------------------
+Offset:              5.202ns (Levels of Logic = 2)
+  Source:            r_led (FF)
+  Destination:       timer_out (PAD)
+  Source Clock:      sys_clk rising
+
+  Data Path: r_led to timer_out
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDC:C->Q              2   0.525   0.834  r_led (r_led)
+     LUT2:I0->O            1   0.250   0.681  timer_out1 (timer_out_OBUF)
+     OBUF:I->O                 2.912          timer_out_OBUF (timer_out)
+    ----------------------------------------
+    Total                      5.202ns (3.687ns logic, 1.515ns route)
+                                       (70.9% logic, 29.1% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock sys_clk
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+sys_clk        |    4.671|         |         |         |
+---------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 6.00 secs
+Total CPU time to Xst completion: 6.10 secs
+ 
+--> 
+
+Total memory usage is 256420 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :   13 (   0 filtered)
+Number of infos    :    0 (   0 filtered)
+
