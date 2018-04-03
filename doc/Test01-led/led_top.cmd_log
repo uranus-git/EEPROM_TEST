@@ -17,3 +17,8 @@ map -intstyle ise -p xc6slx16-ftg256-2 -w -logic_opt off -ol high -t 1 -xt 0 -re
 par -w -intstyle ise -ol high -mt off led_top_map.ncd led_top.ncd led_top.pcf 
 trce -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml led_top.twx led_top.ncd -o led_top.twr led_top.pcf -ucf sp6_led.ucf 
 bitgen -intstyle ise -f led_top.ut led_top.ncd 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc sp6_led.ucf -p xc6slx16-ftg256-2 led_top_cs.ngc led_top.ngd  
+map -intstyle ise -p xc6slx16-ftg256-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o led_top_map.ncd led_top.ngd led_top.pcf 
+par -w -intstyle ise -ol high -mt off led_top_map.ncd led_top.ncd led_top.pcf 
+trce -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml led_top.twx led_top.ncd -o led_top.twr led_top.pcf -ucf sp6_led.ucf 
+bitgen -intstyle ise -f led_top.ut led_top.ncd 

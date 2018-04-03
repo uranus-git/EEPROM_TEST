@@ -20,7 +20,7 @@ void TIM14_PWM_Init(void)
 	  
 	TIM_TimeBaseStructure.TIM_Prescaler= 1 - 1;  //定时器分频
 	TIM_TimeBaseStructure.TIM_CounterMode=TIM_CounterMode_Up; //向上计数模式
-	TIM_TimeBaseStructure.TIM_Period=42-1;   //自动重装载值
+	TIM_TimeBaseStructure.TIM_Period=21-1;   //自动重装载值/*42 = 2MHz*/
 	TIM_TimeBaseStructure.TIM_ClockDivision=TIM_CKD_DIV1; 	
 	TIM_TimeBaseInit(TIM14,&TIM_TimeBaseStructure);//初始化定时器14
 	
@@ -28,7 +28,7 @@ void TIM14_PWM_Init(void)
 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1; //选择定时器模式:TIM脉冲宽度调制模式2
  	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //比较输出使能
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low; //输出极性:TIM输出比较极性低
-	TIM_OCInitStructure.TIM_Pulse = 21;
+	TIM_OCInitStructure.TIM_Pulse = 11;
 	TIM_OC1Init(TIM14, &TIM_OCInitStructure);  //根据T指定的参数初始化外设TIM1 4OC1
 
 	TIM_OC1PreloadConfig(TIM14, TIM_OCPreload_Enable);  //使能TIM14在CCR1上的预装载寄存器

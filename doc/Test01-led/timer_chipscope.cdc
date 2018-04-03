@@ -1,10 +1,10 @@
 #ChipScope Core Inserter Project File Version 3.0
-#Sun Mar 18 17:16:03 GMT+08:00 2018
-Project.device.designInputFile=D\:\\FPGA\\timer_chipscope\\Test01-led\\Test01-led\\led_top_cs.ngc
-Project.device.designOutputFile=D\:\\FPGA\\timer_chipscope\\Test01-led\\Test01-led\\led_top_cs.ngc
+#Mon Apr 02 23:07:38 CST 2018
+Project.device.designInputFile=F\:\\work\\myproj\\EEPROM_TEST\\doc\\Test01-led\\led_top_cs.ngc
+Project.device.designOutputFile=F\:\\work\\myproj\\EEPROM_TEST\\doc\\Test01-led\\led_top_cs.ngc
 Project.device.deviceFamily=18
 Project.device.enableRPMs=true
-Project.device.outputDirectory=D\:\\FPGA\\timer_chipscope\\Test01-led\\Test01-led\\_ngo
+Project.device.outputDirectory=F\:\\work\\myproj\\EEPROM_TEST\\doc\\Test01-led\\_ngo
 Project.device.useSRL16=true
 Project.filter.dimension=1
 Project.filter<0>=
@@ -16,7 +16,7 @@ Project.icon.triggerOutPinName=
 Project.unit.dimension=1
 Project.unit<0>.clockChannel=sys_clk_BUFGP
 Project.unit<0>.clockEdge=Rising
-Project.unit<0>.dataChannel<0>=pwm_in_IBUF
+Project.unit<0>.dataChannel<0>=pwm_reg2
 Project.unit<0>.dataChannel<10>=count<16>
 Project.unit<0>.dataChannel<11>=count<15>
 Project.unit<0>.dataChannel<12>=count<14>
@@ -88,21 +88,6 @@ Project.unit<0>.triggerMatchCountWidth<0><0>=0
 Project.unit<0>.triggerMatchType<0><0>=1
 Project.unit<0>.triggerPortCount=1
 Project.unit<0>.triggerPortIsData<0>=true
-Project.unit<0>.triggerPortIsData<10>=false
-Project.unit<0>.triggerPortIsData<11>=false
-Project.unit<0>.triggerPortIsData<12>=false
-Project.unit<0>.triggerPortIsData<13>=false
-Project.unit<0>.triggerPortIsData<14>=false
-Project.unit<0>.triggerPortIsData<15>=false
-Project.unit<0>.triggerPortIsData<1>=false
-Project.unit<0>.triggerPortIsData<2>=false
-Project.unit<0>.triggerPortIsData<3>=false
-Project.unit<0>.triggerPortIsData<4>=false
-Project.unit<0>.triggerPortIsData<5>=false
-Project.unit<0>.triggerPortIsData<6>=false
-Project.unit<0>.triggerPortIsData<7>=false
-Project.unit<0>.triggerPortIsData<8>=false
-Project.unit<0>.triggerPortIsData<9>=false
 Project.unit<0>.triggerPortWidth<0>=29
 Project.unit<0>.triggerSequencerLevels=16
 Project.unit<0>.triggerSequencerType=1
