@@ -24,7 +24,6 @@ void delay_100ns(unsigned short time)
 {
 	     while (time--)  {
             __nop();__nop();__nop();__nop();
-            __nop();__nop();__nop();__nop();
 	     }
 }
 void delay_us(unsigned short time)        //us delay please test

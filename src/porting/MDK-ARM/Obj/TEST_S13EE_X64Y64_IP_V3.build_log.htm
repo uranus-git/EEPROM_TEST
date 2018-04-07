@@ -4,15 +4,18 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 F:\work\myproj\EEPROM_TEST\src\porting\MDK-ARM\TEST_S13EE_X64Y64_IP_V3.uvproj
-Project File Date:  04/02/2018
+Project File Date:  04/03/2018
 
 <h2>Output:</h2>
 Build target 'TEST_S13EE_X64Y64_IP_V3'
-compiling pwm.c...
+compiling main.c...
+..\USER\main.c(332): warning:  #128-D: loop is not reachable
+        while(1)
+..\USER\main.c: 1 warning, 0 errors
 linking...
-Program Size: Code=8740 RO-data=424 RW-data=52 ZI-data=1732  
+Program Size: Code=5148 RO-data=424 RW-data=56 ZI-data=1736  
 FromELF: creating hex file...
-".\Obj\TEST_S13EE_X64Y64_IP_V3.axf" - 0 Error(s), 0 Warning(s).
+".\Obj\TEST_S13EE_X64Y64_IP_V3.axf" - 0 Error(s), 1 Warning(s).
 Load "F:\\work\\myproj\\EEPROM_TEST\\src\\porting\\MDK-ARM\\Obj\\TEST_S13EE_X64Y64_IP_V3.axf" 
 Set JLink Project File to "F:\work\myproj\EEPROM_TEST\src\porting\MDK-ARM\JLinkSettings.ini"
 * JLink Info: Device "STM32F407ZE" selected (512 KB flash, 128 KB RAM).
@@ -50,10 +53,7 @@ Application running ...
 </pre>
 </body>
 </html>
- Info: Found SWD-DP with ID 0x2BA01477
-* JLink Info: Found SWD-DP with ID 0x2BA01477
-* JLink Info: Found Cortex-M4 r0p1, Little endian.
-* JLink Info: FPUnit: 6 code (BP) slots and 2 literal slots
+s and 2 literal slots
 * JLink Info: TPIU fitted.
 * JLink Info: ETM fitted.
 ROMTableAddr = 0xE00FF003
@@ -73,3 +73,340 @@ Erase Done.
 Programming Done.
 Verify OK.
 Application running ...
+entifier "size_t" is undefined
+  extern _ARMABI size_t __fread_bytes_avail(void * __restrict /*ptr*/,
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(740): error:  #20: identifier "size_t" is undefined
+                      size_t /*count*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,3)));
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(755): error:  #20: identifier "size_t" is undefined
+  extern _ARMABI size_t fwrite(const void * __restrict /*ptr*/,
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(756): error:  #20: identifier "size_t" is undefined
+                      size_t /*size*/, size_t /*nmemb*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,4)));
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(756): error:  #20: identifier "size_t" is undefined
+                      size_t /*size*/, size_t /*nmemb*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,4)));
+..\USER\bsp_printf.c: 0 warnings, 15 errors
+compiling eeprom.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\USER\eeprom.h(27): error:  #65: expected a ";"
+  void wr_addr(unsigned char addr) ;  //write the addres to bus
+..\USER\eeprom.c: 0 warnings, 2 errors
+compiling main.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(50): error:  #65: expected a ";"
+    typedef unsigned int size_t;   /* see <stddef.h> */
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(324): error:  #20: identifier "size_t" is undefined
+                     int /*mode*/, size_t /*size*/) __attribute__((__nonnull__(1)));
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(407): error:  #20: identifier "size_t" is undefined
+  extern _ARMABI int snprintf(char * __restrict /*s*/, size_t /*n*/,
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(428): error:  #20: identifier "size_t" is undefined
+  extern _ARMABI int _snprintf(char * __restrict /*s*/, size_t /*n*/,
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(561): error:  #20: identifier "size_t" is undefined
+  extern _ARMABI int vsnprintf(char * __restrict /*s*/, size_t /*n*/,
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(587): error:  #20: identifier "size_t" is undefined
+  extern _ARMABI int _vsnprintf(char * __restrict /*s*/, size_t /*n*/,
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(723): error:  #20: identifier "size_t" is undefined
+  extern _ARMABI size_t fread(void * __restrict /*ptr*/,
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(724): error:  #20: identifier "size_t" is undefined
+                      size_t /*size*/, size_t /*nmemb*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,4)));
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(724): error:  #20: identifier "size_t" is undefined
+                      size_t /*size*/, size_t /*nmemb*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,4)));
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(739): error:  #20: identifier "size_t" is undefined
+  extern _ARMABI size_t __fread_bytes_avail(void * __restrict /*ptr*/,
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(740): error:  #20: identifier "size_t" is undefined
+                      size_t /*count*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,3)));
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(755): error:  #20: identifier "size_t" is undefined
+  extern _ARMABI size_t fwrite(const void * __restrict /*ptr*/,
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(756): error:  #20: identifier "size_t" is undefined
+                      size_t /*size*/, size_t /*nmemb*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,4)));
+D:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h(756): error:  #20: identifier "size_t" is undefined
+                      size_t /*size*/, size_t /*nmemb*/, FILE * __restrict /*stream*/) __attribute__((__nonnull__(1,4)));
+..\USER\main.c(332): warning:  #128-D: loop is not reachable
+        while(1)
+..\USER\main.c: 1 warning, 15 errors
+compiling RA8875.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\USER\RA8875.h(11): error:  #65: expected a ";"
+  static __IO uint8_t s_ucRA8875Busy = 0;
+..\USER\RA8875.c(43): error:  #20: identifier "s_ucRA8875Busy" is undefined
+        s_ucRA8875Busy = 1;
+..\USER\RA8875.c(337): error:  #20: identifier "s_ucRA8875Busy" is undefined
+        s_ucRA8875Busy = 1;
+..\USER\RA8875.c(354): error:  #20: identifier "s_ucRA8875Busy" is undefined
+        s_ucRA8875Busy = 1;
+..\USER\RA8875.c(372): error:  #20: identifier "s_ucRA8875Busy" is undefined
+        s_ucRA8875Busy = 1;
+..\USER\RA8875.c(389): error:  #20: identifier "s_ucRA8875Busy" is undefined
+        s_ucRA8875Busy = 0;
+..\USER\RA8875.c: 0 warnings, 7 errors
+compiling stm32f4xx_it.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\USER\stm32f4xx_it.h(44): error:  #65: expected a ";"
+  void NMI_Handler(void);
+..\USER\stm32f4xx_it.c: 0 warnings, 2 errors
+compiling system_stm32f4xx.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #20: identifier "wwwwwwwwwwww" is undefined
+    wwwwwwwwwwww
+..\USER\system_stm32f4xx.c(371): error:  #101: "uint32_t" has already been declared in the current scope
+    uint32_t SystemCoreClock = 168000000;
+..\USER\system_stm32f4xx.c(371): error:  #65: expected a ";"
+    uint32_t SystemCoreClock = 168000000;
+..\USER\system_stm32f4xx.c(425): error:  #18: expected a ")"
+    RCC->CR |= (uint32_t)0x00000001;
+..\USER\system_stm32f4xx.c(425): error:  #65: expected a ";"
+    RCC->CR |= (uint32_t)0x00000001;
+..\USER\system_stm32f4xx.c(428): error:  #18: expected a ")"
+    RCC->CFGR = 0x00000000;
+..\USER\system_stm32f4xx.c(431): error:  #18: expected a ")"
+    RCC->CR &= (uint32_t)0xFEF6FFFF;
+..\USER\system_stm32f4xx.c(431): error:  #65: expected a ";"
+    RCC->CR &= (uint32_t)0xFEF6FFFF;
+..\USER\system_stm32f4xx.c(434): error:  #18: expected a ")"
+    RCC->PLLCFGR = 0x24003010;
+..\USER\system_stm32f4xx.c(437): error:  #18: expected a ")"
+    RCC->CR &= (uint32_t)0xFFFBFFFF;
+..\USER\system_stm32f4xx.c(437): error:  #65: expected a ";"
+    RCC->CR &= (uint32_t)0xFFFBFFFF;
+..\USER\system_stm32f4xx.c(440): error:  #18: expected a ")"
+    RCC->CIR = 0x00000000;
+..\USER\system_stm32f4xx.c(454): error:  #18: expected a ")"
+    SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
+..\USER\system_stm32f4xx.c(496): error:  #65: expected a ";"
+    uint32_t tmp = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;
+..\USER\system_stm32f4xx.c(499): error:  #20: identifier "tmp" is undefined
+    tmp = RCC->CFGR & RCC_CFGR_SWS;
+..\USER\system_stm32f4xx.c(499): error:  #18: expected a ")"
+    tmp = RCC->CFGR & RCC_CFGR_SWS;
+..\USER\system_stm32f4xx.c(499): error:  #18: expected a ")"
+    tmp = RCC->CFGR & RCC_CFGR_SWS;
+..\USER\system_stm32f4xx.c(504): error:  #18: expected a ")"
+        SystemCoreClock = HSI_VALUE;
+..\USER\system_stm32f4xx.c(507): error:  #18: expected a ")"
+        SystemCoreClock = HSE_VALUE;
+..\USER\system_stm32f4xx.c(513): error:  #20: identifier "pllsource" is undefined
+        pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
+..\USER\system_stm32f4xx.c(513): error:  #18: expected a ")"
+        pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
+..\USER\system_stm32f4xx.c(513): error:  #18: expected a ")"
+        pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
+..\USER\system_stm32f4xx.c(514): error:  #20: identifier "pllm" is undefined
+        pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+..\USER\system_stm32f4xx.c(514): error:  #18: expected a ")"
+        pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+..\USER\system_stm32f4xx.c(514): error:  #18: expected a ")"
+        pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+..\USER\system_stm32f4xx.c(520): error:  #20: identifier "pllvco" is undefined
+          pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+..\USER\system_stm32f4xx.c(520): error:  #18: expected a ")"
+          pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+..\USER\system_stm32f4xx.c(520): error:  #18: expected a ")"
+          pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+..\USER\system_stm32f4xx.c(520): error:  #18: expected a ")"
+          pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+..\USER\system_stm32f4xx.c(525): error:  #20: identifier "pllvco" is undefined
+          pllvco = (HSI_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);      
+..\USER\system_stm32f4xx.c: 0 warnings, 30 errors
+compiling misc.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h(54): error:  #65: expected a ";"
+  typedef struct
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h(74): warning:  #12-D: parsing restarts here after previous syntax error
+  } NVIC_InitTypeDef;
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\misc.h(159): error:  #20: identifier "NVIC_InitTypeDef" is undefined
+  void NVIC_Init(NVIC_InitTypeDef* NVIC_InitStruct);
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c(136): error:  #20: identifier "NVIC_InitTypeDef" is undefined
+  void NVIC_Init(NVIC_InitTypeDef* NVIC_InitStruct)
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c(145): error:  #132: expression must have pointer-to-struct-or-union type
+    if (NVIC_InitStruct->NVIC_IRQChannelCmd != DISABLE)
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c(152): error:  #132: expression must have pointer-to-struct-or-union type
+      tmppriority = NVIC_InitStruct->NVIC_IRQChannelPreemptionPriority << tmppre;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c(153): error:  #132: expression must have pointer-to-struct-or-union type
+      tmppriority |=  (uint8_t)(NVIC_InitStruct->NVIC_IRQChannelSubPriority & tmpsub);
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c(157): error:  #132: expression must have pointer-to-struct-or-union type
+      NVIC->IP[NVIC_InitStruct->NVIC_IRQChannel] = tmppriority;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c(160): error:  #132: expression must have pointer-to-struct-or-union type
+      NVIC->ISER[NVIC_InitStruct->NVIC_IRQChannel >> 0x05] =
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c(161): error:  #132: expression must have pointer-to-struct-or-union type
+        (uint32_t)0x01 << (NVIC_InitStruct->NVIC_IRQChannel & (uint8_t)0x1F);
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c(166): error:  #132: expression must have pointer-to-struct-or-union type
+      NVIC->ICER[NVIC_InitStruct->NVIC_IRQChannel >> 0x05] =
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c(167): error:  #132: expression must have pointer-to-struct-or-union type
+        (uint32_t)0x01 << (NVIC_InitStruct->NVIC_IRQChannel & (uint8_t)0x1F);
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\misc.c: 1 warning, 12 errors
+compiling stm32f4xx_gpio.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h(65): error:  #65: expected a ";"
+  typedef enum
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h(71): warning:  #12-D: parsing restarts here after previous syntax error
+  }GPIOMode_TypeDef;
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_gpio.h(137): error:  #20: identifier "GPIOMode_TypeDef" is undefined
+    GPIOMode_TypeDef GPIO_Mode;     /*!< Specifies the operating mode for the selected pins.
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c(225): error:  #20: identifier "GPIO_Mode_OUT" is undefined
+        if ((GPIO_InitStruct->GPIO_Mode == GPIO_Mode_OUT) || (GPIO_InitStruct->GPIO_Mode == GPIO_Mode_AF))
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c(225): error:  #20: identifier "GPIO_Mode_AF" is undefined
+        if ((GPIO_InitStruct->GPIO_Mode == GPIO_Mode_OUT) || (GPIO_InitStruct->GPIO_Mode == GPIO_Mode_AF))
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c(258): error:  #20: identifier "GPIO_Mode_IN" is undefined
+    GPIO_InitStruct->GPIO_Mode = GPIO_Mode_IN;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_gpio.c: 1 warning, 6 errors
+compiling stm32f4xx_rcc.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h(48): error:  #65: expected a ";"
+  typedef struct
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h(54): warning:  #12-D: parsing restarts here after previous syntax error
+  }RCC_ClocksTypeDef;
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_rcc.h(575): error:  #20: identifier "RCC_ClocksTypeDef" is undefined
+  void        RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks);
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1097): error:  #20: identifier "RCC_ClocksTypeDef" is undefined
+  void RCC_GetClocksFreq(RCC_ClocksTypeDef* RCC_Clocks)
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1107): error:  #132: expression must have pointer-to-struct-or-union type
+        RCC_Clocks->SYSCLK_Frequency = HSI_VALUE;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1110): error:  #132: expression must have pointer-to-struct-or-union type
+        RCC_Clocks->SYSCLK_Frequency = HSE_VALUE;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1132): error:  #132: expression must have pointer-to-struct-or-union type
+        RCC_Clocks->SYSCLK_Frequency = pllvco/pllp;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1135): error:  #132: expression must have pointer-to-struct-or-union type
+        RCC_Clocks->SYSCLK_Frequency = HSI_VALUE;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1145): error:  #132: expression must have pointer-to-struct-or-union type
+    RCC_Clocks->HCLK_Frequency = RCC_Clocks->SYSCLK_Frequency >> presc;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1145): error:  #132: expression must have pointer-to-struct-or-union type
+    RCC_Clocks->HCLK_Frequency = RCC_Clocks->SYSCLK_Frequency >> presc;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1152): error:  #132: expression must have pointer-to-struct-or-union type
+    RCC_Clocks->PCLK1_Frequency = RCC_Clocks->HCLK_Frequency >> presc;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1152): error:  #132: expression must have pointer-to-struct-or-union type
+    RCC_Clocks->PCLK1_Frequency = RCC_Clocks->HCLK_Frequency >> presc;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1159): error:  #132: expression must have pointer-to-struct-or-union type
+    RCC_Clocks->PCLK2_Frequency = RCC_Clocks->HCLK_Frequency >> presc;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c(1159): error:  #132: expression must have pointer-to-struct-or-union type
+    RCC_Clocks->PCLK2_Frequency = RCC_Clocks->HCLK_Frequency >> presc;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_rcc.c: 1 warning, 14 errors
+compiling stm32f4xx_usart.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h(54): error:  #65: expected a ";"
+  typedef struct
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h(78): warning:  #12-D: parsing restarts here after previous syntax error
+    uint16_t USART_HardwareFlowControl; /*!< Specifies wether the hardware flow control mode is enabled
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h(81): error:  #169: expected a declaration
+  } USART_InitTypeDef;
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h(372): error:  #20: identifier "USART_InitTypeDef" is undefined
+  void USART_Init(USART_TypeDef* USARTx, USART_InitTypeDef* USART_InitStruct);
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_usart.h(373): error:  #20: identifier "USART_InitTypeDef" is undefined
+  void USART_StructInit(USART_InitTypeDef* USART_InitStruct);
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(246): error:  #20: identifier "USART_InitTypeDef" is undefined
+  void USART_Init(USART_TypeDef* USARTx, USART_InitTypeDef* USART_InitStruct)
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(263): error:  #132: expression must have pointer-to-struct-or-union type
+    if (USART_InitStruct->USART_HardwareFlowControl != USART_HardwareFlowControl_None)
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(276): error:  #132: expression must have pointer-to-struct-or-union type
+    tmpreg |= (uint32_t)USART_InitStruct->USART_StopBits;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(291): error:  #132: expression must have pointer-to-struct-or-union type
+    tmpreg |= (uint32_t)USART_InitStruct->USART_WordLength | USART_InitStruct->USART_Parity |
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(291): error:  #132: expression must have pointer-to-struct-or-union type
+    tmpreg |= (uint32_t)USART_InitStruct->USART_WordLength | USART_InitStruct->USART_Parity |
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(292): error:  #132: expression must have pointer-to-struct-or-union type
+              USART_InitStruct->USART_Mode;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(305): error:  #132: expression must have pointer-to-struct-or-union type
+    tmpreg |= USART_InitStruct->USART_HardwareFlowControl;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(327): error:  #132: expression must have pointer-to-struct-or-union type
+      integerdivider = ((25 * apbclock) / (2 * (USART_InitStruct->USART_BaudRate)));    
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(332): error:  #132: expression must have pointer-to-struct-or-union type
+      integerdivider = ((25 * apbclock) / (4 * (USART_InitStruct->USART_BaudRate)));    
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(359): error:  #20: identifier "USART_InitTypeDef" is undefined
+  void USART_StructInit(USART_InitTypeDef* USART_InitStruct)
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(362): error:  #132: expression must have pointer-to-struct-or-union type
+    USART_InitStruct->USART_BaudRate = 9600;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(363): error:  #132: expression must have pointer-to-struct-or-union type
+    USART_InitStruct->USART_WordLength = USART_WordLength_8b;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(364): error:  #132: expression must have pointer-to-struct-or-union type
+    USART_InitStruct->USART_StopBits = USART_StopBits_1;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(365): error:  #132: expression must have pointer-to-struct-or-union type
+    USART_InitStruct->USART_Parity = USART_Parity_No ;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(366): error:  #132: expression must have pointer-to-struct-or-union type
+    USART_InitStruct->USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c(367): error:  #132: expression must have pointer-to-struct-or-union type
+    USART_InitStruct->USART_HardwareFlowControl = USART_HardwareFlowControl_None;  
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_usart.c: 1 warning, 21 errors
+compiling stm32f4xx_wwdg.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_wwdg.h(82): error:  #65: expected a ";"
+  void WWDG_DeInit(void);
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_wwdg.c: 0 warnings, 2 errors
+compiling stm32f4xx_tim.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h(55): error:  #65: expected a ";"
+  typedef struct
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h(78): warning:  #12-D: parsing restarts here after previous syntax error
+  } TIM_TimeBaseInitTypeDef; 
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h(1027): error:  #20: identifier "TIM_TimeBaseInitTypeDef" is undefined
+  void TIM_TimeBaseInit(TIM_TypeDef* TIMx, TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
+..\Libraries\STM32F4xx_StdPeriph_Driver\inc\stm32f4xx_tim.h(1028): error:  #20: identifier "TIM_TimeBaseInitTypeDef" is undefined
+  void TIM_TimeBaseStructInit(TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct);
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(288): error:  #20: identifier "TIM_TimeBaseInitTypeDef" is undefined
+  void TIM_TimeBaseInit(TIM_TypeDef* TIMx, TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct)
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(305): error:  #132: expression must have pointer-to-struct-or-union type
+      tmpcr1 |= (uint32_t)TIM_TimeBaseInitStruct->TIM_CounterMode;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(312): error:  #132: expression must have pointer-to-struct-or-union type
+      tmpcr1 |= (uint32_t)TIM_TimeBaseInitStruct->TIM_ClockDivision;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(318): error:  #132: expression must have pointer-to-struct-or-union type
+    TIMx->ARR = TIM_TimeBaseInitStruct->TIM_Period ;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(321): error:  #132: expression must have pointer-to-struct-or-union type
+    TIMx->PSC = TIM_TimeBaseInitStruct->TIM_Prescaler;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(326): error:  #132: expression must have pointer-to-struct-or-union type
+      TIMx->RCR = TIM_TimeBaseInitStruct->TIM_RepetitionCounter;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(340): error:  #20: identifier "TIM_TimeBaseInitTypeDef" is undefined
+  void TIM_TimeBaseStructInit(TIM_TimeBaseInitTypeDef* TIM_TimeBaseInitStruct)
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(343): error:  #132: expression must have pointer-to-struct-or-union type
+    TIM_TimeBaseInitStruct->TIM_Period = 0xFFFFFFFF;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(344): error:  #132: expression must have pointer-to-struct-or-union type
+    TIM_TimeBaseInitStruct->TIM_Prescaler = 0x0000;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(345): error:  #132: expression must have pointer-to-struct-or-union type
+    TIM_TimeBaseInitStruct->TIM_ClockDivision = TIM_CKD_DIV1;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(346): error:  #132: expression must have pointer-to-struct-or-union type
+    TIM_TimeBaseInitStruct->TIM_CounterMode = TIM_CounterMode_Up;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c(347): error:  #132: expression must have pointer-to-struct-or-union type
+    TIM_TimeBaseInitStruct->TIM_RepetitionCounter = 0x0000;
+..\Libraries\STM32F4xx_StdPeriph_Driver\src\stm32f4xx_tim.c: 1 warning, 16 errors
+compiling LED.C...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\BSP\LED.H(15): error:  #65: expected a ";"
+  void LED_GPIO_Config(void);
+..\BSP\LED.C: 0 warnings, 2 errors
+compiling pwm.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\BSP\LED.H(15): error:  #65: expected a ";"
+  void LED_GPIO_Config(void);
+..\BSP\pwm.c: 0 warnings, 2 errors
+compiling SysTick.C...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\BSP\LED.H(15): error:  #65: expected a ";"
+  void LED_GPIO_Config(void);
+..\BSP\SysTick.C: 0 warnings, 2 errors
+compiling usart1.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\BSP\common.h(7): error:  #65: expected a ";"
+  typedef uint32_t  u32;
+..\BSP\usart1.c: 0 warnings, 2 errors
+compiling common.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\BSP\common.h(7): error:  #65: expected a ";"
+  typedef uint32_t  u32;
+..\BSP\common.c: 0 warnings, 2 errors
+compiling bsp.c...
+..\Libraries\CMSIS\stm32f4xx_conf.h(120): error:  #77-D: this declaration has no storage class or type specifier
+    wwwwwwwwwwww
+..\BSP\LED.H(15): error:  #65: expected a ";"
+  void LED_GPIO_Config(void);
+..\BSP\bsp.c: 0 warnings, 2 errors
+".\Obj\TEST_S13EE_X64Y64_IP_V3.axf" - 154 Error(s), 6 Warning(s).
+Target not created

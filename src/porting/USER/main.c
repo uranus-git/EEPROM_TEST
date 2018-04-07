@@ -311,15 +311,24 @@ int main(void)
 #include "common.h"
 #include "stdio.H"
 #include "usart1.H"
+#include "LED.H"
 
 extern void bsp_init(void);
+__IO int singleDelayFlag = 0;
 
 int main(void)
 {
 	bsp_init();
 	
-	while(1)
-	RS232_Send_Data((unsigned char*)"hello world.\r\n", 14);
+    while(1)
+    {
+        LED2_ON;
+        //delay_100ns(1);
+        LED2_OFF;
+        //delay_100ns(1);
+    }
+//	while(1)
+//	RS232_Send_Data((unsigned char*)"hello world.\r\n", 14);
 	while(1)
 	{
 		if(RS232_REC_Flag == 1)	 
