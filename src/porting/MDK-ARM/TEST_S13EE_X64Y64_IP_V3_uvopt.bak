@@ -25,6 +25,7 @@
     <ToolsetNumber>0x4</ToolsetNumber>
     <ToolsetName>ARM-ADS</ToolsetName>
     <TargetOption>
+      <CLKADS>12000000</CLKADS>
       <CLKADS>168000000</CLKADS>
       <OPTTT>
         <gFlags>1</gFlags>
@@ -124,6 +125,8 @@
         </Book>
       </Books>
       <DebugOpt>
+        <uSim>0</uSim>
+        <uTrg>1</uTrg>
         <uSim>1</uSim>
         <uTrg>0</uTrg>
         <sLdApp>1</sLdApp>
@@ -145,6 +148,8 @@
         <tRSysVw>1</tRSysVw>
         <tPdscDbg>1</tPdscDbg>
         <sRunDeb>0</sRunDeb>
+        <sLrtime>0</sLrtime>
+        <nTsel>6</nTsel>
         <sLrtime>1</sLrtime>
         <nTsel>4</nTsel>
         <sDll></sDll>
@@ -162,6 +167,7 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+
           <Key>DLGTARM</Key>
           <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=569,145,935,370,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
@@ -178,6 +184,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=199,148,565,373,0)(1009=-1,-1,-1,-1,0)</Name>
           <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=199,148,565,373,0)(1009=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
@@ -198,6 +205,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>1</periodic>
+        <aLwin>1</aLwin>
         <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
@@ -235,6 +243,7 @@
 
   <Group>
     <GroupName>StartUp</GroupName>
+    <tvExp>0</tvExp>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -355,6 +364,7 @@
 
   <Group>
     <GroupName>StdPeriph_Driver</GroupName>
+    <tvExp>0</tvExp>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>

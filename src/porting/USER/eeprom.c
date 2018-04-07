@@ -20,6 +20,7 @@ void delay_ms(unsigned short time)       // ms delay
         while(i--);
    }
 }
+
 void delay_100ns(unsigned short time)
 {
 	     while (time--)  {
@@ -35,6 +36,7 @@ void delay_us(unsigned short time)        //us delay please test
 		   while(i--);
   }
 }
+
 void wr_word(unsigned char addr, unsigned short data)  //all time according to test
 {
     read_low();                                        // read =0
