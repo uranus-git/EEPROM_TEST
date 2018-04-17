@@ -525,6 +525,11 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp.c</FilePath>
             </File>
+            <File>
+              <FileName>S13EE_X64Y64.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\S13EE_X64Y64.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
