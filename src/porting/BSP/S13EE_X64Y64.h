@@ -16,12 +16,12 @@ typedef struct
     /* user mode */
     S13EE_STATUS (*write) (uint8_t addr, uint16_t *u16Buffer, uint8_t cnt);
     S13EE_STATUS (*read)  (uint8_t addr, uint16_t *u16Buffer, uint8_t cnt);
-    S13EE_STATUS (*erase) (uint8_t addr, uint16_t *u16Buffer, uint8_t cnt);
-    
+    S13EE_STATUS (*erase) (uint8_t addr, uint8_t cnt);
+
     /* test mode */
     S13EE_STATUS (*chipErase)(void);
     S13EE_STATUS (*chipWrite)(uint16_t (*u16Arry)[4]);
-    
+
 }S13EE;
 
 
