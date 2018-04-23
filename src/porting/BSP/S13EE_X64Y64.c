@@ -64,50 +64,50 @@ typedef struct
 static void nsDelay(uint32_t nsDelay);
 
 /* Buffer Reset and Data Loading Timing */
-static S13EE_DELAY tw_b = {200, 200, nsDelay};
-static S13EE_DELAY tsu_bx = {200, 200, nsDelay};
-static S13EE_DELAY tdsu_xs = {200, 200, nsDelay};
-static S13EE_DELAY tdh_xs = {200, 200, nsDelay};
-static S13EE_DELAY tdsu_as = {200, 200, nsDelay};
-static S13EE_DELAY tdh_as = {200, 200, nsDelay};
-static S13EE_DELAY tdsu_ds = {200, 200, nsDelay};
-static S13EE_DELAY tdh_ds = {200, 200, nsDelay};
-static S13EE_DELAY tdw_s_h = {200, 200, nsDelay};
-static S13EE_DELAY tdw_s_l = {200, 200, nsDelay};
-static S13EE_DELAY tdcyc_s = {400, 400, nsDelay};
+static S13EE_DELAY tw_b     = {200, 200, nsDelay};
+static S13EE_DELAY tsu_bx   = {200, 200, nsDelay};
+static S13EE_DELAY tdsu_xs  = {200, 200, nsDelay};
+static S13EE_DELAY tdh_xs   = {200, 200, nsDelay};
+static S13EE_DELAY tdsu_as  = {200, 200, nsDelay};
+static S13EE_DELAY tdh_as   = {200, 200, nsDelay};
+static S13EE_DELAY tdsu_ds  = {200, 200, nsDelay};
+static S13EE_DELAY tdh_ds   = {200, 200, nsDelay};
+static S13EE_DELAY tdw_s_h  = {200, 200, nsDelay};
+static S13EE_DELAY tdw_s_l  = {200, 200, nsDelay};
+static S13EE_DELAY tdcyc_s  = {400, 400, nsDelay};
 /* Write-Erase and Program-Timing */
-static S13EE_DELAY tsu_ae = {200, 200, nsDelay};
-static S13EE_DELAY tsu_ew = {100000, 100000, nsDelay};
-static S13EE_DELAY tsu_aw = {100000, 100000, nsDelay};
-static S13EE_DELAY tw_e = {2400000, 2400000, nsDelay};
-static S13EE_DELAY tw_w = {2400000, 2400000, nsDelay};
-static S13EE_DELAY tw_c_l = {260, 260, nsDelay};
-static S13EE_DELAY tw_c_h = {260, 260, nsDelay};
-static S13EE_DELAY tcyc_c = {520, 520, nsDelay};
-static S13EE_DELAY tsu_c = {200, 200, nsDelay};
-static S13EE_DELAY th_c = {200, 200, nsDelay};
+static S13EE_DELAY tsu_ae   = {200, 200, nsDelay};
+static S13EE_DELAY tsu_ew   = {100000, 100000, nsDelay};
+static S13EE_DELAY tsu_aw   = {100000, 100000, nsDelay};
+static S13EE_DELAY tw_e     = {2400000, 2400000, nsDelay};
+static S13EE_DELAY tw_w     = {2400000, 2400000, nsDelay};
+static S13EE_DELAY tw_c_l   = {260, 260, nsDelay};
+static S13EE_DELAY tw_c_h   = {260, 260, nsDelay};
+static S13EE_DELAY tcyc_c   = {520, 520, nsDelay};
+static S13EE_DELAY tsu_c    = {200, 200, nsDelay};
+static S13EE_DELAY th_c     = {200, 200, nsDelay};
 /* Read Timing */
-static S13EE_DELAY tsu_wr = {200000, 200000, nsDelay};
-static S13EE_DELAY tsu_rs = {200, 200, nsDelay};
-static S13EE_DELAY th_rs = {200, 200, nsDelay};
-static S13EE_DELAY trw_s_h = {750, 750, nsDelay};
-static S13EE_DELAY trw_s_l = {750, 750, nsDelay};
-static S13EE_DELAY trcyc_s = {1500, 1500, nsDelay};
-static S13EE_DELAY tsac = {150, 150, nsDelay};
-static S13EE_DELAY trsu_as = {200, 200, nsDelay};
-static S13EE_DELAY trh_as = {200, 200, nsDelay};
+static S13EE_DELAY tsu_wr   = {200000, 200000, nsDelay};
+static S13EE_DELAY tsu_rs   = {200, 200, nsDelay};
+static S13EE_DELAY th_rs    = {200, 200, nsDelay};
+static S13EE_DELAY trw_s_h  = {750, 750, nsDelay};
+static S13EE_DELAY trw_s_l  = {750, 750, nsDelay};
+static S13EE_DELAY trcyc_s  = {1500, 1500, nsDelay};
+static S13EE_DELAY tsac     = {150, 150, nsDelay};
+static S13EE_DELAY trsu_as  = {200, 200, nsDelay};
+static S13EE_DELAY trh_as   = {200, 200, nsDelay};
 
 static const S13EE_OPIN_VALUE_LIST bufRstDataLoadPinValueList =
-    {
-        .read = 0,
-        .erase = 0,
-        .pgm = 0,
-        .clk = 0,
-        .addr1312 = 0,
-        .bufrst = 0,
-        .loaden = 0,
-        .sync = 0
-    };
+{
+    .read = 0,
+    .erase = 0,
+    .pgm = 0,
+    .clk = 0,
+    .addr1312 = 0,
+    .bufrst = 0,
+    .loaden = 0,
+    .sync = 0
+};
 
 static void nsDelay(uint32_t nsDelay)
 {
