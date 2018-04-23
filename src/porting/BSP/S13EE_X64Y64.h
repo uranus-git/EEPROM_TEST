@@ -6,6 +6,7 @@
 typedef enum
 {
     S13EE_SUCCESS = 0,
+    S13EE_PRAM_ERR = -1,
 }S13EE_STATUS;
 
 typedef struct
