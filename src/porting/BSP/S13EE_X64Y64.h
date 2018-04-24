@@ -22,7 +22,7 @@ typedef struct
     /* test mode */
     S13EE_STATUS (*chipErase)(void);
     S13EE_STATUS (*chipWrite)(uint16_t (*u16Arry)[4]);
-
+    S13EE_STATUS (*halfWrite)(uint16_t (*u16Arry)[4], uint8_t isUpper);
 }S13EE;
 
 

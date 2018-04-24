@@ -11,7 +11,8 @@
 #define NOP  (__nop)
 #define HADDR_BUS(val)            NOP  /* TODO */
 #define LADDR_BUS(val)            NOP  /* TODO */
-#define DATA_BUS(val)             NOP  /* TODO */
+#define ODATA_BUS_READ()          NOP  /* TODO */
+#define IDATA_BUS(val)            NOP  /* TODO */
 #define SIGNAL_READ(val)          NOP  /* TODO */
 #define SIGNAL_PGM(val)           NOP  /* TODO */
 #define SIGNAL_ERASE(val)         NOP  /* TODO */
@@ -38,6 +39,7 @@
  * vdd          Power   0.8~1.65V power supply for memory operation
  * gnd          Power   Power ground
  */
+
 typedef struct
 {
     uint8_t haddr;
@@ -78,7 +80,7 @@ static S13EE_DELAY tdcyc_s  = {400, 400, nsDelay};
 /* Write-Erase and Program-Timing */
 static S13EE_DELAY tsu_ae   = {200, 200, nsDelay};
 static S13EE_DELAY tsu_ew   = {100000, 100000, nsDelay};
-static S13EE_DELAY tsu_aw   = {100000, 100000, nsDelay};
+static S13EE_DELAY th_aw    = {100000, 100000, nsDelay};
 static S13EE_DELAY tw_e     = {2400000, 2400000, nsDelay};
 static S13EE_DELAY tw_w     = {2400000, 2400000, nsDelay};
 static S13EE_DELAY tw_c_l   = {260, 260, nsDelay};
@@ -97,27 +99,16 @@ static S13EE_DELAY tsac     = {150, 150, nsDelay};
 static S13EE_DELAY trsu_as  = {200, 200, nsDelay};
 static S13EE_DELAY trh_as   = {200, 200, nsDelay};
 
-static const S13EE_OPIN_VALUE_LIST bufRstDataLoadPinValueList =
-{
-    .read = 0,
-    .erase = 0,
-    .pgm = 0,
-    .clk = 0,
-    .addr1312 = 0,
-    .bufrst = 0,
-    .loaden = 0,
-    .sync = 0
-};
-
 static void nsDelay(uint32_t nsDelay)
 {
     /* TODO */
 }
+
 static void inline pinValueInit(S13EE_OPIN_VALUE_LIST *pPinValueList)
 {
     HADDR_BUS(pPinValueList->haddr);
     LADDR_BUS(pPinValueList->laddr);
-    DATA_BUS(pPinValueList->din);
+    IDATA_BUS(pPinValueList->din);
     SIGNAL_READ(pPinValueList->read);
     SIGNAL_PGM(pPinValueList->pgm);
     SIGNAL_ERASE(pPinValueList->erase);
@@ -129,17 +120,21 @@ static void inline pinValueInit(S13EE_OPIN_VALUE_LIST *pPinValueList)
     SIGNAL_DBY2(pPinValueList->dby2);
 }
 
+static const S13EE_OPIN_VALUE_LIST bufRstDataLoadPinValueList =
+{
+    .read = 0,
+    .erase = 0,
+    .pgm = 0,
+    .clk = 0,
+    .haddr = 0,
+    .bufrst = 0,
+    .loaden = 0,
+    .sync = 0
+};
+
 static S13EE_STATUS inline bufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
 {
     uint8_t index = 0;
-
-#ifdef CHECK_PARAM
-    if(!((cnt > 0) && (cnt < 5)))
-    {
-        assert_param(0);
-        return S13EE_PRAM_ERR;
-    }
-#endif
 
     pinValueInit(&bufRstDataLoadPinValueList);
 
@@ -151,7 +146,7 @@ static S13EE_STATUS inline bufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer
     while(index < cnt)
     {
         LADDR_BUS(addr);
-        DATA_BUS(u16Buffer[index++]);
+        IDATA_BUS(u16Buffer[index++]);
         tdw_s_l.delayFunc(tdw_s_l.parameter);
         SIGNAL_SYNC(1);
         tdw_s_h.delayFunc(tdw_s_h.parameter);
@@ -163,38 +158,296 @@ static S13EE_STATUS inline bufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer
     return S13EE_SUCCESS;
 }
 
+static const S13EE_OPIN_VALUE_LIST wrErasePinValueList =
+{
+    .read = 0,
+    .loaden = 0,
+    .bufrst = 0,
+    .sync = 0,
+    .haddr = 0,
+    .erase = 0,
+    .pgm = 0,
+    .clk = 0
+};
+
 static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
 {
+    S13EE_STATUS result;
+#ifdef CHECK_PARAM
+    if(!((cnt > 0) && (cnt < 5)))
+    {
+        assert_param(0);
+        return S13EE_PRAM_ERR;
+    }
+#endif
 
+    if(S13EE_SUCCESS != (result = bufferResetDataLoad(addr, u16Buffer, cnt)))
+        return result;
+
+    pinValueInit(&wrErasePinValueList);
+
+    LADDR_BUS(addr);
+    SIGNAL_CLK(ENABLE);
+    tsu_ae.delayFunc(tsu_ae.parameter);
+    SIGNAL_ERASE(1);
+    tw_e.delayFunc(tw_e.parameter);
+    SIGNAL_ERASE(0);
+    tsu_ew.delayFunc(tsu_ew.parameter);
+    SIGNAL_PGM(1);
+    tw_w.delayFunc(tw_w.parameter);
+    SIGNAL_PGM(0);
+    th_aw.delayFunc(th_aw.parameter);
+    SIGNAL_CLK(DISABLE);
+
+    return S13EE_SUCCESS;
 }
+
+static S13EE_STATUS _erase(uint8_t addr, uint8_t cnt)
+{
+    S13EE_STATUS result;
+    uint16_t u16Buffer[4] = {0xff, 0xff, 0xff, 0xff};
+#ifdef CHECK_PARAM
+    if(!((cnt > 0) && (cnt < 5)))
+    {
+        assert_param(0);
+        return S13EE_PRAM_ERR;
+    }
+#endif
+
+    if(S13EE_SUCCESS != (result = bufferResetDataLoad(addr, u16Buffer, cnt)))
+        return result;
+
+    pinValueInit(&wrErasePinValueList);
+
+    LADDR_BUS(addr);
+    SIGNAL_CLK(ENABLE);
+    tsu_ae.delayFunc(tsu_ae.parameter);
+    SIGNAL_ERASE(1);
+    tw_e.delayFunc(tw_e.parameter);
+    SIGNAL_ERASE(0);
+    tsu_ew.delayFunc(tsu_ew.parameter);
+#if 0
+    SIGNAL_PGM(1);
+    tw_w.delayFunc(tw_w.parameter);
+    SIGNAL_PGM(0);
+    th_aw.delayFunc(th_aw.parameter);
+#endif
+    SIGNAL_CLK(DISABLE);
+
+    return S13EE_SUCCESS;
+}
+
+
+static const S13EE_OPIN_VALUE_LIST readPinValueList =
+{
+
+    .loaden = 0,
+    .bufrst = 0,
+    .din = 0,
+    .clk = 0,
+    .haddr = 0,
+    .erase = 0,
+    .read = 0,
+    .pgm = 0,
+    .sync = 0,
+};
 
 static S13EE_STATUS _read(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
 {
+    uint8_t index = 0;
+    S13EE_STATUS result;
 
+#ifdef CHECK_PARAM
+    if(!((cnt > 0) && (cnt < 5)))
+    {
+        assert_param(0);
+        return S13EE_PRAM_ERR;
+    }
+#endif
+
+    pinValueInit(&readPinValueList);
+
+    SIGNAL_READ(1);
+    tsu_rs.delayFunc(tsu_rs.parameter);
+
+    while(index < cnt)
+    {
+        LADDR_BUS(addr);
+        trsu_as.delayFunc(trsu_as.parameter);
+        SIGNAL_SYNC(1);
+        trw_s_h.delayFunc(trw_s_h.parameter);
+        SIGNAL_SYNC(0);
+        trw_s_l.delayFunc(trw_s_l.parameter);
+        u16Buffer[index++] = ODATA_BUS_READ();
+    }
+
+    if(trw_s_l.nsDelay < th_rs.nsDelay)
+        th_rs.delayFunc(th_rs.parameter);
+
+    SIGNAL_READ(0);
+
+    return S13EE_SUCCESS;
 }
 
-static S13EE_STATUS _erase(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
+/* test mode */
+static const S13EE_OPIN_VALUE_LIST testModeBufRstDataLoadPinValueList =
 {
+    .read = 0,
+    .erase = 0,
+    .pgm = 0,
+    .clk = 0,
+    .haddr = 0,
+    .bufrst = 0,
+    .loaden = 0,
+    .sync = 0
+};
 
+static S13EE_STATUS inline testModeBufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
+{
+    uint8_t index = 0;
+
+    pinValueInit(&testModeBufRstDataLoadPinValueList);
+
+    SIGNAL_BUFRST(1);
+    tw_b.delayFunc(tw_b.parameter);
+    SIGNAL_BUFRST(0);
+    tsu_bx.delayFunc(tsu_bx.parameter);
+    SIGNAL_LOAD(1);
+    while(index < cnt)
+    {
+        HADDR_BUS(3);
+        LADDR_BUS(addr);
+        IDATA_BUS(u16Buffer[index++]);
+        tdw_s_l.delayFunc(tdw_s_l.parameter);
+        SIGNAL_SYNC(1);
+        tdw_s_h.delayFunc(tdw_s_h.parameter);
+        SIGNAL_SYNC(0);
+    }
+    tdh_xs.delayFunc(tdh_xs.parameter);
+    SIGNAL_LOAD(0);
+
+    return S13EE_SUCCESS;
 }
+
+static const S13EE_OPIN_VALUE_LIST testModeWrErasePinValueList =
+{
+    .read = 0,
+    .erase = 0,
+    .pgm = 0,
+    .clk = 0,
+    .haddr = 0,
+    .bufrst = 0,
+    .loaden = 0,
+    .sync = 0
+};
 
 static S13EE_STATUS _chipErase (void)
 {
+    S13EE_STATUS result;
+    uint16_t u16Arry[4] = {0xff, 0xff, 0xff, 0xff};
 
+    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, u16Arry, 4)))
+        return result;
+
+    pinValueInit(&testModeWrErasePinValueList);
+
+    HADDR_BUS(3);
+    SIGNAL_CLK(ENABLE);
+    tsu_ae.delayFunc(tsu_ae.parameter);
+    SIGNAL_ERASE(1);
+    tw_e.delayFunc(tw_e.parameter);
+    SIGNAL_ERASE(0);
+#if 0
+    tsu_ew.delayFunc(tsu_ew.parameter);
+    SIGNAL_PGM(1);
+    tw_w.delayFunc(tw_w.parameter);
+    SIGNAL_PGM(0);
+#endif
+    th_aw.delayFunc(th_aw.parameter);
+    SIGNAL_CLK(DISABLE);
 }
 
 static S13EE_STATUS _chipWrite (uint16_t (*u16Arry)[4])
 {
+    S13EE_STATUS result;
+#ifdef CHECK_PARAM
+    if(NULL == u16Arry)
+    {
+        assert_param(0);
+        return S13EE_PRAM_ERR;
+    }
+#endif
+
+    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, u16Arry, 4)))
+        return result;
+
+    pinValueInit(&testModeWrErasePinValueList);
+
+    HADDR_BUS(3);
+    SIGNAL_CLK(ENABLE);
+    tsu_ae.delayFunc(tsu_ae.parameter);
+    SIGNAL_ERASE(1);
+    tw_e.delayFunc(tw_e.parameter);
+    SIGNAL_ERASE(0);
+    tsu_ew.delayFunc(tsu_ew.parameter);
+    SIGNAL_PGM(1);
+    tw_w.delayFunc(tw_w.parameter);
+    SIGNAL_PGM(0);
+    th_aw.delayFunc(th_aw.parameter);
+    SIGNAL_CLK(DISABLE);
+}
+
+static S13EE_STATUS _halfWrite(uint16_t (*u16Arry)[4], uint8_t isUpper)
+{
+    S13EE_STATUS result;
+#ifdef CHECK_PARAM
+    if(NULL == u16Arry)
+    {
+        assert_param(0);
+        return S13EE_PRAM_ERR;
+    }
+#endif
+
+    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, u16Arry, 4)))
+        return result;
+
+    pinValueInit(&testModeWrErasePinValueList);
+
+    if(isUpper)
+        HADDR_BUS(2);
+    else
+        HADDR_BUS(1);
+
+    SIGNAL_CLK(ENABLE);
+    tsu_ae.delayFunc(tsu_ae.parameter);
+    SIGNAL_ERASE(1);
+    tw_e.delayFunc(tw_e.parameter);
+    SIGNAL_ERASE(0);
+    tsu_ew.delayFunc(tsu_ew.parameter);
+    SIGNAL_PGM(1);
+    tw_w.delayFunc(tw_w.parameter);
+    SIGNAL_PGM(0);
+    th_aw.delayFunc(th_aw.parameter);
+    SIGNAL_CLK(DISABLE);
 
 }
 
 S13EE * S13EE_INIT (S13EE * pS13EE)
 {
+#ifdef CHECK_PARAM
+    if(NULL == pS13EE)
+    {
+        assert_param(0);
+        return NULL;
+    }
+#endif
+
     pS13EE->chipErase = _chipErase;
-    pS13EE->chipWrite = _chipErase;
+    pS13EE->chipWrite = _chipWrite;
     pS13EE->erase = _erase;
     pS13EE->read = _read;
     pS13EE->write = _write;
+    pS13EE->halfWrite = _halfWrite;
 
     return pS13EE;
 }
