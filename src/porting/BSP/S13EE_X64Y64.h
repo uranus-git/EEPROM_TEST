@@ -9,6 +9,8 @@ typedef enum
     S13EE_PRAM_ERR = -1,
 }S13EE_STATUS;
 
+#define S13EE_WORD_MAX    256
+
 typedef struct
 {
     /* private data */

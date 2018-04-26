@@ -250,7 +250,7 @@ static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
 static S13EE_STATUS _erase(uint8_t addr, uint8_t cnt)
 {
     S13EE_STATUS result;
-    uint16_t u16Buffer[4] = {0xff, 0xff, 0xff, 0xff};
+    uint16_t u16Buffer[4] = {0xffff, 0xffff, 0xffff, 0xffff};
 #ifdef CHECK_PARAM
     if(!((cnt > 0) && (cnt < 5)))
     {
@@ -390,7 +390,7 @@ static const S13EE_OPIN_VALUE_LIST testModeWrErasePinValueList =
 static S13EE_STATUS _chipErase (void)
 {
     S13EE_STATUS result;
-    uint16_t u16Arry[4] = {0xff, 0xff, 0xff, 0xff};
+    uint16_t u16Arry[4] = {0xffff, 0xffff, 0xffff, 0xffff};
 
     if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, u16Arry, 4)))
         return result;
