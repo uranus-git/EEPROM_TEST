@@ -1,4 +1,4 @@
-#include <S12EE_X64Y64.h> 
+#include <S12EE_X64Y64.h>
 #include <string.h>
 #include <math.h>
 
@@ -324,6 +324,7 @@ static S13EE_STATUS _read(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
         SIGNAL_SYNC(0);
         trw_s_l.delayFunc(trw_s_l.parameter);
         u16Buffer[index++] = ODATA_BUS_READ();
+        addr = (addr + 1) % 256;
     }
 
     if(trw_s_l.nsDelay < th_rs.nsDelay)
