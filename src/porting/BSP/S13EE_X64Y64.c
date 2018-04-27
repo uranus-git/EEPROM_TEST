@@ -8,21 +8,35 @@
 #ifndef DISABLE
 #define DISABLE 0
 #endif
-
+/*
+ * HADDR - addr[13:12] - PG[ 9:8]  - GPIOG_ODR 0x40021814
+ * LADDR - addr[11: 4] - PG[ 7:0]
+ * ODATA - dout[15: 0] - PE[15:0]  - GPIOE_ODR 0x40021014
+ * IDATA - din [15: 0] - PF[15:0]  - GPIOF_IDR 0x40021410
+ * READ  - read        - PD[9]     - bitband addr 0x42418280 +  9 * 4 = 0x424182A4
+ * PGM   - pgm         - PD[10]    - bitband addr 0x42418280 + 10 * 4 = 0x424182A8
+ * ERASE - erase       - PD[14]    - bitband addr 0x42418280 + 14 * 4 = 0x424182B8
+ * TESTMR- margin_rd   - PD[12]    - bitband addr 0x42418280 + 12 * 4 = 0x424182B0
+ * SYNC  - sync        - PA[6]     - bitband addr 0x42400280 +  6 * 4 = 0x42400298
+ * CLK   - clk         - PA[7]     - bitband addr 0x42400280 +  6 * 4 = 0x4240029C
+ * BUFEST- burfst      - PD[13]    - bitband addr 0x42418280 + 13 * 4 = 0x424182B4
+ * LOAD  - loaden      - PD[15]    - bitband addr 0x42418280 + 13 * 4 = 0x424182BC
+ * DBY2  - dby2        - PD[11]    - bitband addr 0x42418280 + 13 * 4 = 0x424182AC
+ */
 #define NOP  (__nop)
-#define HADDR_BUS(val)            NOP  /* TODO */
-#define LADDR_BUS(val)            NOP  /* TODO */
-#define ODATA_BUS_READ()          NOP  /* TODO */
-#define IDATA_BUS(val)            NOP  /* TODO */
-#define SIGNAL_READ(val)          NOP  /* TODO */
-#define SIGNAL_PGM(val)           NOP  /* TODO */
-#define SIGNAL_ERASE(val)         NOP  /* TODO */
-#define SIGNAL_TESTMR(val)        NOP  /* TODO */
-#define SIGNAL_SYNC(val)          NOP  /* TODO */
-#define SIGNAL_CLK(val)           NOP  /* TODO */
-#define SIGNAL_BUFRST(val)        NOP  /* TODO */
-#define SIGNAL_LOAD(val)          NOP  /* TODO */
-#define SIGNAL_DBY2(val)          NOP  /* TODO */
+#define HADDR_BUS(val)            *((__IO uint32_t  *)(0x40021814)) = ((*((__IO uint32_t  *)(0x40021814))) & 0xff ) & ((val) << 8)
+#define LADDR_BUS(val)            *((__IO uint32_t  *)(0x40021814)) = ((*((__IO uint32_t  *)(0x40021814))) & 0x300) & (val)
+#define ODATA_BUS_READ()          *((__IO uint32_t  *)(0x40021014))
+#define IDATA_BUS(val)            *((__IO uint32_t  *)(0x40021410)) = (val)
+#define SIGNAL_READ(val)          *((__IO uint32_t  *)(0x424182A4)) = (val)
+#define SIGNAL_PGM(val)           *((__IO uint32_t  *)(0x424182A8)) = (val)
+#define SIGNAL_ERASE(val)         *((__IO uint32_t  *)(0x424182B8)) = (val)
+#define SIGNAL_TESTMR(val)        *((__IO uint32_t  *)(0x424182B0)) = (val)
+#define SIGNAL_SYNC(val)          *((__IO uint32_t  *)(0x42400298)) = (val)
+#define SIGNAL_CLK(val)           *((__IO uint32_t  *)(0x4240029C)) = (val)
+#define SIGNAL_BUFRST(val)        *((__IO uint32_t  *)(0x424182B4)) = (val)
+#define SIGNAL_LOAD(val)          *((__IO uint32_t  *)(0x424182BC)) = (val)
+#define SIGNAL_DBY2(val)          *((__IO uint32_t  *)(0x424182AC)) = (val)
 
 /*
  * addr<13:4>   I   Address input bus¡ª¡ªaddr<13:12> for all words-select ;addr<11:6> for X-dec; addr<5:4> for Y-dec
@@ -354,6 +368,7 @@ static S13EE_STATUS inline testModeBufferResetDataLoad(uint8_t addr, uint16_t *u
 
     pinValueInit(&testModeBufRstDataLoadPinValueList);
 
+    HADDR_BUS(3);
     SIGNAL_BUFRST(1);
     tw_b.delayFunc(tw_b.parameter);
     SIGNAL_BUFRST(0);
@@ -361,7 +376,6 @@ static S13EE_STATUS inline testModeBufferResetDataLoad(uint8_t addr, uint16_t *u
     SIGNAL_LOAD(1);
     while(index < cnt)
     {
-        HADDR_BUS(3);
         LADDR_BUS(addr);
         IDATA_BUS(u16Buffer[index++]);
         tdw_s_l.delayFunc(tdw_s_l.parameter);

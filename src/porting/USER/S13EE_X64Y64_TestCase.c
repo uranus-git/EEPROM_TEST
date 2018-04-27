@@ -153,7 +153,7 @@ static void EEP_T6(void)
     }
 }
 
-static void EEP_T1(void)
+static void EEP_T7(void)
 {
 }
 
