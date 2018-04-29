@@ -1,12 +1,12 @@
 #ifndef __S13EE_H
 #define __S13EE_H
 
-#include <stm32f4xx.h>
+#include "stm32f4xx.h"
 
 typedef enum
 {
     S13EE_SUCCESS = 0,
-    S13EE_PRAM_ERR = -1,
+    S13EE_PRAM_ERR = -1
 }S13EE_STATUS;
 
 #define S13EE_WORD_MAX    256
@@ -27,6 +27,8 @@ typedef struct
     S13EE_STATUS (*halfWrite)(uint16_t (*u16Arry)[4], uint8_t isUpper);
 }S13EE;
 
+extern S13EE * S13EE_INIT (S13EE * pS13EE);
+extern S13EE_STATUS S13EE_UNINIT (S13EE * pS13EE);
 
 #endif
 

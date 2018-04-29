@@ -1,13 +1,17 @@
-#include <S12EE_X64Y64.h>
+#include "S13EE_X64Y64.h"
 #include <string.h>
 #include <math.h>
+#include "stm32f4xx_gpio.h"
+#include "stm32f4xx_rcc.h"
+#include <main.h>
+#include <stdio.h>
 
-#ifndef ENABLE
-#define ENABLE 1
-#endif
-#ifndef DISABLE
-#define DISABLE 0
-#endif
+//#ifndef ENABLE
+//#define ENABLE 1
+//#endif
+//#ifndef DISABLE
+//#define DISABLE 0
+//#endif
 /*
  * HADDR - addr[13:12] - PG[ 9:8]  - GPIOG_ODR 0x40021814
  * LADDR - addr[11: 4] - PG[ 7:0]
@@ -73,7 +77,7 @@ typedef struct
 
 typedef struct
 {
-    uint8_t *name;
+    char *name;
     uint32_t nsDelay;
     uint32_t parameter;
     void (*delayFunc)(uint32_t);
@@ -135,12 +139,41 @@ static const S13EE_DELAY* s13eeDelayArray[] =
 
 static void nsDelay(uint32_t nsDelay)
 {
-    while(nsDelay)
-    {
-        nsDelay -= 30;
-    }
+    while(nsDelay--);
 }
 
+static void nsDelay_60_37(uint32_t nsDelay)
+{
+    while(nsDelay--);
+}
+
+static void miniDelay(void)
+{
+
+}
+
+static S13EE_DELAY test_time   = {"test_time", 	0, 0, miniDelay};
+
+static void testDelay(void)
+{
+    #define TEST_COUNT  700
+    GPIO_InitTypeDef  GPIO_InitStructure;
+	/* HADDR & LADDR */
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_13;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    while(1)
+    {
+        SIGNAL_BUFRST(1);
+        test_time.delayFunc(test_time.parameter);
+        SIGNAL_BUFRST(0);
+        test_time.delayFunc(test_time.parameter);
+    }
+}
+#if 0
 void delayManage(void)
 {
     uint32_t index = 0;
@@ -162,8 +195,8 @@ void delayManage(void)
         index++;
     }
 }
-
-static void inline pinValueInit(S13EE_OPIN_VALUE_LIST *pPinValueList)
+#endif
+static void inline pinValueInit(const S13EE_OPIN_VALUE_LIST *pPinValueList)
 {
     HADDR_BUS(pPinValueList->haddr);
     LADDR_BUS(pPinValueList->laddr);
@@ -175,7 +208,7 @@ static void inline pinValueInit(S13EE_OPIN_VALUE_LIST *pPinValueList)
     SIGNAL_SYNC(pPinValueList->sync);
     SIGNAL_CLK(DISABLE);
     SIGNAL_BUFRST(pPinValueList->bufrst);
-    SIGNAL_LOAD(pPinValueList->load);
+    SIGNAL_LOAD(pPinValueList->loaden);
     SIGNAL_DBY2(pPinValueList->dby2);
 }
 
@@ -314,7 +347,6 @@ static const S13EE_OPIN_VALUE_LIST readPinValueList =
 static S13EE_STATUS _read(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
 {
     uint8_t index = 0;
-    S13EE_STATUS result;
 
 #ifdef CHECK_PARAM
     if(!((cnt > 0) && (cnt <= 256)))
@@ -425,6 +457,8 @@ static S13EE_STATUS _chipErase (void)
 #endif
     th_aw.delayFunc(th_aw.parameter);
     SIGNAL_CLK(DISABLE);
+
+    return S13EE_SUCCESS;
 }
 
 static S13EE_STATUS _chipWrite (uint16_t (*u16Arry)[4])
@@ -438,7 +472,7 @@ static S13EE_STATUS _chipWrite (uint16_t (*u16Arry)[4])
     }
 #endif
 
-    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, u16Arry, 4)))
+    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, (uint16_t *)u16Arry, 4)))
         return result;
 
     pinValueInit(&testModeWrErasePinValueList);
@@ -455,6 +489,8 @@ static S13EE_STATUS _chipWrite (uint16_t (*u16Arry)[4])
     SIGNAL_PGM(0);
     th_aw.delayFunc(th_aw.parameter);
     SIGNAL_CLK(DISABLE);
+
+    return S13EE_SUCCESS;
 }
 
 static S13EE_STATUS _halfWrite(uint16_t (*u16Arry)[4], uint8_t isUpper)
@@ -468,7 +504,7 @@ static S13EE_STATUS _halfWrite(uint16_t (*u16Arry)[4], uint8_t isUpper)
     }
 #endif
 
-    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, u16Arry, 4)))
+    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, (uint16_t *)u16Arry, 4)))
         return result;
 
     pinValueInit(&testModeWrErasePinValueList);
@@ -490,6 +526,7 @@ static S13EE_STATUS _halfWrite(uint16_t (*u16Arry)[4], uint8_t isUpper)
     th_aw.delayFunc(th_aw.parameter);
     SIGNAL_CLK(DISABLE);
 
+    return S13EE_SUCCESS;
 }
 
 S13EE * S13EE_INIT (S13EE * pS13EE)
@@ -508,6 +545,48 @@ S13EE * S13EE_INIT (S13EE * pS13EE)
     pS13EE->read = _read;
     pS13EE->write = _write;
     pS13EE->halfWrite = _halfWrite;
+#if 0
+    /* gpio config */
+	GPIO_InitTypeDef  GPIO_InitStructure;
+	/* HADDR & LADDR */
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOG, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1| GPIO_Pin_2| GPIO_Pin_3| \
+        GPIO_Pin_4| GPIO_Pin_5| GPIO_Pin_6| GPIO_Pin_7| GPIO_Pin_8| GPIO_Pin_9;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_Init(GPIOG, &GPIO_InitStructure);
+
+    /* ODATA */
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOE, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1| GPIO_Pin_2| GPIO_Pin_3| GPIO_Pin_4| GPIO_Pin_5| GPIO_Pin_6|
+        GPIO_Pin_7| GPIO_Pin_8| GPIO_Pin_9| GPIO_Pin_10| GPIO_Pin_11| GPIO_Pin_12| GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_Init(GPIOE, &GPIO_InitStructure);
+
+    /* IDATA */
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1| GPIO_Pin_2| GPIO_Pin_3| GPIO_Pin_4| GPIO_Pin_5| GPIO_Pin_6|
+        GPIO_Pin_7| GPIO_Pin_8| GPIO_Pin_9| GPIO_Pin_10| GPIO_Pin_11| GPIO_Pin_12| GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_Init(GPIOF, &GPIO_InitStructure);
+
+ /* READ PGM ERASE SYNC CLK BUFEST LOAD DBY2*/
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_14 | GPIO_Pin_13 | GPIO_Pin_15 | GPIO_Pin_11;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+    /* TESTMR */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+    /* SYNC CLK*/
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+#endif
+
+    testDelay();
 
     return pS13EE;
 }

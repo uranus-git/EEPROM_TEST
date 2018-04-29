@@ -312,13 +312,17 @@ int main(void)
 #include "stdio.H"
 #include "usart1.H"
 #include "LED.H"
+#include "S13EE_X64Y64.h"
 
 extern void bsp_init(void);
 __IO int singleDelayFlag = 0;
 
 int main(void)
 {
+    S13EE s13ee;
+    
 	bsp_init();
+    S13EE_INIT (&s13ee);
 	
     while(1)
     {
