@@ -6,6 +6,7 @@
 #include <main.h>
 #include <stdio.h>
 
+#define DEVELOP_BOARD
 //#ifndef ENABLE
 //#define ENABLE 1
 //#endif
@@ -13,7 +14,7 @@
 //#define DISABLE 0
 //#endif
 /*
- * HADDR - addr[13:12] - PG[ 9:8]  - GPIOG_ODR 0x40021814
+ * HADDR - addr[13:12] - PG[ 9:8]  - GPIOG_ODR 0x40020814
  * LADDR - addr[11: 4] - PG[ 7:0]
  * ODATA - dout[15: 0] - PE[15:0]  - GPIOE_ODR 0x40021014
  * IDATA - din [15: 0] - PF[15:0]  - GPIOF_IDR 0x40021410
@@ -28,6 +29,7 @@
  * DBY2  - dby2        - PD[11]    - bitband addr 0x42418280 + 13 * 4 = 0x424182AC
  */
 #define NOP  (__nop)
+#ifndef DEVELOP_BOARD
 #define HADDR_BUS(val)            *((__IO uint32_t  *)(0x40021814)) = ((*((__IO uint32_t  *)(0x40021814))) & 0xff ) & ((val) << 8)
 #define LADDR_BUS(val)            *((__IO uint32_t  *)(0x40021814)) = ((*((__IO uint32_t  *)(0x40021814))) & 0x300) & (val)
 #define ODATA_BUS_READ()          *((__IO uint32_t  *)(0x40021014))
@@ -37,10 +39,39 @@
 #define SIGNAL_ERASE(val)         *((__IO uint32_t  *)(0x424182B8)) = (val)
 #define SIGNAL_TESTMR(val)        *((__IO uint32_t  *)(0x424182B0)) = (val)
 #define SIGNAL_SYNC(val)          *((__IO uint32_t  *)(0x42400298)) = (val)
-#define SIGNAL_CLK(val)           *((__IO uint32_t  *)(0x4240029C)) = (val)
+#define SIGNAL_CLK(val)           TIM_Cmd(TIM14, val)
 #define SIGNAL_BUFRST(val)        *((__IO uint32_t  *)(0x424182B4)) = (val)
 #define SIGNAL_LOAD(val)          *((__IO uint32_t  *)(0x424182BC)) = (val)
 #define SIGNAL_DBY2(val)          *((__IO uint32_t  *)(0x424182AC)) = (val)
+#else
+/* HADDR - addr[13:12] - PC[ 9:8]  - GPIOC_ODR 0x40021814
+ * LADDR - addr[11: 4] - PC[ 7:0]
+ * ODATA - dout[15: 0] - PD[15:0]  - GPIOD_ODR 0x40020C14
+ * IDATA - din [15: 0] - PG[15:0]  - GPIOG_IDR 0x40021810
+ * READ  - read        - PF[0]     - bitband addr 0x42428280 +  0 * 4 = 0x42428280
+ * PGM   - pgm         - PF[1]     - bitband addr 0x42428280 +  1 * 4 = 0x42428284
+ * ERASE - erase       - PF[2]     - bitband addr 0x42428280 +  2 * 4 = 0x42428288
+ * TESTMR- margin_rd   -
+ * SYNC  - sync        - PF[3]     - bitband addr 0x42428280 +  3 * 4 = 0x4242828C
+ * CLK   - clk         - PF[9]     - bitband addr 0x42428280 +  9 * 4 = 0x424282A4
+ * BUFEST- burfst      - PF[4]     - bitband addr 0x42428280 +  4 * 4 = 0x42428290
+ * LOAD  - loaden      - PF[5]     - bitband addr 0x42428280 +  5 * 4 = 0x42428294
+ * DBY2  - dby2        -
+ */
+#define HADDR_BUS(val)            *((__IO uint32_t  *)(0x40020814)) = ((*((__IO uint32_t  *)(0x40020814))) & 0xff ) & ((val) << 8)
+#define LADDR_BUS(val)            *((__IO uint32_t  *)(0x40020814)) = ((*((__IO uint32_t  *)(0x40020814))) & 0x300) & (val)
+#define ODATA_BUS_READ()          *((__IO uint32_t  *)(0x40021014))
+#define IDATA_BUS(val)            *((__IO uint32_t  *)(0x40021410)) = (val)
+#define SIGNAL_READ(val)          *((__IO uint32_t  *)(0x42428280)) = (val)
+#define SIGNAL_PGM(val)           *((__IO uint32_t  *)(0x42428284)) = (val)
+#define SIGNAL_ERASE(val)         *((__IO uint32_t  *)(0x42428288)) = (val)
+#define SIGNAL_TESTMR(val)
+#define SIGNAL_SYNC(val)          *((__IO uint32_t  *)(0x4242828C)) = (val)
+#define SIGNAL_CLK(val)           TIM_Cmd(TIM14, val)
+#define SIGNAL_BUFRST(val)        *((__IO uint32_t  *)(0x42428290)) = (val)
+#define SIGNAL_LOAD(val)          *((__IO uint32_t  *)(0x42428294)) = (val)
+#define SIGNAL_DBY2(val)
+#endif /* DEVELOP_BOARD */
 
 /*
  * addr<13:4>   I   Address input bus¡ª¡ªaddr<13:12> for all words-select ;addr<11:6> for X-dec; addr<5:4> for Y-dec
@@ -78,9 +109,9 @@ typedef struct
 typedef struct
 {
     char *name;
-    uint32_t nsDelay;
-    uint32_t parameter;
-    void (*delayFunc)(uint32_t);
+    int32_t nsDelay;
+    int32_t parameter;
+    void (*delayFunc)(int32_t);
 }S13EE_DELAY;
 
 /*
@@ -91,40 +122,41 @@ typedef struct
 }S13EE_DELAY_INFO;
 */
 static void nsDelay(uint32_t nsDelay);
+static void nsDelay_78_43(int32_t nsDelay);
 
 /* Buffer Reset and Data Loading Timing */
-static S13EE_DELAY tw_b     = {"tw_b", 		200, 200, nsDelay};
-static S13EE_DELAY tsu_bx   = {"tsu_bx", 	200, 200, nsDelay};
-static S13EE_DELAY tdsu_xs  = {"tdsu_xs", 	200, 200, nsDelay};
-static S13EE_DELAY tdh_xs   = {"tdh_xs", 	200, 200, nsDelay};
-static S13EE_DELAY tdsu_as  = {"tdsu_as", 	200, 200, nsDelay};
-static S13EE_DELAY tdh_as   = {"tdh_as", 	200, 200, nsDelay};
-static S13EE_DELAY tdsu_ds  = {"tdsu_ds", 	200, 200, nsDelay};
-static S13EE_DELAY tdh_ds   = {"tdh_ds", 	200, 200, nsDelay};
-static S13EE_DELAY tdw_s_h  = {"tdw_s_h", 	200, 200, nsDelay};
-static S13EE_DELAY tdw_s_l  = {"tdw_s_l", 	200, 200, nsDelay};
-static S13EE_DELAY tdcyc_s  = {"tdcyc_s", 	400, 400, nsDelay};
+static S13EE_DELAY tw_b     = {"tw_b", 		200, 200, nsDelay_78_43};
+static S13EE_DELAY tsu_bx   = {"tsu_bx", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tdsu_xs  = {"tdsu_xs", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tdh_xs   = {"tdh_xs", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tdsu_as  = {"tdsu_as", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tdh_as   = {"tdh_as", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tdsu_ds  = {"tdsu_ds", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tdh_ds   = {"tdh_ds", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tdw_s_h  = {"tdw_s_h", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tdw_s_l  = {"tdw_s_l", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tdcyc_s  = {"tdcyc_s", 	400, 400, nsDelay_78_43};
 /* Write-Erase and Program-Timing */
-static S13EE_DELAY tsu_ae   = {"tsu_ae", 	200, 200, nsDelay};
-static S13EE_DELAY tsu_ew   = {"tsu_ew", 	100000, 100000, nsDelay};
-static S13EE_DELAY th_aw    = {"th_aw", 	100000, 100000, nsDelay};
-static S13EE_DELAY tw_e     = {"tw_e", 		2400000, 2400000, nsDelay};
-static S13EE_DELAY tw_w     = {"tw_w", 		2400000, 2400000, nsDelay};
-static S13EE_DELAY tw_c_l   = {"tw_c_l", 	260, 260, nsDelay};
-static S13EE_DELAY tw_c_h   = {"tw_c_h", 	260, 260, nsDelay};
-static S13EE_DELAY tcyc_c   = {"tcyc_c", 	520, 520, nsDelay};
-static S13EE_DELAY tsu_c    = {"tsu_c", 	200, 200, nsDelay};
-static S13EE_DELAY th_c     = {"th_c", 		200, 200, nsDelay};
+static S13EE_DELAY tsu_ae   = {"tsu_ae", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tsu_ew   = {"tsu_ew", 	100000, 100000, nsDelay_78_43};
+static S13EE_DELAY th_aw    = {"th_aw", 	100000, 100000, nsDelay_78_43};
+static S13EE_DELAY tw_e     = {"tw_e", 		2400000, 2400000, nsDelay_78_43};
+static S13EE_DELAY tw_w     = {"tw_w", 		2400000, 2400000, nsDelay_78_43};
+static S13EE_DELAY tw_c_l   = {"tw_c_l", 	260, 260, nsDelay_78_43};
+static S13EE_DELAY tw_c_h   = {"tw_c_h", 	260, 260, nsDelay_78_43};
+static S13EE_DELAY tcyc_c   = {"tcyc_c", 	520, 520, nsDelay_78_43};
+static S13EE_DELAY tsu_c    = {"tsu_c", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY th_c     = {"th_c", 		200, 200, nsDelay_78_43};
 /* Read Timing */
-static S13EE_DELAY tsu_wr   = {"tsu_wr", 	200000, 200000, nsDelay};
-static S13EE_DELAY tsu_rs   = {"tsu_rs", 	200, 200, nsDelay};
-static S13EE_DELAY th_rs    = {"th_rs", 	200, 200, nsDelay};
-static S13EE_DELAY trw_s_h  = {"trw_s_h", 	750, 750, nsDelay};
-static S13EE_DELAY trw_s_l  = {"trw_s_l", 	750, 750, nsDelay};
-static S13EE_DELAY trcyc_s  = {"trcyc_s", 	1500, 1500, nsDelay};
-static S13EE_DELAY tsac     = {"tsac", 		150, 150, nsDelay};
-static S13EE_DELAY trsu_as  = {"trsu_as", 	200, 200, nsDelay};
-static S13EE_DELAY trh_as   = {"trh_as", 	200, 200, nsDelay};
+static S13EE_DELAY tsu_wr   = {"tsu_wr", 	200000, 200000, nsDelay_78_43};
+static S13EE_DELAY tsu_rs   = {"tsu_rs", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY th_rs    = {"th_rs", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY trw_s_h  = {"trw_s_h", 	750, 750, nsDelay_78_43};
+static S13EE_DELAY trw_s_l  = {"trw_s_l", 	750, 750, nsDelay_78_43};
+static S13EE_DELAY trcyc_s  = {"trcyc_s", 	1500, 1500, nsDelay_78_43};
+static S13EE_DELAY tsac     = {"tsac", 		150, 150, nsDelay_78_43};
+static S13EE_DELAY trsu_as  = {"trsu_as", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY trh_as   = {"trh_as", 	200, 200, nsDelay_78_43};
 
 static const S13EE_DELAY* s13eeDelayArray[] =
 {
@@ -147,12 +179,20 @@ static void nsDelay_60_37(uint32_t nsDelay)
     while(nsDelay--);
 }
 
-static void miniDelay(void)
+static void nsDelay_78_43(int32_t nsDelay)
+{
+    nsDelay -= 78;
+
+    while(nsDelay > 0)
+        nsDelay -= 43;
+}
+
+static void miniDelay(uint32_t nsDelay)
 {
 
 }
 
-static S13EE_DELAY test_time   = {"test_time", 	0, 0, miniDelay};
+static S13EE_DELAY test_time = {"test_time", 0, 0, miniDelay};
 
 static void testDelay(void)
 {
@@ -196,6 +236,58 @@ void delayManage(void)
     }
 }
 #endif
+
+static void clkInit(uint32_t nsCycle)
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+	TIM_OCInitTypeDef  TIM_OCInitStructure;
+
+    SIGNAL_CLK(DISABLE);
+
+#ifndef DEVELOP_BOARD
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_TIM14);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+#else
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14, ENABLE);
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);
+
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_TIM14);
+
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_Init(GPIOF, &GPIO_InitStructure);
+#endif
+
+	TIM_TimeBaseStructure.TIM_Prescaler = 1 - 1;
+	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseStructure.TIM_Period = 42-1;
+	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+	TIM_TimeBaseInit(TIM14, &TIM_TimeBaseStructure);//3
+
+	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
+ 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
+	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
+	TIM_OCInitStructure.TIM_Pulse = 21;
+	TIM_OC1Init(TIM14, &TIM_OCInitStructure);
+
+	TIM_OC1PreloadConfig(TIM14, TIM_OCPreload_Enable);
+
+    TIM_ARRPreloadConfig(TIM14, ENABLE);
+}
+
 static void inline pinValueInit(const S13EE_OPIN_VALUE_LIST *pPinValueList)
 {
     HADDR_BUS(pPinValueList->haddr);
@@ -262,7 +354,7 @@ static const S13EE_OPIN_VALUE_LIST wrErasePinValueList =
     .clk = 0
 };
 
-static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
+static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
 {
     S13EE_STATUS result;
 #ifdef CHECK_PARAM
@@ -294,7 +386,7 @@ static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
     return S13EE_SUCCESS;
 }
 
-static S13EE_STATUS _erase(uint8_t addr, uint8_t cnt)
+static S13EE_STATUS _erase(uint8_t addr, uint16_t cnt)
 {
     S13EE_STATUS result;
     uint16_t u16Buffer[4] = {0xffff, 0xffff, 0xffff, 0xffff};
@@ -344,7 +436,7 @@ static const S13EE_OPIN_VALUE_LIST readPinValueList =
     .sync = 0,
 };
 
-static S13EE_STATUS _read(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
+static S13EE_STATUS _read(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
 {
     uint8_t index = 0;
 
@@ -545,7 +637,7 @@ S13EE * S13EE_INIT (S13EE * pS13EE)
     pS13EE->read = _read;
     pS13EE->write = _write;
     pS13EE->halfWrite = _halfWrite;
-#if 0
+#ifndef DEVELOP_BOARD
     /* gpio config */
 	GPIO_InitTypeDef  GPIO_InitStructure;
 	/* HADDR & LADDR */
@@ -570,7 +662,7 @@ S13EE * S13EE_INIT (S13EE * pS13EE)
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_Init(GPIOF, &GPIO_InitStructure);
 
- /* READ PGM ERASE SYNC CLK BUFEST LOAD DBY2*/
+    /* READ PGM ERASE SYNC CLK BUFEST LOAD DBY2*/
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_14 | GPIO_Pin_13 | GPIO_Pin_15 | GPIO_Pin_11;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
@@ -579,14 +671,56 @@ S13EE * S13EE_INIT (S13EE * pS13EE)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
-    /* SYNC CLK*/
+    /* SYNC */
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);
+#else
+    /* gpio config */
+	GPIO_InitTypeDef  GPIO_InitStructure;
+	/* HADDR & LADDR */
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1| GPIO_Pin_2| GPIO_Pin_3| \
+        GPIO_Pin_4| GPIO_Pin_5| GPIO_Pin_6| GPIO_Pin_7| GPIO_Pin_8| GPIO_Pin_9;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_Init(GPIOC, &GPIO_InitStructure);
+
+    /* ODATA */
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOD, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1| GPIO_Pin_2| GPIO_Pin_3| GPIO_Pin_4| GPIO_Pin_5| GPIO_Pin_6|
+        GPIO_Pin_7| GPIO_Pin_8| GPIO_Pin_9| GPIO_Pin_10| GPIO_Pin_11| GPIO_Pin_12| GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+
+    /* IDATA */
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOG, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1| GPIO_Pin_2| GPIO_Pin_3| GPIO_Pin_4| GPIO_Pin_5| GPIO_Pin_6|
+        GPIO_Pin_7| GPIO_Pin_8| GPIO_Pin_9| GPIO_Pin_10| GPIO_Pin_11| GPIO_Pin_12| GPIO_Pin_13| GPIO_Pin_14| GPIO_Pin_15;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_Init(GPIOG, &GPIO_InitStructure);
+
+    /* READ PGM ERASE SYNC CLK BUFEST LOAD */
+    RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_Init(GPIOF, &GPIO_InitStructure);
+#if 0
+    /* TESTMR */
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
+    /* SYNC */
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 #endif
+#endif
+    clkInit(0);
 
-    testDelay();
+//    testDelay();
 
     return pS13EE;
 }
