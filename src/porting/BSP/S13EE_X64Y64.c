@@ -122,41 +122,41 @@ typedef struct
 }S13EE_DELAY_INFO;
 */
 static void nsDelay(uint32_t nsDelay);
-static void nsDelay_78_43(int32_t nsDelay);
+static void nsDelay_108_25(int32_t nsDelay);
 
 /* Buffer Reset and Data Loading Timing */
-static S13EE_DELAY tw_b     = {"tw_b", 		200, 200, nsDelay_78_43};
-static S13EE_DELAY tsu_bx   = {"tsu_bx", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tdsu_xs  = {"tdsu_xs", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tdh_xs   = {"tdh_xs", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tdsu_as  = {"tdsu_as", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tdh_as   = {"tdh_as", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tdsu_ds  = {"tdsu_ds", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tdh_ds   = {"tdh_ds", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tdw_s_h  = {"tdw_s_h", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tdw_s_l  = {"tdw_s_l", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tdcyc_s  = {"tdcyc_s", 	400, 400, nsDelay_78_43};
+static S13EE_DELAY tw_b     = {"tw_b", 		200, 200, nsDelay_108_25};
+static S13EE_DELAY tsu_bx   = {"tsu_bx", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tdsu_xs  = {"tdsu_xs", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tdh_xs   = {"tdh_xs", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tdsu_as  = {"tdsu_as", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tdh_as   = {"tdh_as", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tdsu_ds  = {"tdsu_ds", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tdh_ds   = {"tdh_ds", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tdw_s_h  = {"tdw_s_h", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tdw_s_l  = {"tdw_s_l", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tdcyc_s  = {"tdcyc_s", 	400, 400, nsDelay_108_25};
 /* Write-Erase and Program-Timing */
-static S13EE_DELAY tsu_ae   = {"tsu_ae", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY tsu_ew   = {"tsu_ew", 	100000, 100000, nsDelay_78_43};
-static S13EE_DELAY th_aw    = {"th_aw", 	100000, 100000, nsDelay_78_43};
-static S13EE_DELAY tw_e     = {"tw_e", 		2400000, 2400000, nsDelay_78_43};
-static S13EE_DELAY tw_w     = {"tw_w", 		2400000, 2400000, nsDelay_78_43};
-static S13EE_DELAY tw_c_l   = {"tw_c_l", 	260, 260, nsDelay_78_43};
-static S13EE_DELAY tw_c_h   = {"tw_c_h", 	260, 260, nsDelay_78_43};
-static S13EE_DELAY tcyc_c   = {"tcyc_c", 	520, 520, nsDelay_78_43};
-static S13EE_DELAY tsu_c    = {"tsu_c", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY th_c     = {"th_c", 		200, 200, nsDelay_78_43};
+static S13EE_DELAY tsu_ae   = {"tsu_ae", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY tsu_ew   = {"tsu_ew", 	100000, 100000, nsDelay_108_25};
+static S13EE_DELAY th_aw    = {"th_aw", 	100000, 100000, nsDelay_108_25};
+static S13EE_DELAY tw_e     = {"tw_e", 		2400000, 2400000, nsDelay_108_25};
+static S13EE_DELAY tw_w     = {"tw_w", 		2400000, 2400000, nsDelay_108_25};
+static S13EE_DELAY tw_c_l   = {"tw_c_l", 	260, 260, nsDelay_108_25};
+static S13EE_DELAY tw_c_h   = {"tw_c_h", 	260, 260, nsDelay_108_25};
+static S13EE_DELAY tcyc_c   = {"tcyc_c", 	520, 520, nsDelay_108_25};
+static S13EE_DELAY tsu_c    = {"tsu_c", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY th_c     = {"th_c", 		200, 200, nsDelay_108_25};
 /* Read Timing */
-static S13EE_DELAY tsu_wr   = {"tsu_wr", 	200000, 200000, nsDelay_78_43};
-static S13EE_DELAY tsu_rs   = {"tsu_rs", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY th_rs    = {"th_rs", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY trw_s_h  = {"trw_s_h", 	750, 750, nsDelay_78_43};
-static S13EE_DELAY trw_s_l  = {"trw_s_l", 	750, 750, nsDelay_78_43};
-static S13EE_DELAY trcyc_s  = {"trcyc_s", 	1500, 1500, nsDelay_78_43};
-static S13EE_DELAY tsac     = {"tsac", 		150, 150, nsDelay_78_43};
-static S13EE_DELAY trsu_as  = {"trsu_as", 	200, 200, nsDelay_78_43};
-static S13EE_DELAY trh_as   = {"trh_as", 	200, 200, nsDelay_78_43};
+static S13EE_DELAY tsu_wr   = {"tsu_wr", 	200000, 200000, nsDelay_108_25};
+static S13EE_DELAY tsu_rs   = {"tsu_rs", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY th_rs    = {"th_rs", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY trw_s_h  = {"trw_s_h", 	750, 750, nsDelay_108_25};
+static S13EE_DELAY trw_s_l  = {"trw_s_l", 	750, 750, nsDelay_108_25};
+static S13EE_DELAY trcyc_s  = {"trcyc_s", 	1500, 1500, nsDelay_108_25};
+static S13EE_DELAY tsac     = {"tsac", 		150, 150, nsDelay_108_25};
+static S13EE_DELAY trsu_as  = {"trsu_as", 	200, 200, nsDelay_108_25};
+static S13EE_DELAY trh_as   = {"trh_as", 	200, 200, nsDelay_108_25};
 
 static const S13EE_DELAY* s13eeDelayArray[] =
 {
@@ -179,12 +179,12 @@ static void nsDelay_60_37(uint32_t nsDelay)
     while(nsDelay--);
 }
 
-static void nsDelay_78_43(int32_t nsDelay)
+static void nsDelay_108_25(int32_t nsDelay)
 {
-    nsDelay -= 78;
+    nsDelay -= 108;
 
     while(nsDelay > 0)
-        nsDelay -= 43;
+        nsDelay -= 24;
 }
 
 static void miniDelay(uint32_t nsDelay)
@@ -261,7 +261,7 @@ static void clkInit(uint32_t nsCycle)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);
 
-	GPIO_PinAFConfig(GPIOA, GPIO_PinSource7, GPIO_AF_TIM14);
+	GPIO_PinAFConfig(GPIOF, GPIO_PinSource7, GPIO_AF_TIM14);
 
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
@@ -438,7 +438,7 @@ static const S13EE_OPIN_VALUE_LIST readPinValueList =
 
 static S13EE_STATUS _read(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
 {
-    uint8_t index = 0;
+    uint16_t index = 0;
 
 #ifdef CHECK_PARAM
     if(!((cnt > 0) && (cnt <= 256)))
