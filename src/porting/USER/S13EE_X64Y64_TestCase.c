@@ -151,6 +151,9 @@ static void EEP_T7(S13EE *s13ee)
 
 void EEP_T_MAIN(S13EE *s13ee)
 {
+    //GPIO_SetBits(GPIOC, GPIO_Pin_8|GPIO_Pin_9);
     EEP_T3(s13ee);
+    //TIM_Cmd(TIM14, ENABLE);
+    //*((__IO uint32_t  *)(0x40020814)) = ((*((__IO uint32_t  *)(0x40020814))) & 0x300) & (0xff & 0xff);
 }
 

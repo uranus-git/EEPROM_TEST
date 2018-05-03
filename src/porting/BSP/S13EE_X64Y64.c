@@ -16,8 +16,8 @@
 /*
  * HADDR - addr[13:12] - PG[ 9:8]  - GPIOG_ODR 0x40020814
  * LADDR - addr[11: 4] - PG[ 7:0]
- * ODATA - dout[15: 0] - PE[15:0]  - GPIOE_ODR 0x40021014
- * IDATA - din [15: 0] - PF[15:0]  - GPIOF_IDR 0x40021410
+ * ODATA - dout[15: 0] - PE[15:0]  - GPIOE_ODR 0x40021010
+ * IDATA - din [15: 0] - PF[15:0]  - GPIOF_IDR 0x40021414
  * READ  - read        - PD[9]     - bitband addr 0x42418280 +  9 * 4 = 0x424182A4
  * PGM   - pgm         - PD[10]    - bitband addr 0x42418280 + 10 * 4 = 0x424182A8
  * ERASE - erase       - PD[14]    - bitband addr 0x42418280 + 14 * 4 = 0x424182B8
@@ -30,10 +30,10 @@
  */
 #define NOP  (__nop)
 #ifndef DEVELOP_BOARD
-#define HADDR_BUS(val)            *((__IO uint32_t  *)(0x40021814)) = ((*((__IO uint32_t  *)(0x40021814))) & 0xff ) & ((val) << 8)
-#define LADDR_BUS(val)            *((__IO uint32_t  *)(0x40021814)) = ((*((__IO uint32_t  *)(0x40021814))) & 0x300) & (val)
-#define ODATA_BUS_READ()          *((__IO uint32_t  *)(0x40021014))
-#define IDATA_BUS(val)            *((__IO uint32_t  *)(0x40021410)) = (val)
+#define HADDR_BUS(val)            *((__IO uint32_t  *)(0x40021814)) = ((*((__IO uint32_t  *)(0x40021814))) & 0xff ) | ((val & 0x03) << 8)
+#define LADDR_BUS(val)            *((__IO uint32_t  *)(0x40021814)) = ((*((__IO uint32_t  *)(0x40021814))) & 0x300) | (val & 0xff)
+#define ODATA_BUS_READ()          *((__IO uint32_t  *)(0x40021010))
+#define IDATA_BUS(val)            *((__IO uint32_t  *)(0x40021414)) = (val)
 #define SIGNAL_READ(val)          *((__IO uint32_t  *)(0x424182A4)) = (val)
 #define SIGNAL_PGM(val)           *((__IO uint32_t  *)(0x424182A8)) = (val)
 #define SIGNAL_ERASE(val)         *((__IO uint32_t  *)(0x424182B8)) = (val)
@@ -46,8 +46,8 @@
 #else
 /* HADDR - addr[13:12] - PC[ 9:8]  - GPIOC_ODR 0x40021814
  * LADDR - addr[11: 4] - PC[ 7:0]
- * ODATA - dout[15: 0] - PD[15:0]  - GPIOD_ODR 0x40020C14
- * IDATA - din [15: 0] - PG[15:0]  - GPIOG_IDR 0x40021810
+ * ODATA - dout[15: 0] - PD[15:0]  - GPIOD_ODR 0x40020C10
+ * IDATA - din [15: 0] - PG[15:0]  - GPIOG_IDR 0x40021814
  * READ  - read        - PF[0]     - bitband addr 0x42428280 +  0 * 4 = 0x42428280
  * PGM   - pgm         - PF[1]     - bitband addr 0x42428280 +  1 * 4 = 0x42428284
  * ERASE - erase       - PF[2]     - bitband addr 0x42428280 +  2 * 4 = 0x42428288
@@ -58,10 +58,10 @@
  * LOAD  - loaden      - PF[5]     - bitband addr 0x42428280 +  5 * 4 = 0x42428294
  * DBY2  - dby2        -
  */
-#define HADDR_BUS(val)            *((__IO uint32_t  *)(0x40020814)) = ((*((__IO uint32_t  *)(0x40020814))) & 0xff ) & ((val) << 8)
-#define LADDR_BUS(val)            *((__IO uint32_t  *)(0x40020814)) = ((*((__IO uint32_t  *)(0x40020814))) & 0x300) & (val)
-#define ODATA_BUS_READ()          *((__IO uint32_t  *)(0x40021014))
-#define IDATA_BUS(val)            *((__IO uint32_t  *)(0x40021410)) = (val)
+#define HADDR_BUS(val)            *((__IO uint32_t  *)(0x40020814)) = ((*((__IO uint32_t  *)(0x40020814))) & 0xff ) | ((val & 0x03) << 8)
+#define LADDR_BUS(val)            *((__IO uint32_t  *)(0x40020814)) = ((*((__IO uint32_t  *)(0x40020814))) & 0x300) | (val & 0xff)
+#define ODATA_BUS_READ()          *((__IO uint32_t  *)(0x40020C10))
+#define IDATA_BUS(val)            *((__IO uint32_t  *)(0x40021814)) = (val)
 #define SIGNAL_READ(val)          *((__IO uint32_t  *)(0x42428280)) = (val)
 #define SIGNAL_PGM(val)           *((__IO uint32_t  *)(0x42428284)) = (val)
 #define SIGNAL_ERASE(val)         *((__IO uint32_t  *)(0x42428288)) = (val)
@@ -138,7 +138,7 @@ static S13EE_DELAY tdw_s_l  = {"tdw_s_l", 	200, 200, nsDelay_108_25};
 static S13EE_DELAY tdcyc_s  = {"tdcyc_s", 	400, 400, nsDelay_108_25};
 /* Write-Erase and Program-Timing */
 static S13EE_DELAY tsu_ae   = {"tsu_ae", 	200, 200, nsDelay_108_25};
-static S13EE_DELAY tsu_ew   = {"tsu_ew", 	100000, 100000, nsDelay_108_25};
+static S13EE_DELAY tsu_ew   = {"tsu_ew", 	200000, 200000, nsDelay_108_25};
 static S13EE_DELAY th_aw    = {"th_aw", 	100000, 100000, nsDelay_108_25};
 static S13EE_DELAY tw_e     = {"tw_e", 		2400000, 2400000, nsDelay_108_25};
 static S13EE_DELAY tw_w     = {"tw_w", 		2400000, 2400000, nsDelay_108_25};
@@ -261,9 +261,9 @@ static void clkInit(uint32_t nsCycle)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14, ENABLE);
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);
 
-	GPIO_PinAFConfig(GPIOF, GPIO_PinSource7, GPIO_AF_TIM14);
+	GPIO_PinAFConfig(GPIOF, GPIO_PinSource9, GPIO_AF_TIM14);
 
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -288,7 +288,7 @@ static void clkInit(uint32_t nsCycle)
     TIM_ARRPreloadConfig(TIM14, ENABLE);
 }
 
-static void inline pinValueInit(const S13EE_OPIN_VALUE_LIST *pPinValueList)
+static void pinValueInit(const S13EE_OPIN_VALUE_LIST *pPinValueList)
 {
     HADDR_BUS(pPinValueList->haddr);
     LADDR_BUS(pPinValueList->laddr);
@@ -316,7 +316,7 @@ static const S13EE_OPIN_VALUE_LIST bufRstDataLoadPinValueList =
     .sync = 0
 };
 
-static S13EE_STATUS inline bufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
+static S13EE_STATUS bufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
 {
     uint8_t index = 0;
 
@@ -335,6 +335,7 @@ static S13EE_STATUS inline bufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer
         SIGNAL_SYNC(1);
         tdw_s_h.delayFunc(tdw_s_h.parameter);
         SIGNAL_SYNC(0);
+        addr++;
     }
     tdh_xs.delayFunc(tdh_xs.parameter);
     SIGNAL_LOAD(0);
@@ -462,7 +463,7 @@ static S13EE_STATUS _read(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
         SIGNAL_SYNC(0);
         trw_s_l.delayFunc(trw_s_l.parameter);
         u16Buffer[index++] = ODATA_BUS_READ();
-        addr = (addr + 1) % 256;
+        addr += 1;
     }
 
     if(trw_s_l.nsDelay < th_rs.nsDelay)
@@ -486,7 +487,7 @@ static const S13EE_OPIN_VALUE_LIST testModeBufRstDataLoadPinValueList =
     .sync = 0
 };
 
-static S13EE_STATUS inline testModeBufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer, uint8_t cnt)
+static S13EE_STATUS testModeBufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
 {
     uint8_t index = 0;
 
@@ -506,6 +507,7 @@ static S13EE_STATUS inline testModeBufferResetDataLoad(uint8_t addr, uint16_t *u
         SIGNAL_SYNC(1);
         tdw_s_h.delayFunc(tdw_s_h.parameter);
         SIGNAL_SYNC(0);
+        addr++;
     }
     tdh_xs.delayFunc(tdh_xs.parameter);
     SIGNAL_LOAD(0);
@@ -570,8 +572,10 @@ static S13EE_STATUS _chipWrite (uint16_t (*u16Arry)[4])
     pinValueInit(&testModeWrErasePinValueList);
 
     HADDR_BUS(3);
-    SIGNAL_CLK(ENABLE);
     tsu_ae.delayFunc(tsu_ae.parameter);
+    SIGNAL_CLK(ENABLE);
+    tcyc_c.delayFunc(tcyc_c.parameter);
+    tsu_c.delayFunc(tsu_c.parameter);
     SIGNAL_ERASE(1);
     tw_e.delayFunc(tw_e.parameter);
     SIGNAL_ERASE(0);

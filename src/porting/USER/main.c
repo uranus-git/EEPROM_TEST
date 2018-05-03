@@ -328,20 +328,6 @@ int main(void)
 
     while(1)
     {
-        LED2_ON;
-        //delay_100ns(1);
-        LED2_OFF;
-        //delay_100ns(1);
     }
-//	while(1)
-//	RS232_Send_Data((unsigned char*)"hello world.\r\n", 14);
-	while(1)
-	{
-		if(RS232_REC_Flag == 1)
-		{
-			RS232_REC_Flag = 0;
-			RS232_Send_Data(RS232_buff,RS232_rec_counter);
-			RS232_rec_counter = 0;
-		}
-	}
+
 }
