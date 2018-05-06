@@ -69,8 +69,8 @@ void GPIO_Configuration(void)
 // the 16bits data: low8bit high8bit
 unsigned int q = 0;
 unsigned short i, j, m, n;
-#if 0
-int main(void)
+#if 1
+int main0(void)
 {
    // unsigned int q;
     //unsigned short i, j, m, n;

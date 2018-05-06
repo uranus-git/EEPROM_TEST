@@ -6,7 +6,7 @@
 typedef enum
 {
     S13EE_SUCCESS = 0,
-    S13EE_PRAM_ERR = -1
+    S13EE_PRAM_ERR = 1
 }S13EE_STATUS;
 
 #define S13EE_WORD_MAX    256
@@ -37,6 +37,7 @@ typedef struct
     S13EE_STATUS (*chipErase)(void);
     S13EE_STATUS (*chipWrite)(uint16_t (*u16Arry)[4]);
     S13EE_STATUS (*halfWrite)(uint16_t (*u16Arry)[4], uint8_t isUpper);
+    const char  (**errToString)(S13EE_STATUS result);
 }S13EE;
 
 extern S13EE * S13EE_INIT (S13EE * pS13EE);
