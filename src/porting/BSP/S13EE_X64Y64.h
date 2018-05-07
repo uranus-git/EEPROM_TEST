@@ -22,6 +22,10 @@ do\
 {\
 }while (0);
 #endif
+#define S13EE_GETC
+#define S13EE_GETLINE(buf)
+
+
 
 typedef struct
 {
