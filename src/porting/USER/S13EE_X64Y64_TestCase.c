@@ -17,7 +17,7 @@ static void printbuffer (uint16_t *u16Buffer, uint32_t count)
     }
 }
 
-static void s13eeInitWakeUp(S13EE *s13ee)
+static void EEP_InitWakeUp(S13EE *s13ee)
 {
     uint16_t count, index, addr;
     uint16_t writeBuffer[4] = {0x5A5A, 0xA5A5, 0x0000, 0xFFFF};
@@ -711,8 +711,301 @@ EEP_T29_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
 }
 
+enum
+{
+    INITIALIZE_AND_WAKEUP_TEST = 1,
+    BASIC_FUNCTION_TEST,
+    ERASE_READ_WRITE_TEST,
+    PERFORMANCE_TEST,
+    ALLROW_TEST,
+    TEMPERATURE_TEST,
+    POWER_COMSUMPTION_TEST,
+    TIMING_TEST,
+    RELIABILITY_TEST
+};
+
+enum
+{
+    EEP_TEST1 = 1,
+    EEP_TEST2,
+    EEP_TEST3,
+    EEP_TEST4,
+    EEP_TEST5,
+    EEP_TEST6,
+    EEP_TEST7,
+    EEP_TEST8,
+    EEP_TEST9,
+    EEP_TEST10,
+    EEP_TEST11,
+    EEP_TEST12,
+    EEP_TEST13,
+    EEP_TEST14,
+    EEP_TEST15,
+    EEP_TEST16,
+    EEP_TEST17,
+    EEP_TEST18,
+    EEP_TEST19,
+    EEP_TEST20,
+    EEP_TEST21,
+    EEP_TEST22,
+    EEP_TEST23,
+    EEP_TEST24,
+    EEP_TEST25,
+    EEP_TEST26,
+    EEP_TEST27,
+    EEP_TEST28,
+    EEP_TEST29,
+    EEP_EXIT = 99
+};
+
+static uint32_t getOption(void)
+{
+    char ch;
+
+    ch = S13EE_GETC;
+
+    return (uint32_t)(ch - 0x30);
+}
+
+static void basicFunctionTest(S13EE *s13ee)
+{
+    uint32_t option;
+
+    do
+    {
+        S13EE_PRINTF("%d. EEP_TEST1\r\n", EEP_TEST1);
+        S13EE_PRINTF("%d. EEP_TEST2\r\n", EEP_TEST2);
+        S13EE_PRINTF("%d. EEP_TEST3\r\n", EEP_TEST3);
+        S13EE_PRINTF("%d. EEP_TEST4\r\n", EEP_TEST4);
+        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+
+        option = getOption();
+
+        switch(option)
+        {
+            case EEP_TEST1:
+                EEP_T1(s13ee);
+                break;
+            case EEP_TEST2:
+                EEP_T2(s13ee);
+                break;
+            case EEP_TEST3:
+                EEP_T3(s13ee);
+                break;
+            case EEP_TEST4:
+                EEP_T4(s13ee);
+                break;
+        }
+    }while(option != EEP_EXIT);
+}
+
+static void eraseReadWriteTest(S13EE *s13ee)
+{
+    uint32_t option;
+
+    do
+    {
+        S13EE_PRINTF("%d. EEP_TEST5\r\n", EEP_TEST5);
+        S13EE_PRINTF("%d. EEP_TEST6\r\n", EEP_TEST6);
+        S13EE_PRINTF("%d. EEP_TEST7\r\n", EEP_TEST7);
+        S13EE_PRINTF("%d. EEP_TEST8\r\n", EEP_TEST8);
+        S13EE_PRINTF("%d. EEP_TEST9\r\n", EEP_TEST9);
+        S13EE_PRINTF("%d. EEP_TEST10\r\n", EEP_TEST10);
+        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+
+        option = getOption();
+
+        switch(option)
+        {
+            case EEP_TEST5:
+                EEP_T5(s13ee);
+                break;
+            case EEP_TEST6:
+                EEP_T6(s13ee);
+                break;
+            case EEP_TEST7:
+                EEP_T7(s13ee);
+                break;
+            case EEP_TEST8:
+                EEP_T8(s13ee);
+                break;
+            case EEP_TEST9:
+                EEP_T9(s13ee);
+                break;
+            case EEP_TEST10:
+                EEP_T10(s13ee);
+                break;
+        }
+    }while(option != EEP_EXIT);
+}
+
+static void performanceTest(S13EE *s13ee)
+{
+    uint32_t option;
+
+    do
+    {
+        S13EE_PRINTF("%d. EEP_TEST11\r\n", EEP_TEST11);
+        S13EE_PRINTF("%d. EEP_TEST12\r\n", EEP_TEST12);
+        S13EE_PRINTF("%d. EEP_TEST13\r\n", EEP_TEST13);
+        S13EE_PRINTF("%d. EEP_TEST14\r\n", EEP_TEST14);
+        S13EE_PRINTF("%d. EEP_TEST15\r\n", EEP_TEST15);
+        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+
+        option = getOption();
+
+        switch(option)
+        {
+            case EEP_TEST11:
+                EEP_T11(s13ee);
+                break;
+            case EEP_TEST12:
+                EEP_T12(s13ee);
+                break;
+            case EEP_TEST13:
+                EEP_T13(s13ee);
+                break;
+            case EEP_TEST14:
+                EEP_T14(s13ee);
+                break;
+            case EEP_TEST15:
+                EEP_T15(s13ee);
+                break;
+        }
+    }while(option != EEP_EXIT);
+}
+
+static void temperatureTest(S13EE *s13ee)
+{
+    uint32_t option;
+
+    do
+    {
+        S13EE_PRINTF("%d. EEP_TEST17\r\n", EEP_TEST17);
+        S13EE_PRINTF("%d. EEP_TEST18\r\n", EEP_TEST18);
+        S13EE_PRINTF("%d. EEP_TEST19\r\n", EEP_TEST19);
+        S13EE_PRINTF("%d. EEP_TEST20\r\n", EEP_TEST20);
+        S13EE_PRINTF("%d. EEP_TEST21\r\n", EEP_TEST21);
+        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+
+        option = getOption();
+
+        switch(option)
+        {
+            case EEP_TEST17:
+                EEP_T17(s13ee);
+                break;
+            case EEP_TEST18:
+                EEP_T18(s13ee);
+                break;
+            case EEP_TEST19:
+                EEP_T19(s13ee);
+                break;
+            case EEP_TEST20:
+                EEP_T20(s13ee);
+                break;
+            case EEP_TEST21:
+                EEP_T21(s13ee);
+                break;
+        }
+    }while(option != EEP_EXIT);
+}
+
+static void powerConsumptionTest(S13EE *s13ee)
+{
+    uint32_t option;
+
+    do
+    {
+        S13EE_PRINTF("%d. EEP_TEST22\r\n", EEP_TEST22);
+        S13EE_PRINTF("%d. EEP_TEST23\r\n", EEP_TEST23);
+        S13EE_PRINTF("%d. EEP_TEST24\r\n", EEP_TEST24);
+        S13EE_PRINTF("%d. EEP_TEST25\r\n", EEP_TEST25);
+        S13EE_PRINTF("%d. EEP_TEST26\r\n", EEP_TEST26);
+        S13EE_PRINTF("%d. EEP_TEST27\r\n", EEP_TEST27);
+        S13EE_PRINTF("%d. EEP_TEST28\r\n", EEP_TEST28);
+        S13EE_PRINTF("%d. EEP_TEST29\r\n", EEP_TEST29);
+        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+
+        option = getOption();
+
+        switch(option)
+        {
+            case EEP_TEST22:
+                EEP_T2(s13ee);
+                break;
+            case EEP_TEST23:
+                EEP_T23(s13ee);
+                break;
+            case EEP_TEST24:
+                EEP_T24(s13ee);
+                break;
+            case EEP_TEST25:
+                EEP_T25(s13ee);
+                break;
+            case EEP_TEST26:
+                EEP_T26(s13ee);
+                break;
+            case EEP_TEST27:
+                EEP_T27(s13ee);
+                break;
+            case EEP_TEST28:
+                EEP_T28(s13ee);
+                break;
+            case EEP_TEST29:
+                EEP_T29(s13ee);
+                break;
+        }
+    }while(option != EEP_EXIT);
+}
+
 void EEP_T_MAIN(S13EE *s13ee)
 {
+    uint32_t option;
 
+    do
+    {
+        S13EE_PRINTF("S13EE_X64Y64 TEST CATALOG:\r\n");
+        S13EE_PRINTF("%d. INITIALIZE_AND_WAKEUP_TEST.\r\n", INITIALIZE_AND_WAKEUP_TEST);
+        S13EE_PRINTF("%d. BASIC_FUNCTION_TEST.\r\n", BASIC_FUNCTION_TEST);
+        S13EE_PRINTF("%d. ERASE_READ_WRITE_TEST.\r\n", ERASE_READ_WRITE_TEST);
+        S13EE_PRINTF("%d. PERFORMANCE_TEST.\r\n", PERFORMANCE_TEST);
+        S13EE_PRINTF("%d. ALLROW_TEST.\r\n", ALLROW_TEST);
+        S13EE_PRINTF("%d. TEMPERATURE_TEST.\r\n", TEMPERATURE_TEST);
+        S13EE_PRINTF("%d. POWER_COMSUMPTION_TEST.\r\n", POWER_COMSUMPTION_TEST);
+        S13EE_PRINTF("%d. TIMING_TEST.\r\n", TIMING_TEST);
+        S13EE_PRINTF("%d. RELIABILITY_TEST.\r\n", RELIABILITY_TEST);
+
+        option = getOption();
+
+        switch(option)
+        {
+            case INITIALIZE_AND_WAKEUP_TEST:
+                EEP_InitWakeUp(s13ee);
+                break;
+            case BASIC_FUNCTION_TEST:
+                basicFunctionTest(s13ee);
+                break;
+            case ERASE_READ_WRITE_TEST:
+                eraseReadWriteTest(s13ee);
+                break;
+            case PERFORMANCE_TEST:
+                performanceTest(s13ee);
+                break;
+            case ALLROW_TEST:
+                EEP_T16(s13ee);
+                break;
+            case TEMPERATURE_TEST:
+                temperatureTest(s13ee);
+                break;
+            case POWER_COMSUMPTION_TEST:
+                powerConsumptionTest(s13ee);
+                break;
+            case TIMING_TEST:
+                break;
+            case RELIABILITY_TEST:
+                break;
+        }
+    }while(1);
 }
 
