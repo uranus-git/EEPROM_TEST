@@ -69,7 +69,7 @@ void GPIO_Configuration(void)
 // the 16bits data: low8bit high8bit
 unsigned int q = 0;
 unsigned short i, j, m, n;
-#if 1
+#if 0
 int main0(void)
 {
    // unsigned int q;
@@ -313,6 +313,7 @@ int main0(void)
 #include "usart1.H"
 #include "LED.H"
 #include "S13EE_X64Y64.h"
+#include <stdlib.h>
 
 extern void bsp_init(void);
 extern void EEP_T_MAIN(S13EE *s13ee);
@@ -322,7 +323,8 @@ int main(void)
 {
     S13EE s13ee;
 
-	//bsp_init();
+	bsp_init();
+
     S13EE_INIT (&s13ee);
     EEP_T_MAIN(&s13ee);
 

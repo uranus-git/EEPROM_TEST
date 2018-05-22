@@ -26,8 +26,8 @@ void BSP_GPIO_Init(void)
 void bsp_init(void)
 {
     //SysTick_Configuration();
-    BSP_GPIO_Init();
-    //USART_Configuration();
+    //BSP_GPIO_Init();
+    USART_Configuration();
     //NVIC_Configuration();
     //TIM14_PWM_Init();
 }

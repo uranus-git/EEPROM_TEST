@@ -10,20 +10,19 @@ typedef enum
 }S13EE_STATUS;
 
 #define S13EE_WORD_MAX    256
+#define DEBUG
 #ifdef DEBUG
 #define S13EE_PRINTF(format, ...) \
 do\
 {\
 	(void)printf(format, ##__VA_ARGS__); \
-}while (0);
+}while (0)
 #else
-#define S13EE_PRINTF(format, ...)\
-do\
-{\
-}while (0);
+#define S13EE_PRINTF(format, ...)
 #endif
-#define S13EE_GETC
-#define S13EE_GETLINE(buf)
+#define S13EE_GETC USART1_getchar()
+#define S13EE_GETLINE USART1_gets()
+#define S13EE_GETLINE_NOWAIT USART1_gets_nowait()
 
 
 
@@ -41,7 +40,7 @@ typedef struct
     S13EE_STATUS (*chipErase)(void);
     S13EE_STATUS (*chipWrite)(uint16_t (*u16Arry)[4]);
     S13EE_STATUS (*halfWrite)(uint16_t (*u16Arry)[4], uint8_t isUpper);
-    const char  (**errToString)(S13EE_STATUS result);
+    char  (*errToString)(S13EE_STATUS result);
 }S13EE;
 
 extern S13EE * S13EE_INIT (S13EE * pS13EE);

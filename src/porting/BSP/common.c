@@ -29,9 +29,34 @@ void NVIC_Configuration(void)
 	
 }
 
-			 
-
-
+int htoi(uint8_t* p)  
+{  
+    int n = 0;  
+    uint8_t *q = p;  
   
-
-
+    /* reach its tail */  
+    while(*q)  
+        q++;  
+  
+    if(*p == '0' && *(p + 1) != 0)  
+        /* skip "0x" or "0X" */  
+        p += 2;  
+  
+    while(*p)  
+    {  
+        int c;  
+        if(*p >= '0' && *p <= '9')  
+            c = *p - '0';  
+        else if(*p >= 'A' && *p <= 'F')  
+            c = *p - 'A' + 0xA;  
+        else if(*p >= 'a' && *p <= 'f')  
+            c = *p - 'a' + 0xA;  
+        else  
+            /* invalid char */  
+            return 0;  
+  
+        n += c << ((int)(q - p - 1) * 4);  
+        p++;  
+    }  
+    return n;  
+}   

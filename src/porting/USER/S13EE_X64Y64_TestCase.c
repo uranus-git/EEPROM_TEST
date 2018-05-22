@@ -1,9 +1,11 @@
 #include "S13EE_X64Y64.h"
 //#include <S13EE_X64Y64_TestCase.h>
 #include <string.h>
+#include "usart1.H"
+#include <stdlib.h>
 
-extern char inputBuffer[];
-extern int inputIntSignal;
+char inputBuffer[];
+int inputIntSignal;
 
 static void printbuffer (uint16_t *u16Buffer, uint32_t count)
 {
@@ -19,63 +21,62 @@ static void printbuffer (uint16_t *u16Buffer, uint32_t count)
 
 static void EEP_InitWakeUp(S13EE *s13ee)
 {
-    uint16_t count, index, addr;
-    uint16_t writeBuffer[4] = {0x5A5A, 0xA5A5, 0x0000, 0xFFFF};
+    uint16_t count = 0, index, addr = 0;
+    static uint16_t writeBuffer[4] = {0x5A5A, 0xA5A5, 0x0000, 0xFFFF};
     uint16_t data[4], rdata;
-    char buffer[128];
+    uint8_t *buffer;
     S13EE_STATUS ret;
     char ch;
 
-    S13EE_PRINTF("%s : Initialize and Wake up test\r\n", __FUNCTION__);
+    S13EE_PRINTF("初始化和唤醒测试\r\n");
     S13EE_PRINTF("writeBuffer [0x%04x 0x%04x 0x%04x 0x%04x]\r\n",
         writeBuffer[0], writeBuffer[1], writeBuffer[2], writeBuffer[3]);
     S13EE_PRINTF("Do you want to change (y/n): ");
 
-    ch = S13EE_GETC;
+    buffer = S13EE_GETLINE;
+    ch = buffer[0];
     if((ch == 'y') || (ch == 'Y'))
     {
         for(index = 0; index < 4; index++)
         {
             S13EE_PRINTF("writeBuffer[%d] 0x%04x : 0x", index, writeBuffer[index]);
-            memset(buffer, 0, sizeof(buffer));
-            S13EE_GETLINE(buffer);
-            writeBuffer[index] = atoi(buffer);
+            buffer = S13EE_GETLINE;
+            if(strlen(buffer) > 0)
+                writeBuffer[index] = htoi((const char *)buffer);
         }
         S13EE_PRINTF("writeBuffer [0x%04x 0x%04x 0x%04x 0x%04x]\r\n",
             writeBuffer[0], writeBuffer[1], writeBuffer[2], writeBuffer[3]);
     }
 
-    S13EE_PRINTF("TEST IN PROCESSING %02d\%.", count * 2);
+    S13EE_PRINTF("TEST IN PROCESSING %02d\%%.", count * 2);
     for(count = 0; count < 50; count++)
     {
-        S13EE_PRINTF("\b\b\b\b%02d\%.", count * 2);
+        S13EE_PRINTF("\b\b\b\b%02d\%%.", count * 2);
         for(index = 0; index < 4; index++)
         {
             data[0] = writeBuffer[index];data[1] = writeBuffer[index];
             data[2] = writeBuffer[index];data[3] = writeBuffer[index];
 
-            if(S13EE_SUCCESS != (ret = s13ee->chipWrite((uint16_t (*)[4]) data)))
+            if(S13EE_SUCCESS != (ret = s13ee->write(addr, &writeBuffer[index], 1)))
                 goto s13eeInitWakeUpErr;
 
-            for(addr = 0; addr < S13EE_WORD_MAX; addr++)
+            if(S13EE_SUCCESS != (ret = s13ee->read(addr, &rdata, 1)))
+                goto s13eeInitWakeUpErr;
+
+            if(rdata != writeBuffer[index])
             {
-                if(S13EE_SUCCESS != (ret = s13ee->read(addr, &rdata, 1)))
-                    goto s13eeInitWakeUpErr;
-                if(rdata != writeBuffer[index])
-                {
-                    S13EE_PRINTF("%s : read addr %d = 0x%04x, not match the value 0x%04x\r\n",
-                        __FUNCTION__, addr, rdata, writeBuffer[index]);
-                    return;
-                }
+                S13EE_PRINTF("\r\n\r\n%s : read addr[%d] = 0x%04x, not match the value 0x%04x(count = %d, index = %d)\r\n",
+                    __FUNCTION__, addr, rdata, writeBuffer[index], count, index);
+                return;
             }
         }
     }
-    S13EE_PRINTF("\b\b\b\b%02d\%.", count * 2);
-    S13EE_PRINTF("%s SUCCUSS.\n", __FUNCTION__);
+    S13EE_PRINTF("\b\b\b\b%02d\%%.\r\n", count * 2);
+    S13EE_PRINTF("\r\n%s SUCCUSS.\n", __FUNCTION__);
     return;
 
 s13eeInitWakeUpErr:
-    S13EE_PRINTF("EEP_T1 FAILED : %s.\r\n", s13ee->errToString(ret));
+    S13EE_PRINTF("\r\n\r\nEEP_T1 FAILED : %s.\r\n\r\n", s13ee->errToString(ret));
 }
 
 static void EEP_T1(S13EE *s13ee)
@@ -93,12 +94,12 @@ static void EEP_T1(S13EE *s13ee)
     if(wdata != rdata)
         S13EE_PRINTF("EEP_T1 FAILED : read data [0x%04x] and write data [0x%04x] isn't match !!!\r\n", rdata, wdata);
     else
-        S13EE_PRINTF("EEP_T1 SUCCUSS.\n");
+        S13EE_PRINTF("EEP_T1 SUCCUSS.\r\n");
 
     return;
 
 EEP_T1_ERR:
-    S13EE_PRINTF("EEP_T1 FAILED : %s.\r\n", s13ee->errToString(ret));
+    S13EE_PRINTF("\r\n\r\nEEP_T1 FAILED : %s.\r\n\r\n", s13ee->errToString(ret));
 }
 
 static void EEP_T2(S13EE *s13ee)
@@ -157,11 +158,11 @@ static void EEP_T5(S13EE *s13ee)
     uint16_t u16ReadBuffer[S13EE_WORD_MAX];
     const uint16_t u16Value = 0;
 
-    S13EE_PRINTF("%s - 200 TIMES All ZERO TEST.\r\n", __FUNCTION__);
-    S13EE_PRINTF("TEST IN PROCESSING %02d\%.", times/2);
+    S13EE_PRINTF("%s - 200 次全0测试.\r\n", __FUNCTION__);
+    S13EE_PRINTF("TEST IN PROCESSING %02d\%%.", times/2);
     for(times = 0; times < 200; times++)
     {
-        S13EE_PRINTF("\b\b\b\b%02d\%.", times/2);
+        S13EE_PRINTF("\b\b\b\b%02d\%%.", times/2);
         /* chipErase */
         if(S13EE_SUCCESS != (result = s13ee->chipErase()))
         {
@@ -196,7 +197,7 @@ static void EEP_T5(S13EE *s13ee)
         }
     }
 
-    S13EE_PRINTF("\b\b\b\b%02d\%.", times/2);
+    S13EE_PRINTF("\b\b\b\b%02d\%%\r\n.", times/2);
     S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
 }
 
@@ -208,11 +209,11 @@ static void EEP_T6(S13EE *s13ee)
     uint16_t u16ReadBuffer[S13EE_WORD_MAX];
     const uint16_t u16Value = 0xFFFF;
 
-    S13EE_PRINTF("%s - 200 TIMES All FFFF TEST.\r\n", __FUNCTION__);
-    S13EE_PRINTF("TEST IN PROCESSING %02d\%.", times/2);
+    S13EE_PRINTF("%s - 200 次全1测试.\r\n", __FUNCTION__);
+    S13EE_PRINTF("TEST IN PROCESSING %02d\%%.", times/2);
     for(times = 0; times < 200; times++)
     {
-        S13EE_PRINTF("\b\b\b\b%02d\%.", times/2);
+        S13EE_PRINTF("\b\b\b\b%02d\%%.", times/2);
         /* chipErase */
         if(S13EE_SUCCESS != (result = s13ee->chipErase()))
         {
@@ -240,14 +241,14 @@ static void EEP_T6(S13EE *s13ee)
         {
             if(u16ReadBuffer[addr] != u16Value)
             {
-                S13EE_PRINTF("EEP_T6 times %d compare addr %d failed(result = %d)\r\n", times, addr, result);
                 printbuffer(u16ReadBuffer, S13EE_WORD_MAX);
+                S13EE_PRINTF("EEP_T6 times %d compare addr %d failed.\r\n", times, addr);
                 return;
             }
         }
     }
 
-    S13EE_PRINTF("\b\b\b\b%02d\%.", times/2);
+    S13EE_PRINTF("\b\b\b\b%02d\%%.\r\n", times/2);
     S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
 }
 
@@ -260,11 +261,11 @@ static void EEP_T7(S13EE *s13ee)
     S13EE_STATUS ret;
 
     S13EE_PRINTF("%s - 100 TIMES MARCH TEST.\r\n", __FUNCTION__);
-    S13EE_PRINTF("TEST IN PROCESSING %02d\%.", count);
+    S13EE_PRINTF("TEST IN PROCESSING %02d\%%.", count);
 
     for(count = 0; count < 100; count++)
     {
-        S13EE_PRINTF("\b\b\b\b%02d\%.", count);
+        S13EE_PRINTF("\b\b\b\b%02d\%%.", count);
 
         /* 1. 从起始位置开始,按照地址递增顺序把全部单元写为0x0000 */
         for(addr = 0, wdata = 0; addr < S13EE_WORD_MAX; addr++)
@@ -286,7 +287,7 @@ static void EEP_T7(S13EE *s13ee)
 
             if(rdata != 0x0000)
             {
-                S13EE_PRINTF("2.1 Read addr %d, data 0x%04x isn't 0x0000.\r\n", addr, rdata);
+                S13EE_PRINTF("\r\n2.1 Read addr %d, data 0x%04x isn't 0x0000.\r\n", addr, rdata);
                 return;
             }
 
@@ -298,7 +299,7 @@ static void EEP_T7(S13EE *s13ee)
 
             if(rdata != 0x0000)
             {
-                S13EE_PRINTF("2.2 Read addr %d, data 0x%04x isn't 0x0000.\r\n", (addr + 1), rdata);
+                S13EE_PRINTF("\r\n2.2 Read addr %d, data 0x%04x isn't 0x0000.\r\n", (addr + 1), rdata);
                 return;
             }
 
@@ -319,7 +320,7 @@ static void EEP_T7(S13EE *s13ee)
 
             if(temp != rdata)
             {
-                S13EE_PRINTF("3.1 Read addr %d, data 0x%04x isn't 0x%04x.\r\n", addr, temp, rdata);
+                S13EE_PRINTF("\r\n3.1 Read addr %d, data 0x%04x isn't 0x%04x.\r\n", addr, temp, rdata);
                 return;
             }
 
@@ -331,7 +332,7 @@ static void EEP_T7(S13EE *s13ee)
 
             if(temp != rdata)
             {
-                S13EE_PRINTF("3.2 Read addr %d, data 0x%04x isn't 0x%04x.\r\n", (addr + 1), temp, rdata);
+                S13EE_PRINTF("\r\n3.2 Read addr %d, data 0x%04x isn't 0x%04x.\r\n", (addr + 1), temp, rdata);
                 return;
             }
 
@@ -346,7 +347,7 @@ static void EEP_T7(S13EE *s13ee)
 
             if(rdata != temp)
             {
-                S13EE_PRINTF("4.1 Read addr %d, data 0x%04x isn't 0x%04x.\r\n", addr, temp, rdata);
+                S13EE_PRINTF("\r\n4.1 Read addr %d, data 0x%04x isn't 0x%04x.\r\n", addr, temp, rdata);
                 return;
             }
 
@@ -355,13 +356,13 @@ static void EEP_T7(S13EE *s13ee)
 
             if(rdata != temp)
             {
-                S13EE_PRINTF("4.2 Read addr %d, data 0x%04x isn't 0x%04x.\r\n", addr+1, temp, rdata);
+                S13EE_PRINTF("\r\n4.2 Read addr %d, data 0x%04x isn't 0x%04x.\r\n", addr+1, temp, rdata);
                 return;
             }
          }
     }
 
-    S13EE_PRINTF("\b\b\b\b%02d\%.", count);
+    S13EE_PRINTF("\b\b\b\b%02d\%%.\r\n", count);
     S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 
@@ -372,7 +373,7 @@ EEP_T7_ERR:
 static void EEP_T8(S13EE *s13ee)
 {
     uint16_t addr;
-    const uint16_t wdata = 0x5a5a, rdata;
+    uint16_t wdata = 0x5a5a, rdata;
     S13EE_STATUS ret;
 
     S13EE_PRINTF("%s - ALL WRITE 0X5A, ADDRESS increase continuous.\r\n", __FUNCTION__);
@@ -459,10 +460,9 @@ static void EEP_T16(S13EE *s13ee)
     uint16_t readBuffer[4];
     S13EE_STATUS ret;
     char ch;
-    uint16_t addr;
 
     S13EE_PRINTF("%s - PERFORMANCE TEST.\r\n", __FUNCTION__);
-    S13EE_PRINTF("Write 2kbit data with 0x%04x 0x%04x 0x%04x 0x%04x\n",
+    S13EE_PRINTF("Write 2kbit data with 0x%04x 0x%04x 0x%04x 0x%04x\r\n",
         writeBuffer[0], writeBuffer[1], writeBuffer[2], writeBuffer[3]);
 
     do
@@ -555,17 +555,18 @@ static void EEP_T22(S13EE *s13ee)
 {
     S13EE_STATUS ret;
     uint16_t readBuffer[S13EE_WORD_MAX];
+    uint8_t *buffer;
 
-    S13EE_PRINTF("%s - T = 25℃, vcca = 1.8V , Read opreate current test.(Input \'q\' to exit)\r\n", __FUNCTION__);
+    S13EE_PRINTF("%s - T = 25℃, vcca = 1.8V , Read opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
-    while(!(inputIntSignal && (inputBuffer[0] == 'q')))
+    do
     {
         if(S13EE_SUCCESS != (ret = s13ee->read(0, readBuffer, S13EE_WORD_MAX)))
             goto EEP_T22_ERR;
-    }
-    inputIntSignal  = 0;
+        buffer = S13EE_GETLINE_NOWAIT;
+    }while(!(buffer && (buffer[0] == 'q')));
 
-    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+    S13EE_PRINTF("\r\n%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 EEP_T22_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
@@ -575,17 +576,19 @@ static void EEP_T23(S13EE *s13ee)
 {
     S13EE_STATUS ret;
     uint16_t readBuffer[S13EE_WORD_MAX];
+    uint8_t *buffer;
 
-    S13EE_PRINTF("%s - T = 25℃, vcca = 1.5V , Read opreate current test.(Input \'q\' to exit)\r\n", __FUNCTION__);
+    S13EE_PRINTF("%s - T = 25℃, vcca = 1.5V , Read opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
-    while(!(inputIntSignal && (inputBuffer[0] == 'q')))
+    do
     {
         if(S13EE_SUCCESS != (ret = s13ee->read(0, readBuffer, S13EE_WORD_MAX)))
             goto EEP_T23_ERR;
-    }
-    inputIntSignal  = 0;
 
-    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+        buffer = S13EE_GETLINE_NOWAIT;
+    }while(!(buffer && (buffer[0] == 'q')));
+
+    S13EE_PRINTF("\r\n%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 EEP_T23_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
@@ -595,17 +598,19 @@ static void EEP_T24(S13EE *s13ee)
 {
     S13EE_STATUS ret;
     uint16_t readBuffer[S13EE_WORD_MAX];
+    char *buffer;
 
-    S13EE_PRINTF("%s - T = 25℃, vcca = 1.0V , Read opreate current test.(Input \'q\' to exit)\r\n", __FUNCTION__);
+    S13EE_PRINTF("%s - T = 25℃, vcca = 1.0V , Read opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
-    while(!(inputIntSignal && (inputBuffer[0] == 'q')))
+    do
     {
         if(S13EE_SUCCESS != (ret = s13ee->read(0, readBuffer, S13EE_WORD_MAX)))
             goto EEP_T24_ERR;
-    }
-    inputIntSignal  = 0;
 
-    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+        buffer = S13EE_GETLINE_NOWAIT;
+    }while(!(buffer && (*buffer == 'q')));
+
+    S13EE_PRINTF("\r\n%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 EEP_T24_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
@@ -615,17 +620,18 @@ static void EEP_T25(S13EE *s13ee)
 {
     S13EE_STATUS ret;
     uint16_t readBuffer[S13EE_WORD_MAX];
+    uint8_t *buffer;
 
-    S13EE_PRINTF("%s - T = 25℃, vcca = 0.8/0.7V , Read opreate current test.(Input \'q\' to exit)\r\n", __FUNCTION__);
+    S13EE_PRINTF("%s - T = 25℃, vcca = 0.8/0.7V , Read opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
-    while(!(inputIntSignal && (inputBuffer[0] == 'q')))
+    do
     {
         if(S13EE_SUCCESS != (ret = s13ee->read(0, readBuffer, S13EE_WORD_MAX)))
             goto EEP_T25_ERR;
-    }
-    inputIntSignal  = 0;
+        buffer = S13EE_GETLINE_NOWAIT;
+    }while(!(buffer && (buffer[0] == 'q')));
 
-    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+    S13EE_PRINTF("\r\n%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 EEP_T25_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
@@ -635,17 +641,18 @@ static void EEP_T26(S13EE *s13ee)
 {
     S13EE_STATUS ret;
     uint16_t writeBuffer[S13EE_WORD_MAX];
+    uint8_t *buffer;
 
-    S13EE_PRINTF("%s - T = 25℃, vcca = 1.8V , Write opreate current test.(Input \'q\' to exit)\r\n", __FUNCTION__);
+    S13EE_PRINTF("%s - T = 25℃, vcca = 1.8V , Write opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
-    while(!(inputIntSignal && (inputBuffer[0] == 'q')))
+    do
     {
         if(S13EE_SUCCESS != (ret = s13ee->write(0, writeBuffer, S13EE_WORD_MAX)))
             goto EEP_T26_ERR;
-    }
-    inputIntSignal  = 0;
+        buffer = S13EE_GETLINE_NOWAIT;
+    }while(!(buffer && (buffer[0] == 'q')));
 
-    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+    S13EE_PRINTF("\r\n%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 EEP_T26_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
@@ -655,17 +662,18 @@ static void EEP_T27(S13EE *s13ee)
 {
     S13EE_STATUS ret;
     uint16_t writeBuffer[S13EE_WORD_MAX];
+    uint8_t *buffer;
 
-    S13EE_PRINTF("%s - T = 25℃, vcca = 1.5V , Write opreate current test.(Input \'q\' to exit)\r\n", __FUNCTION__);
+    S13EE_PRINTF("%s - T = 25℃, vcca = 1.5V , Write opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
-    while(!(inputIntSignal && (inputBuffer[0] == 'q')))
+    do
     {
         if(S13EE_SUCCESS != (ret = s13ee->write(0, writeBuffer, S13EE_WORD_MAX)))
             goto EEP_T27_ERR;
-    }
-    inputIntSignal  = 0;
+        buffer = S13EE_GETLINE_NOWAIT;
+    }while(!(buffer && (buffer[0] == 'q')));
 
-    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+    S13EE_PRINTF("\r\n%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 EEP_T27_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
@@ -675,17 +683,18 @@ static void EEP_T28(S13EE *s13ee)
 {
     S13EE_STATUS ret;
     uint16_t writeBuffer[S13EE_WORD_MAX];
+    uint8_t *buffer;
 
-    S13EE_PRINTF("%s - T = 25℃, vcca = 1.2V , Write opreate current test.(Input \'q\' to exit)\r\n", __FUNCTION__);
+    S13EE_PRINTF("%s - T = 25℃, vcca = 1.2V , Write opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
-    while(!(inputIntSignal && (inputBuffer[0] == 'q')))
+    do
     {
         if(S13EE_SUCCESS != (ret = s13ee->write(0, writeBuffer, S13EE_WORD_MAX)))
             goto EEP_T28_ERR;
-    }
-    inputIntSignal  = 0;
+        buffer = S13EE_GETLINE_NOWAIT;
+    }while(!(buffer && (buffer[0] == 'q')));
 
-    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+    S13EE_PRINTF("\r\n%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 EEP_T28_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
@@ -695,17 +704,18 @@ static void EEP_T29(S13EE *s13ee)
 {
     S13EE_STATUS ret;
     uint16_t writeBuffer[S13EE_WORD_MAX];
+    uint8_t *buffer;
 
-    S13EE_PRINTF("%s - T = 25℃, vcca = 1.1V , Write opreate current test.(Input \'q\' to exit)\r\n", __FUNCTION__);
+    S13EE_PRINTF("%s - T = 25℃, vcca = 1.1V , Write opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
-    while(!(inputIntSignal && (inputBuffer[0] == 'q')))
+    do
     {
         if(S13EE_SUCCESS != (ret = s13ee->write(0, writeBuffer, S13EE_WORD_MAX)))
             goto EEP_T29_ERR;
-    }
-    inputIntSignal  = 0;
+        buffer = S13EE_GETLINE_NOWAIT;
+    }while(!(buffer && (buffer[0] == 'q')));
 
-    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+    S13EE_PRINTF("\r\n%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 EEP_T29_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
@@ -760,11 +770,14 @@ enum
 
 static uint32_t getOption(void)
 {
-    char ch;
+    uint32_t option;
+    uint8_t * buffer;
 
-    ch = S13EE_GETC;
+    S13EE_PRINTF("\r\n请输入选项编号:");
+    buffer = S13EE_GETLINE;
+    option = atoi((const char*)buffer);
 
-    return (uint32_t)(ch - 0x30);
+    return option;
 }
 
 static void basicFunctionTest(S13EE *s13ee)
@@ -773,11 +786,11 @@ static void basicFunctionTest(S13EE *s13ee)
 
     do
     {
-        S13EE_PRINTF("%d. EEP_TEST1\r\n", EEP_TEST1);
-        S13EE_PRINTF("%d. EEP_TEST2\r\n", EEP_TEST2);
-        S13EE_PRINTF("%d. EEP_TEST3\r\n", EEP_TEST3);
-        S13EE_PRINTF("%d. EEP_TEST4\r\n", EEP_TEST4);
-        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+        S13EE_PRINTF("%2d. EEP_T%d - 与EEPROM通讯正常，能正确发指令\r\n", EEP_TEST1, EEP_TEST1);
+        S13EE_PRINTF("%2d. EEP_T%d - 读操作，序号2～6测试基于1.5v\r\n", EEP_TEST2, EEP_TEST2);
+        S13EE_PRINTF("%2d. EEP_T%d - 写操作\r\n", EEP_TEST3, EEP_TEST3);
+        S13EE_PRINTF("%2d. EEP_T%d - 擦除操作\r\n", EEP_TEST4, EEP_TEST4);
+        S13EE_PRINTF("%2d. 退出\r\n", EEP_EXIT);
 
         option = getOption();
 
@@ -805,13 +818,13 @@ static void eraseReadWriteTest(S13EE *s13ee)
 
     do
     {
-        S13EE_PRINTF("%d. EEP_TEST5\r\n", EEP_TEST5);
-        S13EE_PRINTF("%d. EEP_TEST6\r\n", EEP_TEST6);
-        S13EE_PRINTF("%d. EEP_TEST7\r\n", EEP_TEST7);
-        S13EE_PRINTF("%d. EEP_TEST8\r\n", EEP_TEST8);
-        S13EE_PRINTF("%d. EEP_TEST9\r\n", EEP_TEST9);
-        S13EE_PRINTF("%d. EEP_TEST10\r\n", EEP_TEST10);
-        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+        S13EE_PRINTF("%2d. EEP_T%d - 连续擦除读写200次，对比读写数据，写数据为00，地址递增(全0测试)\r\n", EEP_TEST5, EEP_TEST5);
+        S13EE_PRINTF("%2d. EEP_T%d - 连续擦除读写200次，对比读写数据，写数据为FF，地址递增(全1测试)\r\n", EEP_TEST6, EEP_TEST6);
+        S13EE_PRINTF("%2d. EEP_T%d - 连续100次march算法测试\r\n", EEP_TEST7, EEP_TEST7);
+        S13EE_PRINTF("%2d. EEP_T%d - 擦读写，对比读写数据，写数据为5A，地址变化按行方向递增顺序\r\n", EEP_TEST8, EEP_TEST8);
+        S13EE_PRINTF("%2d. EEP_T%d - 擦读写，对比读写数据，写数据为5A，地址变化方向按左斜线\r\n", EEP_TEST9, EEP_TEST9);
+        S13EE_PRINTF("%2d. EEP_T%d - 擦读写，对比读写数据，写数据为5A，地址变化方向按右斜线\r\n", EEP_TEST10, EEP_TEST10);
+        S13EE_PRINTF("%2d. 退出\r\n", EEP_EXIT);
 
         option = getOption();
 
@@ -845,12 +858,12 @@ static void performanceTest(S13EE *s13ee)
 
     do
     {
-        S13EE_PRINTF("%d. EEP_TEST11\r\n", EEP_TEST11);
-        S13EE_PRINTF("%d. EEP_TEST12\r\n", EEP_TEST12);
-        S13EE_PRINTF("%d. EEP_TEST13\r\n", EEP_TEST13);
-        S13EE_PRINTF("%d. EEP_TEST14\r\n", EEP_TEST14);
-        S13EE_PRINTF("%d. EEP_TEST15\r\n", EEP_TEST15);
-        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+        S13EE_PRINTF("%2d. EEP_T%d - 电压，1.5v时，调用EEP_T7测试程序\r\n", EEP_TEST11, EEP_TEST11);
+        S13EE_PRINTF("%2d. EEP_T%d - 电压，1.3v时，调用EEP_T7测试程序\r\n", EEP_TEST12, EEP_TEST12);
+        S13EE_PRINTF("%2d. EEP_T%d - 电压，1.2v时，调用EEP_T7测试程序\r\n", EEP_TEST13, EEP_TEST13);
+        S13EE_PRINTF("%2d. EEP_T%d - 电压，1.1v时，调用EEP_T7测试程序\r\n", EEP_TEST14, EEP_TEST14);
+        S13EE_PRINTF("%2d. EEP_T%d - 电压，1.0v时，调用EEP_T7测试程序\r\n", EEP_TEST15, EEP_TEST15);
+        S13EE_PRINTF("%2d. 退出\r\n", EEP_EXIT);
 
         option = getOption();
 
@@ -881,12 +894,12 @@ static void temperatureTest(S13EE *s13ee)
 
     do
     {
-        S13EE_PRINTF("%d. EEP_TEST17\r\n", EEP_TEST17);
-        S13EE_PRINTF("%d. EEP_TEST18\r\n", EEP_TEST18);
-        S13EE_PRINTF("%d. EEP_TEST19\r\n", EEP_TEST19);
-        S13EE_PRINTF("%d. EEP_TEST20\r\n", EEP_TEST20);
-        S13EE_PRINTF("%d. EEP_TEST21\r\n", EEP_TEST21);
-        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+        S13EE_PRINTF("%2d. EEP_T%d - T=-20℃，调用EEP_T11~EEP_T16测试程序，读写性能测试\r\n", EEP_TEST17, EEP_TEST17);
+        S13EE_PRINTF("%2d. EEP_T%d - T=0℃，调用EEP_T11~EEP_T16测试程序，读写性能测试\r\n", EEP_TEST18, EEP_TEST18);
+        S13EE_PRINTF("%2d. EEP_T%d - T=25℃，调用EEP_T11~EEP_T16测试程序，读写性能测试\r\n", EEP_TEST19, EEP_TEST19);
+        S13EE_PRINTF("%2d. EEP_T%d - T=45℃，调用EEP_T11~EEP_T16测试程序，读写性能测试\r\n", EEP_TEST20, EEP_TEST20);
+        S13EE_PRINTF("%2d. EEP_T%d - T=85℃，调用EEP_T11~EEP_T16测试程序，读写性能测试\r\n", EEP_TEST21, EEP_TEST21);
+        S13EE_PRINTF("%2d. 退出\r\n", EEP_EXIT);
 
         option = getOption();
 
@@ -917,15 +930,15 @@ static void powerConsumptionTest(S13EE *s13ee)
 
     do
     {
-        S13EE_PRINTF("%d. EEP_TEST22\r\n", EEP_TEST22);
-        S13EE_PRINTF("%d. EEP_TEST23\r\n", EEP_TEST23);
-        S13EE_PRINTF("%d. EEP_TEST24\r\n", EEP_TEST24);
-        S13EE_PRINTF("%d. EEP_TEST25\r\n", EEP_TEST25);
-        S13EE_PRINTF("%d. EEP_TEST26\r\n", EEP_TEST26);
-        S13EE_PRINTF("%d. EEP_TEST27\r\n", EEP_TEST27);
-        S13EE_PRINTF("%d. EEP_TEST28\r\n", EEP_TEST28);
-        S13EE_PRINTF("%d. EEP_TEST29\r\n", EEP_TEST29);
-        S13EE_PRINTF("%d. EEP_EXIT\r\n", EEP_EXIT);
+        S13EE_PRINTF("%2d. EEP_T%d - T=25℃，vcca=1.8v时，EEPROM读操作时电流(测试vcca!端口)\r\n", EEP_TEST22, EEP_TEST22);
+        S13EE_PRINTF("%2d. EEP_T%d - T=25℃，vcca=1.5v时，EEPROM读操作时电流(测试vcca!端口)\r\n", EEP_TEST23, EEP_TEST23);
+        S13EE_PRINTF("%2d. EEP_T%d - T=25℃，vcca=1.0v时，EEPROM读操作时电流(测试vcca!端口)\r\n", EEP_TEST24, EEP_TEST24);
+        S13EE_PRINTF("%2d. EEP_T%d - T=25℃，vcca=0.8/0.7v时，EEPROM读操作时电流(测试vcca!端口)\r\n", EEP_TEST25, EEP_TEST25);
+        S13EE_PRINTF("%2d. EEP_T%d - T=25℃，vcca=1.8v时，EEPROM写操作时电流(测试vcca!端口)\r\n", EEP_TEST26, EEP_TEST26);
+        S13EE_PRINTF("%2d. EEP_T%d - T=25℃，vcca=1.5v时，EEPROM写操作时电流(测试vcca!端口)\r\n", EEP_TEST27, EEP_TEST27);
+        S13EE_PRINTF("%2d. EEP_T%d - T=25℃，vcca=1.2v时，EEPROM写操作时电流(测试vcca!端口)\r\n", EEP_TEST28, EEP_TEST28);
+        S13EE_PRINTF("%2d. EEP_T%d - T=25℃，vcca=1.1v时，EEPROM写操作时电流(测试vcca!端口)\r\n", EEP_TEST29, EEP_TEST29);
+        S13EE_PRINTF("%2d. 退出\r\n", EEP_EXIT);
 
         option = getOption();
 
@@ -965,16 +978,16 @@ void EEP_T_MAIN(S13EE *s13ee)
 
     do
     {
-        S13EE_PRINTF("S13EE_X64Y64 TEST CATALOG:\r\n");
-        S13EE_PRINTF("%d. INITIALIZE_AND_WAKEUP_TEST.\r\n", INITIALIZE_AND_WAKEUP_TEST);
-        S13EE_PRINTF("%d. BASIC_FUNCTION_TEST.\r\n", BASIC_FUNCTION_TEST);
-        S13EE_PRINTF("%d. ERASE_READ_WRITE_TEST.\r\n", ERASE_READ_WRITE_TEST);
-        S13EE_PRINTF("%d. PERFORMANCE_TEST.\r\n", PERFORMANCE_TEST);
-        S13EE_PRINTF("%d. ALLROW_TEST.\r\n", ALLROW_TEST);
-        S13EE_PRINTF("%d. TEMPERATURE_TEST.\r\n", TEMPERATURE_TEST);
-        S13EE_PRINTF("%d. POWER_COMSUMPTION_TEST.\r\n", POWER_COMSUMPTION_TEST);
-        S13EE_PRINTF("%d. TIMING_TEST.\r\n", TIMING_TEST);
-        S13EE_PRINTF("%d. RELIABILITY_TEST.\r\n", RELIABILITY_TEST);
+        S13EE_PRINTF("\r\n\r\nS13EE_X64Y64 测试目录:\r\n\r\n");
+        S13EE_PRINTF("%2d. 初始化和唤醒测试.\r\n", INITIALIZE_AND_WAKEUP_TEST);
+        S13EE_PRINTF("%2d. 基本功能测试.\r\n", BASIC_FUNCTION_TEST);
+        S13EE_PRINTF("%2d. 擦除/读写功能测试.\r\n", ERASE_READ_WRITE_TEST);
+        S13EE_PRINTF("%2d. 性能测试.\r\n", PERFORMANCE_TEST);
+        S13EE_PRINTF("%2d. ALLROW测试.\r\n", ALLROW_TEST);
+        S13EE_PRINTF("%2d. 高低温测试.\r\n", TEMPERATURE_TEST);
+        S13EE_PRINTF("%2d. 功耗测试.\r\n", POWER_COMSUMPTION_TEST);
+        S13EE_PRINTF("%2d. 时序测试.\r\n", TIMING_TEST);
+        S13EE_PRINTF("%2d. 可靠性测试.\r\n", RELIABILITY_TEST);
 
         option = getOption();
 
