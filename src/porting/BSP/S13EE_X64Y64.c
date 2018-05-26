@@ -331,7 +331,7 @@ static const S13EE_OPIN_VALUE_LIST bufRstDataLoadPinValueList =
 
 static S13EE_STATUS bufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
 {
-    uint8_t index = 0;
+    uint16_t index = 0;
 
     pinValueInit(&bufRstDataLoadPinValueList);
 
@@ -371,6 +371,7 @@ static const S13EE_OPIN_VALUE_LIST wrErasePinValueList =
 static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
 {
     S13EE_STATUS result;
+    uint16_t step = (cnt >= 4) ? 4 : (cnt % 4);
 #ifdef CHECK_PARAM
     if(!((cnt > 0) && (cnt < 5)))
     {
@@ -379,7 +380,9 @@ static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
     }
 #endif
 
-    if(S13EE_SUCCESS != (result = bufferResetDataLoad(addr, u16Buffer, cnt)))
+    while(cnt)
+    {
+    if(S13EE_SUCCESS != (result = bufferResetDataLoad(addr, u16Buffer, step)))
         return result;
 
     pinValueInit(&wrErasePinValueList);
@@ -396,6 +399,10 @@ static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
     SIGNAL_PGM(0);
     th_aw.delayFunc(th_aw.parameter);
     SIGNAL_CLK(DISABLE);
+
+    cnt -= step;
+    step = (cnt >= 4) ? 4 : (cnt % 4);
+    }
 
     return S13EE_SUCCESS;
 }

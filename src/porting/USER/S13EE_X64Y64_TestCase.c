@@ -372,24 +372,43 @@ EEP_T7_ERR:
 
 static void EEP_T8(S13EE *s13ee)
 {
-    uint16_t addr;
-    uint16_t wdata = 0x5a5a, rdata;
+    uint8_t *buffer, ch;
+    uint16_t row, col;
+    uint16_t addr, index, rdata;
+    static uint16_t wdata = 0x5a5a;
     S13EE_STATUS ret;
 
-    S13EE_PRINTF("%s - ALL WRITE 0X5A, ADDRESS increase continuous.\r\n", __FUNCTION__);
-    /* 擦读写，对比读写数据，写数据为5A，地址变化按行方向递增顺序 */
-    for(addr = 0; addr < S13EE_WORD_MAX; addr++)
-    {
-        if(S13EE_SUCCESS != (ret = s13ee->write((uint8_t)addr, &wdata, 1)))
-            goto EEP_T8_ERR;
+    //S13EE_PRINTF("%s - ALL WRITE 0x%04x, ADDRESS increase continuous.\r\n", __FUNCTION__, wdata);
+    S13EE_PRINTF("Do you want to change (y/n): ");
 
-        if(S13EE_SUCCESS!= (ret = s13ee->read((uint8_t)addr, &rdata, 1)))
+    buffer = S13EE_GETLINE;
+    ch = buffer[0];
+    if((ch == 'y') || (ch == 'Y'))
+    {
+        S13EE_PRINTF("write data 0x%04x : 0x", wdata);
+        buffer = S13EE_GETLINE;
+        if(strlen(buffer) > 0)
+            wdata = htoi((const char *)buffer);
+        S13EE_PRINTF("write data 0x%04x.\r\n", wdata);
+    }
+    /* 擦读写，对比读写数据，写数据为5A，地址变化按行方向递增顺序 */
+    for(col = 0; col < 4; col++)
+    {
+        for(row = 0; row < 64; row++)
+        {
+            addr = row * 4 + col;
+
+            if(S13EE_SUCCESS != (ret = s13ee->write((uint8_t)addr, &wdata, 1)))
                 goto EEP_T8_ERR;
 
-        if(rdata != wdata)
-        {
-            S13EE_PRINTF("Read addr %d, data 0x%04x isn't 0x0000.\r\n", addr, rdata);
-            return;
+            if(S13EE_SUCCESS!= (ret = s13ee->read((uint8_t)addr, &rdata, 1)))
+                    goto EEP_T8_ERR;
+
+            if(rdata != wdata)
+            {
+                S13EE_PRINTF("Read addr %d, data 0x%04x isn't 0x%04x.\r\n", addr, rdata, wdata);
+                return;
+            }
         }
     }
 
@@ -401,21 +420,92 @@ EEP_T8_ERR:
 
 static void EEP_T9(S13EE *s13ee)
 {
-    uint16_t addr;
-    const uint16_t wdata = 0x5a5a, rdata;
+    uint8_t *buffer, ch;
+    uint16_t row, col;
+    uint16_t addr, index, rdata;
+    static uint16_t wdata = 0x5a5a;
     S13EE_STATUS ret;
 
-    /* TODO */
+    //S13EE_PRINTF("%s - ALL WRITE 0x%04x, ADDRESS increase continuous.\r\n", __FUNCTION__, wdata);
+    S13EE_PRINTF("Do you want to change (y/n): ");
+
+    buffer = S13EE_GETLINE;
+    ch = buffer[0];
+    if((ch == 'y') || (ch == 'Y'))
+    {
+        S13EE_PRINTF("write data 0x%04x : 0x", wdata);
+        buffer = S13EE_GETLINE;
+        if(strlen(buffer) > 0)
+            wdata = htoi((const char *)buffer);
+        S13EE_PRINTF("write data 0x%04x.\r\n", wdata);
+    }
+    /* 擦读写，对比读写数据，写数据为5A，地址变化按行方向递增顺序 */
+    for(row = 0, col = 0; row < 64; row++, col = (col + 1) % 4)
+    {
+        addr = row * 4 + col;
+
+        if(S13EE_SUCCESS != (ret = s13ee->write((uint8_t)addr, &wdata, 1)))
+            goto EEP_T8_ERR;
+
+        if(S13EE_SUCCESS!= (ret = s13ee->read((uint8_t)addr, &rdata, 1)))
+                goto EEP_T8_ERR;
+
+        if(rdata != wdata)
+        {
+            S13EE_PRINTF("Read addr %d, data 0x%04x isn't 0x%04x.\r\n", addr, rdata, wdata);
+            return;
+        }
+    }
+
+    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+    return;
+EEP_T8_ERR:
+    S13EE_PRINTF("EEP_T8 FAILED : %s.\r\n", s13ee->errToString(ret));
 }
 
 static void EEP_T10(S13EE *s13ee)
 {
-    uint16_t addr;
-    const uint16_t wdata = 0x5a5a, rdata;
+    uint8_t *buffer, ch;
+    uint16_t row, col;
+    uint16_t addr, index, rdata;
+    static uint16_t wdata = 0x5a5a;
     S13EE_STATUS ret;
 
-    /* TODO */
+    //S13EE_PRINTF("%s - ALL WRITE 0x%04x, ADDRESS increase continuous.\r\n", __FUNCTION__, wdata);
+    S13EE_PRINTF("Do you want to change (y/n): ");
 
+    buffer = S13EE_GETLINE;
+    ch = buffer[0];
+    if((ch == 'y') || (ch == 'Y'))
+    {
+        S13EE_PRINTF("write data 0x%04x : 0x", wdata);
+        buffer = S13EE_GETLINE;
+        if(strlen(buffer) > 0)
+            wdata = htoi((const char *)buffer);
+        S13EE_PRINTF("write data 0x%04x.\r\n", wdata);
+    }
+    /* 擦读写，对比读写数据，写数据为5A，地址变化按行方向递增顺序 */
+    for(row = 0, col = 3; row < 64, col < 4; row++, col = (col - 1) % 4)
+    {
+        addr = row * 4 + col;
+
+        if(S13EE_SUCCESS != (ret = s13ee->write((uint8_t)addr, &wdata, 1)))
+            goto EEP_T8_ERR;
+
+        if(S13EE_SUCCESS!= (ret = s13ee->read((uint8_t)addr, &rdata, 1)))
+                goto EEP_T8_ERR;
+
+        if(rdata != wdata)
+        {
+            S13EE_PRINTF("Read addr %d, data 0x%04x isn't 0x%04x.\r\n", addr, rdata, wdata);
+            return;
+        }
+    }
+
+    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+    return;
+EEP_T8_ERR:
+    S13EE_PRINTF("EEP_T8 FAILED : %s.\r\n", s13ee->errToString(ret));
 }
 
 static void EEP_T11(S13EE *s13ee)
@@ -945,7 +1035,7 @@ static void powerConsumptionTest(S13EE *s13ee)
         switch(option)
         {
             case EEP_TEST22:
-                EEP_T2(s13ee);
+                EEP_T22(s13ee);
                 break;
             case EEP_TEST23:
                 EEP_T23(s13ee);
