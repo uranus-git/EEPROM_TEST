@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=D:\eeprom4kbit_model\eeprom4kbit\eeprom4k.ncd
+OUTFILE=D:\eeprom4kbit_model\eeprom4kbit\eeprom4k.bit
+FAMILY=Spartan6
+PART=xc6slx16-2ftg256
+WORKINGDIR=D:\eeprom4kbit_model\eeprom4kbit
+LICENSE=WebPack
+USER_INFO=135256_15690819_173552794_661

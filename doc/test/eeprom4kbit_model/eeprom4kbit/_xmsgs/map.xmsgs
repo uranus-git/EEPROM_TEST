@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- IMPORTANT: This is an internal file that has been generated
+     by the Xilinx ISE software.  Any direct editing or
+     changes made to this file may result in unpredictable
+     behavior or data corruption.  It is strongly advised that
+     users do not edit the contents of this file. -->
+<messages>
+<msg type="info" file="LIT" num="243" delta="old" >Logical network <arg fmt="%s" index="1">icon_control0&lt;35&gt;</arg> has no load.
+</msg>
+
+<msg type="info" file="LIT" num="395" delta="old" >The above <arg fmt="%s" index="1">info</arg> message is repeated <arg fmt="%d" index="2">22</arg> more times for the following (max. 5 shown):
+<arg fmt="%s" index="3">icon_control0&lt;34&gt;,
+icon_control0&lt;33&gt;,
+icon_control0&lt;32&gt;,
+icon_control0&lt;31&gt;,
+icon_control0&lt;30&gt;</arg>
+To see the details of these <arg fmt="%s" index="4">info</arg> messages, please use the -detail switch.
+</msg>
+
+<msg type="info" file="MapLib" num="562" delta="old" >No environment variables are currently set.
+</msg>
+
+<msg type="info" file="LIT" num="244" delta="old" >All of the single ended outputs in this design are using slew rate limited output drivers. The delay on speed critical single ended outputs can be dramatically reduced by designating them as fast outputs.
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_0</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_0 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_1</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_1 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_2</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_2 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_3</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_3 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_4</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_4 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_5</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_5 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_6</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_6 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_7</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_7 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_8</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_8 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_9</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_9 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_10</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_10 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_11</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_11 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_12</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_12 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_13</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_13 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_14</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_14 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="warning" file="Pack" num="2549" delta="old" >The register &quot;<arg fmt="%s" index="1">dout_reg_15</arg>&quot; has the property IOB=TRUE, but was not packed into the OLOGIC component. <arg fmt="%z" index="2">The output signal for register symbol dout_reg_15 requires general routing to fabric, but the register can only be routed to ILOGIC, IODELAY, and IOB.</arg>
+</msg>
+
+<msg type="info" file="Pack" num="1716" delta="old" >Initializing temperature to <arg fmt="%0.3f" index="1">85.000</arg> Celsius. (default - Range: <arg fmt="%0.3f" index="2">0.000</arg> to <arg fmt="%0.3f" index="3">85.000</arg> Celsius)
+</msg>
+
+<msg type="info" file="Pack" num="1720" delta="old" >Initializing voltage to <arg fmt="%0.3f" index="1">1.140</arg> Volts. (default - Range: <arg fmt="%0.3f" index="2">1.140</arg> to <arg fmt="%0.3f" index="3">1.260</arg> Volts)
+</msg>
+
+<msg type="info" file="Map" num="215" delta="old" >The Interim Design Summary has been generated in the MAP Report (.mrp).
+</msg>
+
+<msg type="warning" file="Place" num="1137" delta="old" >This design is not guaranteed to be routable! This design contains a global buffer instance, &lt;<arg fmt="%s" index="1">pgm_BUFGP/BUFG</arg>&gt;, driving the net, &lt;<arg fmt="%s" index="2">pgm_BUFGP</arg>&gt;, that is driving the following (first <arg fmt="%d" index="3">30</arg>) non-clock load pins.
+<arg fmt="%s" index="4">&lt; PIN: U_ila_pro_0/U0/I_TQ0.G_TW[27].U_TQ.D; &gt;
+</arg>This is not a recommended design practice in Spartan-6 due to limitations in the global routing that may cause excessive delay, skew or unroutable situations.  It is recommended to only use a BUFG resource to drive clock loads. Please pay extra attention to the timing and routing of this path to ensure the design goals are met. This is normally an ERROR but the CLOCK_DEDICATED_ROUTE constraint was applied on COMP.PIN &lt;<arg fmt="%s" index="5">pgm_BUFGP/BUFG</arg>.<arg fmt="%s" index="6">O</arg>&gt; allowing your design to continue. This constraint disables all clock placer rules related to the specified COMP.PIN.
+</msg>
+
+<msg type="warning" file="Place" num="1137" delta="old" >This design is not guaranteed to be routable! This design contains a global buffer instance, &lt;<arg fmt="%s" index="1">sync_BUFGP/BUFG</arg>&gt;, driving the net, &lt;<arg fmt="%s" index="2">sync_BUFGP</arg>&gt;, that is driving the following (first <arg fmt="%d" index="3">30</arg>) non-clock load pins.
+<arg fmt="%s" index="4">&lt; PIN: U_ila_pro_0/U0/I_TQ0.G_TW[29].U_TQ.D; &gt;
+</arg>This is not a recommended design practice in Spartan-6 due to limitations in the global routing that may cause excessive delay, skew or unroutable situations.  It is recommended to only use a BUFG resource to drive clock loads. Please pay extra attention to the timing and routing of this path to ensure the design goals are met. This is normally an ERROR but the CLOCK_DEDICATED_ROUTE constraint was applied on COMP.PIN &lt;<arg fmt="%s" index="5">sync_BUFGP/BUFG</arg>.<arg fmt="%s" index="6">O</arg>&gt; allowing your design to continue. This constraint disables all clock placer rules related to the specified COMP.PIN.
+</msg>
+
+<msg type="warning" file="Place" num="1109" delta="new" >A clock IOB / BUFGMUX clock component pair have been found that are not placed at an optimal clock IOB / BUFGMUX site pair. The clock IOB component &lt;<arg fmt="%s" index="1">pgm</arg>&gt; is placed at site &lt;<arg fmt="%s" index="2">L14</arg>&gt;. The corresponding BUFG component &lt;<arg fmt="%s" index="3">pgm_BUFGP/BUFG</arg>&gt; is placed at site &lt;<arg fmt="%s" index="4">BUFGMUX_X3Y6</arg>&gt;. There is only a select set of IOBs that can use the fast path to the Clocker buffer, and they are not being used. You may want to analyze why this problem exists and correct it. This is normally an ERROR but the CLOCK_DEDICATED_ROUTE constraint was applied on COMP.PIN &lt;<arg fmt="%s" index="5">pgm.PAD</arg>&gt; allowing your design to continue. This constraint disables all clock placer rules related to the specified COMP.PIN. The use of this override is highly discouraged as it may lead to very poor timing results. It is recommended that this error condition be corrected in the design.
+</msg>
+
+<msg type="warning" file="Place" num="1109" delta="new" >A clock IOB / BUFGMUX clock component pair have been found that are not placed at an optimal clock IOB / BUFGMUX site pair. The clock IOB component &lt;<arg fmt="%s" index="1">sync</arg>&gt; is placed at site &lt;<arg fmt="%s" index="2">M16</arg>&gt;. The corresponding BUFG component &lt;<arg fmt="%s" index="3">sync_BUFGP/BUFG</arg>&gt; is placed at site &lt;<arg fmt="%s" index="4">BUFGMUX_X2Y4</arg>&gt;. There is only a select set of IOBs that can use the fast path to the Clocker buffer, and they are not being used. You may want to analyze why this problem exists and correct it. This is normally an ERROR but the CLOCK_DEDICATED_ROUTE constraint was applied on COMP.PIN &lt;<arg fmt="%s" index="5">sync.PAD</arg>&gt; allowing your design to continue. This constraint disables all clock placer rules related to the specified COMP.PIN. The use of this override is highly discouraged as it may lead to very poor timing results. It is recommended that this error condition be corrected in the design.
+</msg>
+
+<msg type="info" file="Pack" num="1650" delta="old" >Map created a placed design.
+</msg>
+
+<msg type="warning" file="PhysDesignRules" num="372" delta="old" >Gated clock. Clock net <arg fmt="%s" index="1">icon_control0&lt;13&gt;</arg> is sourced by a combinatorial pin. This is not good design practice. Use the CE pin to control the loading of data into the flip-flop.
+</msg>
+
+<msg type="warning" file="PhysDesignRules" num="1176" delta="old" >Issue with pin connections and/or configuration on block:&lt;<arg fmt="%s" index="1">U_ila_pro_0/U0/I_NO_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_S6.U_CS_BRAM_CASCADE_S6/I_DEPTH_LTEQ_16K.U_SBRAM_0/I_B18KGT0.G_RAMB18[2].u_ramb18/U_RAMB18</arg>&gt;:&lt;<arg fmt="%s" index="2">RAMB16BWER_RAMB16BWER</arg>&gt;.  The block is configured to use input parity pin DIBP0. There is dangling output for parity pin DOPB0.
+</msg>
+
+<msg type="warning" file="PhysDesignRules" num="1176" delta="old" >Issue with pin connections and/or configuration on block:&lt;<arg fmt="%s" index="1">U_ila_pro_0/U0/I_NO_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_S6.U_CS_BRAM_CASCADE_S6/I_DEPTH_LTEQ_16K.U_SBRAM_0/I_B18KGT0.G_RAMB18[0].u_ramb18/U_RAMB18</arg>&gt;:&lt;<arg fmt="%s" index="2">RAMB16BWER_RAMB16BWER</arg>&gt;.  The block is configured to use input parity pin DIBP0. There is dangling output for parity pin DOPB0.
+</msg>
+
+<msg type="warning" file="PhysDesignRules" num="1176" delta="old" >Issue with pin connections and/or configuration on block:&lt;<arg fmt="%s" index="1">U_ila_pro_0/U0/I_NO_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_S6.U_CS_BRAM_CASCADE_S6/I_DEPTH_LTEQ_16K.U_SBRAM_0/I_B18KGT0.G_RAMB18[3].u_ramb18/U_RAMB18</arg>&gt;:&lt;<arg fmt="%s" index="2">RAMB16BWER_RAMB16BWER</arg>&gt;.  The block is configured to use input parity pin DIBP0. There is dangling output for parity pin DOPB0.
+</msg>
+
+<msg type="warning" file="PhysDesignRules" num="1176" delta="old" >Issue with pin connections and/or configuration on block:&lt;<arg fmt="%s" index="1">U_ila_pro_0/U0/I_NO_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_S6.U_CS_BRAM_CASCADE_S6/I_DEPTH_LTEQ_16K.U_SBRAM_0/I_B18KGT0.G_RAMB18[1].u_ramb18/U_RAMB18</arg>&gt;:&lt;<arg fmt="%s" index="2">RAMB16BWER_RAMB16BWER</arg>&gt;.  The block is configured to use input parity pin DIBP0. There is dangling output for parity pin DOPB0.
+</msg>
+
+<msg type="warning" file="PhysDesignRules" num="1176" delta="old" >Issue with pin connections and/or configuration on block:&lt;<arg fmt="%s" index="1">U_ila_pro_0/U0/I_NO_D.U_ILA/U_CAPSTOR/I_CASE1.I_YES_TB.U_TRACE_BUFFER/U_RAM/I_S6.U_CS_BRAM_CASCADE_S6/I_DEPTH_LTEQ_16K.U_SBRAM_0/I_B18KGT0.G_RAMB18[4].u_ramb18/U_RAMB18</arg>&gt;:&lt;<arg fmt="%s" index="2">RAMB16BWER_RAMB16BWER</arg>&gt;.  The block is configured to use input parity pin DIBP0. There is dangling output for parity pin DOPB0.
+</msg>
+
+</messages>
+

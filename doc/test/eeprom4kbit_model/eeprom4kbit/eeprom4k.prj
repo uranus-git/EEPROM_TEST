@@ -1,0 +1,2 @@
+verilog work "ipcore_dir/clock.v"
+verilog work "../1code/eeprom4kbit.v"

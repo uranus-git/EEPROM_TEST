@@ -1,0 +1,69 @@
+//global system clock
+NET "sys_clk" 		LOC = A10 	| IOSTANDARD = LVTTL;
+//reset signal
+NET "sys_rst_n" 	LOC = T8 	| IOSTANDARD = LVTTL;
+
+
+//addr[13:4]
+NET "addr[13]" 			LOC = E12 	| IOSTANDARD = LVCMOS33;
+NET "addr[12]" 			LOC = B15 	| IOSTANDARD = LVCMOS33;
+NET "addr[11]" 			LOC = C15 	| IOSTANDARD = LVCMOS33;
+NET "addr[10]" 			LOC = D14 	| IOSTANDARD = LVCMOS33;
+NET "addr[9]" 				LOC = E15 	| IOSTANDARD = LVCMOS33;
+NET "addr[8]" 				LOC = F15 	| IOSTANDARD = LVCMOS33;
+NET "addr[7]" 				LOC = G11 	| IOSTANDARD = LVCMOS33;
+NET "addr[6]" 				LOC = F14 	| IOSTANDARD = LVCMOS33;
+NET "addr[5]" 				LOC = G16 	| IOSTANDARD = LVCMOS33;
+NET "addr[4]" 				LOC = H15 	| IOSTANDARD = LVCMOS33;
+
+//data_in[15:0]
+NET "data_in[15]" 		LOC = G12 	| IOSTANDARD = LVCMOS33;
+NET "data_in[14]" 		LOC = H13 	| IOSTANDARD = LVCMOS33;
+NET "data_in[13]" 		LOC = J14 	| IOSTANDARD = LVCMOS33;
+NET "data_in[12]" 		LOC = J11 	| IOSTANDARD = LVCMOS33;
+NET "data_in[11]" 		LOC = K14 	| IOSTANDARD = LVCMOS33;
+NET "data_in[10]" 		LOC = K15 	| IOSTANDARD = LVCMOS33;
+NET "data_in[9]" 			LOC = L16 	| IOSTANDARD = LVCMOS33;
+NET "data_in[8]" 			LOC = K11 	| IOSTANDARD = LVCMOS33;
+NET "data_in[7]" 			LOC = M15 	| IOSTANDARD = LVCMOS33;
+NET "data_in[6]" 			LOC = N14 	| IOSTANDARD = LVCMOS33;
+NET "data_in[5]" 			LOC = M13 	| IOSTANDARD = LVCMOS33;
+NET "data_in[4]" 			LOC = L12 	| IOSTANDARD = LVCMOS33;
+NET "data_in[3]" 			LOC = P15 	| IOSTANDARD = LVCMOS33;
+NET "data_in[2]" 			LOC = R15 	| IOSTANDARD = LVCMOS33;
+NET "data_in[1]" 			LOC = R14 	| IOSTANDARD = LVCMOS33;
+NET "data_in[0]" 			LOC = T13 	| IOSTANDARD = LVCMOS33;
+
+//dout[15:0]
+NET "dout[15]" 			LOC = E13 	| IOSTANDARD = LVCMOS33;
+NET "dout[14]" 			LOC = B16 	| IOSTANDARD = LVCMOS33;
+NET "dout[13]" 			LOC = C16 	| IOSTANDARD = LVCMOS33;
+NET "dout[12]" 			LOC = D16 	| IOSTANDARD = LVCMOS33;
+NET "dout[11]" 			LOC = E16 	| IOSTANDARD = LVCMOS33;
+NET "dout[10]" 			LOC = F16 	| IOSTANDARD = LVCMOS33;
+NET "dout[9]" 				LOC = F12 	| IOSTANDARD = LVCMOS33;
+NET "dout[8]" 				LOC = F13 	| IOSTANDARD = LVCMOS33;
+NET "dout[7]" 				LOC = G14 	| IOSTANDARD = LVCMOS33;
+NET "dout[6]" 				LOC = H16 	| IOSTANDARD = LVCMOS33;
+NET "dout[5]" 				LOC = H11 	| IOSTANDARD = LVCMOS33;
+NET "dout[4]" 				LOC = H14 	| IOSTANDARD = LVCMOS33;
+NET "dout[3]" 				LOC = J16 	| IOSTANDARD = LVCMOS33;
+NET "dout[2]" 				LOC = J12 	| IOSTANDARD = LVCMOS33;
+NET "dout[1]" 				LOC = J13 	| IOSTANDARD = LVCMOS33;
+NET "dout[0]" 				LOC = K16 	| IOSTANDARD = LVCMOS33;
+
+// scalar port
+NET "pgm" 					LOC = L14 	| IOSTANDARD = LVCMOS33;
+NET "erase" 				LOC = K12 	| IOSTANDARD = LVCMOS33;
+NET "sync" 					LOC = M16	| IOSTANDARD = LVCMOS33;
+NET "bufrst" 				LOC = N16  	| IOSTANDARD = LVCMOS33;
+NET "loaden" 				LOC = M14 	| IOSTANDARD = LVCMOS33;
+NET "clk"               LOC = L13 	| IOSTANDARD = LVCMOS33;
+NET "clk_out"           LOC = P16 	| IOSTANDARD = LVCMOS33;
+NET "read"					LOC = R16 	| IOSTANDARD = LVCMOS33;
+
+
+NET "pgm" CLOCK_DEDICATED_ROUTE = FALSE; 
+NET "sync" CLOCK_DEDICATED_ROUTE = FALSE; 
+PIN "pgm_BUFGP/BUFG.O" CLOCK_DEDICATED_ROUTE = FALSE;
+PIN "sync_BUFGP/BUFG.O" CLOCK_DEDICATED_ROUTE = FALSE;
