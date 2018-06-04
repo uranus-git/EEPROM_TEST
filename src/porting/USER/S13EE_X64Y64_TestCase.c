@@ -446,7 +446,7 @@ static void EEP_T9(S13EE *s13ee)
 
         if(S13EE_SUCCESS != (ret = s13ee->write((uint8_t)addr, &wdata, 1)))
             goto EEP_T8_ERR;
-
+    
         if(S13EE_SUCCESS!= (ret = s13ee->read((uint8_t)addr, &rdata, 1)))
                 goto EEP_T8_ERR;
 
