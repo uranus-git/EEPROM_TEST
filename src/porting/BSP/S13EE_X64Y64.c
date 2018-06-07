@@ -6,7 +6,7 @@
 #include <main.h>
 #include <stdio.h>
 
-#define DEVELOP_BOARD
+//#define DEVELOP_BOARD
 //#ifndef ENABLE
 //#define ENABLE 1
 //#endif
@@ -754,3 +754,23 @@ S13EE_STATUS S13EE_UNINIT (S13EE * pS13EE)
     return S13EE_SUCCESS;
 }
 
+void gpio_test(void)
+{
+    GPIO_InitTypeDef  GPIO_InitStructure;
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
+	GPIO_Init(GPIOC, &GPIO_InitStructure);
+    GPIO_SetBits(GPIOC, GPIO_Pin_6);
+    GPIO_ResetBits(GPIOC, GPIO_Pin_6);
+    while(1);
+}
+void uart3_test(void)
+{
+    while(1)
+    {
+    USART_SendData(USART3, 'h');
+    nsDelay(100000000);
+    }
+}
