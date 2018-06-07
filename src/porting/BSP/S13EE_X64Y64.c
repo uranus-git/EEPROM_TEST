@@ -757,19 +757,15 @@ S13EE_STATUS S13EE_UNINIT (S13EE * pS13EE)
 void gpio_test(void)
 {
     GPIO_InitTypeDef  GPIO_InitStructure;
-	/* HADDR & LADDR */
 	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
-
     GPIO_SetBits(GPIOC, GPIO_Pin_6);
     GPIO_ResetBits(GPIOC, GPIO_Pin_6);
-
     while(1);
 }
-
 void uart3_test(void)
 {
     while(1)
