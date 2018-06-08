@@ -2519,7 +2519,7 @@ always @(posedge pgm or negedge nerase_decode_wire[199]) begin
   if(~nerase_decode_wire[199])
     mem32x16[199] <= 16'h0000;
   else
-    mem32x16[199] <= pgm_decode_wire[71] ? buf_reg[3] : mem32x16[199];
+    mem32x16[199] <= pgm_decode_wire[199] ? buf_reg[3] : mem32x16[199];
 end
 
 
@@ -2713,7 +2713,7 @@ always @(posedge pgm or negedge nerase_decode_wire[225]) begin
   if(~nerase_decode_wire[225])
     mem32x16[225] <= 16'h0000;
   else
-    mem32x16[225] <= pgm_decode_wire[255] ? buf_reg[1] : mem32x16[225];
+    mem32x16[225] <= pgm_decode_wire[225] ? buf_reg[1] : mem32x16[225];
 end
 
 always @(posedge pgm or negedge nerase_decode_wire[226]) begin

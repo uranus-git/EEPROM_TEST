@@ -35,3 +35,15 @@ map -intstyle ise -p xc6slx16-ftg256-2 -w -logic_opt off -ol high -t 1 -xt 0 -re
 par -w -intstyle ise -ol high -mt off eeprom4k_map.ncd eeprom4k.ncd eeprom4k.pcf 
 trce -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml eeprom4k.twx eeprom4k.ncd -o eeprom4k.twr eeprom4k.pcf 
 bitgen -intstyle ise -f eeprom4k.ut eeprom4k.ncd 
+xst -intstyle ise -ifn "D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit/eeprom4k.xst" -ofn "D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit/eeprom4k.syr" 
+ngdbuild -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/1code/eeprom4kbit.ucf -p xc6slx16-ftg256-2 eeprom4k_cs.ngc eeprom4k.ngd  
+map -intstyle ise -p xc6slx16-ftg256-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o eeprom4k_map.ncd eeprom4k.ngd eeprom4k.pcf 
+par -w -intstyle ise -ol high -mt off eeprom4k_map.ncd eeprom4k.ncd eeprom4k.pcf 
+trce -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml eeprom4k.twx eeprom4k.ncd -o eeprom4k.twr eeprom4k.pcf 
+bitgen -intstyle ise -f eeprom4k.ut eeprom4k.ncd 
+xst -intstyle ise -ifn "D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit/eeprom4k.xst" -ofn "D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit/eeprom4k.syr" 
+ngdbuild -intstyle ise -dd _ngo -sd ipcore_dir -nt timestamp -uc D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/1code/eeprom4kbit.ucf -p xc6slx16-ftg256-2 eeprom4k_cs.ngc eeprom4k.ngd  
+map -intstyle ise -p xc6slx16-ftg256-2 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o eeprom4k_map.ncd eeprom4k.ngd eeprom4k.pcf 
+par -w -intstyle ise -ol high -mt off eeprom4k_map.ncd eeprom4k.ncd eeprom4k.pcf 
+trce -intstyle ise -v 3 -s 2 -n 3 -fastpaths -xml eeprom4k.twx eeprom4k.ncd -o eeprom4k.twr eeprom4k.pcf 
+bitgen -intstyle ise -f eeprom4k.ut eeprom4k.ncd 

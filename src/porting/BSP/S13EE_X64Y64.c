@@ -552,8 +552,8 @@ static S13EE_STATUS _chipErase (void)
     S13EE_STATUS result;
     uint16_t u16Arry[4] = {0xffff, 0xffff, 0xffff, 0xffff};
 
-    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, u16Arry, 4)))
-        return result;
+//    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, u16Arry, 4)))
+//        return result;
 
     pinValueInit(&testModeWrErasePinValueList);
 
