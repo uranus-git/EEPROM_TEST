@@ -3,8 +3,10 @@
 #include <math.h>
 #include "stm32f4xx_gpio.h"
 #include "stm32f4xx_rcc.h"
+#include "usart1.H"
 #include <main.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 //#define DEVELOP_BOARD
 //#ifndef ENABLE
@@ -125,38 +127,38 @@ static void nsDelay(uint32_t nsDelay);
 static void nsDelay_141_24(int32_t nsDelay);
 
 /* Buffer Reset and Data Loading Timing */
-static S13EE_DELAY tw_b     = {"tw_b", 		200, 200, nsDelay_141_24};
-static S13EE_DELAY tsu_bx   = {"tsu_bx", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY tw_b     = {"tw_b   ", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY tsu_bx   = {"tsu_bx ", 	200, 200, nsDelay_141_24};
 static S13EE_DELAY tdsu_xs  = {"tdsu_xs", 	200, 200, nsDelay_141_24};
-static S13EE_DELAY tdh_xs   = {"tdh_xs", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY tdh_xs   = {"tdh_xs ", 	200, 200, nsDelay_141_24};
 static S13EE_DELAY tdsu_as  = {"tdsu_as", 	200, 200, nsDelay_141_24};
-static S13EE_DELAY tdh_as   = {"tdh_as", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY tdh_as   = {"tdh_as ", 	200, 200, nsDelay_141_24};
 static S13EE_DELAY tdsu_ds  = {"tdsu_ds", 	200, 200, nsDelay_141_24};
-static S13EE_DELAY tdh_ds   = {"tdh_ds", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY tdh_ds   = {"tdh_ds ", 	200, 200, nsDelay_141_24};
 static S13EE_DELAY tdw_s_h  = {"tdw_s_h", 	200, 200, nsDelay_141_24};
 static S13EE_DELAY tdw_s_l  = {"tdw_s_l", 	200, 200, nsDelay_141_24};
 static S13EE_DELAY tdcyc_s  = {"tdcyc_s", 	400, 400, nsDelay_141_24};
 /* Write-Erase and Program-Timing */
-static S13EE_DELAY tsu_ae   = {"tsu_ae", 	200, 200, nsDelay_141_24};
-static S13EE_DELAY tsu_ew   = {"tsu_ew", 	200000, 200000, nsDelay_141_24};
-static S13EE_DELAY th_aw    = {"th_aw", 	100000, 100000, nsDelay_141_24};
-static S13EE_DELAY tw_e     = {"tw_e", 		2400000, 2400000, nsDelay_141_24};
-static S13EE_DELAY tw_w     = {"tw_w", 		2400000, 2400000, nsDelay_141_24};
-static S13EE_DELAY tw_c_l   = {"tw_c_l", 	260, 260, nsDelay_141_24};
-static S13EE_DELAY tw_c_h   = {"tw_c_h", 	260, 260, nsDelay_141_24};
-static S13EE_DELAY tcyc_c   = {"tcyc_c", 	520, 520, nsDelay_141_24};
-static S13EE_DELAY tsu_c    = {"tsu_c", 	200, 200, nsDelay_141_24};
-static S13EE_DELAY th_c     = {"th_c", 		200, 200, nsDelay_141_24};
+static S13EE_DELAY tsu_ae   = {"tsu_ae ", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY tsu_ew   = {"tsu_ew ", 	200000, 200000, nsDelay_141_24};
+static S13EE_DELAY th_aw    = {"th_aw  ", 	100000, 100000, nsDelay_141_24};
+static S13EE_DELAY tw_e     = {"tw_e   ", 	2400000, 2400000, nsDelay_141_24};
+static S13EE_DELAY tw_w     = {"tw_w   ", 	2400000, 2400000, nsDelay_141_24};
+static S13EE_DELAY tw_c_l   = {"tw_c_l ", 	260, 260, nsDelay_141_24};
+static S13EE_DELAY tw_c_h   = {"tw_c_h ", 	260, 260, nsDelay_141_24};
+static S13EE_DELAY tcyc_c   = {"tcyc_c ", 	520, 520, nsDelay_141_24};
+static S13EE_DELAY tsu_c    = {"tsu_c  ", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY th_c     = {"th_c   ", 	200, 200, nsDelay_141_24};
 /* Read Timing */
-static S13EE_DELAY tsu_wr   = {"tsu_wr", 	200000, 200000, nsDelay_141_24};
-static S13EE_DELAY tsu_rs   = {"tsu_rs", 	200, 200, nsDelay_141_24};
-static S13EE_DELAY th_rs    = {"th_rs", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY tsu_wr   = {"tsu_wr ", 	200000, 200000, nsDelay_141_24};
+static S13EE_DELAY tsu_rs   = {"tsu_rs ", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY th_rs    = {"th_rs  ", 	200, 200, nsDelay_141_24};
 static S13EE_DELAY trw_s_h  = {"trw_s_h", 	750, 750, nsDelay_141_24};
 static S13EE_DELAY trw_s_l  = {"trw_s_l", 	750, 750, nsDelay_141_24};
 static S13EE_DELAY trcyc_s  = {"trcyc_s", 	1500, 1500, nsDelay_141_24};
-static S13EE_DELAY tsac     = {"tsac", 		150, 150, nsDelay_141_24};
+static S13EE_DELAY tsac     = {"tsac   ", 	150, 150, nsDelay_141_24};
 static S13EE_DELAY trsu_as  = {"trsu_as", 	200, 200, nsDelay_141_24};
-static S13EE_DELAY trh_as   = {"trh_as", 	200, 200, nsDelay_141_24};
+static S13EE_DELAY trh_as   = {"trh_as ", 	200, 200, nsDelay_141_24};
 
 static const char *_errToString(S13EE_STATUS result)
 {
@@ -171,7 +173,7 @@ static const char *_errToString(S13EE_STATUS result)
     }
 }
 
-static const S13EE_DELAY* s13eeDelayArray[] =
+static S13EE_DELAY * const s13eeDelayArray[] =
 {
     /* Buffer Reset and Data Loading Timing */
     &tw_b,	&tsu_bx,&tdsu_xs,	&tdh_xs,	&tdsu_as,	&tdh_as,	&tdsu_ds,	&tdh_ds,	&tdw_s_h,	&tdw_s_l,	&tdcyc_s,
@@ -226,23 +228,21 @@ static void testDelay(void)
         test_time.delayFunc(test_time.parameter);
     }
 }
-#if 0
+#if 1
 void delayManage(void)
 {
     uint32_t index = 0;
-    uint32_t size = sizeof(s13eeDelayArray) / sizeof(s13eeDelayArray[0]);
-    uint8_t buffer[128];
-    uint32_t len;
-    uint32_t nsDelayCount;
+    int32_t size = sizeof(s13eeDelayArray) / sizeof(s13eeDelayArray[0]);
+    uint8_t *p;
+    int32_t nsDelayCount;
 
     while(index < size)
     {
-        printf("%s - %8d(ns) :", s13eeDelayArray[index]->name, s13eeDelayArray[index]->nsDelay);
-        memset(buffer, 0, sizeof(buffer));
-        len = scanf("%s",buffer);
-        if(len > 2)
+        S13EE_PRINTF("%s - %8d(ns) :", s13eeDelayArray[index]->name, s13eeDelayArray[index]->nsDelay);
+        p = S13EE_GETLINE;
+        nsDelayCount = atoi(p);
+        if(nsDelayCount > 0)
         {
-            nsDelayCount = atoi(buffer);
             s13eeDelayArray[index]->nsDelay = nsDelayCount;
         }
         index++;

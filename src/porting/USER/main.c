@@ -323,8 +323,6 @@ int main(void)
 {
     S13EE s13ee;
 
-    gpio_test();
-
 	bsp_init();
 
     S13EE_INIT (&s13ee);
