@@ -40,7 +40,7 @@ reg			[ 15:0]		buf_reg[3:0]; //buffer寄存�,
 												  //addr[5:4] = 3'b11, data_in 存入buf_reg[3]
 
 reg			[ 3:0]		buf_en_flag_reg; // buffer 标志
-reg			[15:0]		mem32x16[0:256]; //ram 数据寄存�
+reg			[15:0]		mem32x16[0:255]; //ram 数据寄存�
 wire							nbufrst_wire;
 
 reg			[255:0]		word_decode_wire;

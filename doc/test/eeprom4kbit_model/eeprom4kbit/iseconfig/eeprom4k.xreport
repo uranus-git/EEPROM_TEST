@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2018-06-08T21:47:19</DateModified>
+  <DateModified>2018-06-09T10:37:14</DateModified>
   <ModuleName>eeprom4k</ModuleName>
   <SummaryTimeStamp>2018-04-25T13:22:03</SummaryTimeStamp>
-  <SavedFilePath>D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit/iseconfig/eeprom4k.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit\</ImplementationReportsDirectory>
+  <SavedFilePath>D:/test/eeprom4kbit_model/eeprom4kbit/iseconfig/eeprom4k.xreport</SavedFilePath>
+  <ImplementationReportsDirectory>D:/test/eeprom4kbit_model/eeprom4kbit\</ImplementationReportsDirectory>
   <DateInitialized>2018-04-25T10:53:29</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>

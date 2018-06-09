@@ -1,7 +1,7 @@
 Release 14.7 Drc P.20131013 (nt64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-Fri Jun 08 23:00:55 2018
+Sat Jun 09 10:39:27 2018
 
 drc -z eeprom4k.ncd eeprom4k.pcf
 

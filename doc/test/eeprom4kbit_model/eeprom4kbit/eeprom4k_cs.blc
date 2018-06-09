@@ -1,16 +1,12 @@
 Release 14.7 ngcbuild P.20131013 (nt64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-Command Line: ngcbuild.exe -dd
-D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit/_ngo -sd
+Command Line: ngcbuild.exe -dd D:/test/eeprom4kbit_model/eeprom4kbit/_ngo -sd
 ipcore_dir -p xc6slx16-ftg256-2 -i
-D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\eeprom4k.ngc
-D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\eeprom4k_cs.ng
-c
+D:\test\eeprom4kbit_model\eeprom4kbit\eeprom4k.ngc
+D:\test\eeprom4kbit_model\eeprom4kbit\eeprom4k_cs.ngc
 
-Reading NGO file
-"D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit/eeprom4k.ngc"
-...
+Reading NGO file "D:/test/eeprom4kbit_model/eeprom4kbit/eeprom4k.ngc" ...
 
 Partition Implementation Status
 -------------------------------
@@ -23,14 +19,11 @@ NGCBUILD Design Results Summary:
   Number of errors:     0
   Number of warnings:   0
 
-Total memory usage is 167636 kilobytes
+Total memory usage is 164256 kilobytes
 
-Writing NGC file
-"D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit/eeprom4k_cs.n
-gc" ...
-Total REAL time to NGCBUILD completion:  3 sec
-Total CPU time to NGCBUILD completion:   3 sec
+Writing NGC file "D:/test/eeprom4kbit_model/eeprom4kbit/eeprom4k_cs.ngc" ...
+Total REAL time to NGCBUILD completion:  2 sec
+Total CPU time to NGCBUILD completion:   2 sec
 
 Writing NGCBUILD log file
-"D:/work/myproj/EEPROM_TEST/doc/test/eeprom4kbit_model/eeprom4kbit/eeprom4k_cs.b
-lc"...
+"D:/test/eeprom4kbit_model/eeprom4kbit/eeprom4k_cs.blc"...

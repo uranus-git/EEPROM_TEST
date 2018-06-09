@@ -1,8 +1,8 @@
 INTSTYLE=ise
-INFILE=D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\eeprom4k.ncd
-OUTFILE=D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\eeprom4k.bit
+INFILE=D:\test\eeprom4kbit_model\eeprom4kbit\eeprom4k.ncd
+OUTFILE=D:\test\eeprom4kbit_model\eeprom4kbit\eeprom4k.bit
 FAMILY=Spartan6
 PART=xc6slx16-2ftg256
-WORKINGDIR=D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit
+WORKINGDIR=D:\test\eeprom4kbit_model\eeprom4kbit
 LICENSE=WebPack
-USER_INFO=__0_0_0
+USER_INFO=135256_15690819_173552794_661

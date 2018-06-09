@@ -1,14 +1,14 @@
 Release 14.7 par P.20131013 (nt64)
 Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
-E5J6XF0UDO4NO56::  Fri Jun 08 22:59:09 2018
+SKYLARK-PC::  Sat Jun 09 10:38:39 2018
 
 par -w -intstyle ise -ol high -mt off eeprom4k_map.ncd eeprom4k.ncd
 eeprom4k.pcf 
 
 
 Constraints file: eeprom4k.pcf.
-Loading device for application Rf_Device from file '6slx16.nph' in environment d:\Xilinx\14.7\ISE_DS\ISE\.
+Loading device for application Rf_Device from file '6slx16.nph' in environment e:\Xilinx\14.7\ISE_DS\ISE\.
    "eeprom4k" is an NCD, version 3.2, device xc6slx16, package ftg256, speed -2
 
 Initializing temperature to 85.000 Celsius. (default - Range: 0.000 to 85.000 Celsius)
@@ -101,35 +101,35 @@ Specific Feature Utilization:
 Overall effort level (-ol):   High 
 Router effort level (-rl):    High 
 
-Starting initial Timing Analysis.  REAL time: 8 secs 
-Finished initial Timing Analysis.  REAL time: 8 secs 
+Starting initial Timing Analysis.  REAL time: 3 secs 
+Finished initial Timing Analysis.  REAL time: 3 secs 
 
 Starting Router
 
 
-Phase  1  : 19894 unrouted;      REAL time: 8 secs 
+Phase  1  : 19894 unrouted;      REAL time: 4 secs 
 
-Phase  2  : 17581 unrouted;      REAL time: 9 secs 
+Phase  2  : 17581 unrouted;      REAL time: 4 secs 
 
-Phase  3  : 7411 unrouted;      REAL time: 54 secs 
+Phase  3  : 7411 unrouted;      REAL time: 24 secs 
 
-Phase  4  : 7411 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 55 secs 
+Phase  4  : 7411 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 25 secs 
 
 Updating file: eeprom4k.ncd with current fully routed design.
 
-Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 21 secs 
+Phase  5  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 36 secs 
 
-Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 21 secs 
+Phase  6  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 36 secs 
 
-Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 21 secs 
+Phase  7  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 36 secs 
 
-Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 21 secs 
+Phase  8  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 36 secs 
 
-Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 21 secs 
+Phase  9  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 36 secs 
 
-Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 1 mins 22 secs 
-Total REAL time to Router completion: 1 mins 22 secs 
-Total CPU time to Router completion: 1 mins 21 secs 
+Phase 10  : 0 unrouted; (Setup:0, Hold:0, Component Switching Limit:0)     REAL time: 36 secs 
+Total REAL time to Router completion: 36 secs 
+Total CPU time to Router completion: 36 secs 
 
 Partition Implementation Status
 -------------------------------
@@ -215,10 +215,10 @@ Generating Pad Report.
 
 All signals are completely routed.
 
-Total REAL time to PAR completion: 1 mins 23 secs 
-Total CPU time to PAR completion: 1 mins 22 secs 
+Total REAL time to PAR completion: 37 secs 
+Total CPU time to PAR completion: 36 secs 
 
-Peak Memory Usage:  456 MB
+Peak Memory Usage:  548 MB
 
 Placer: Placement generated during map.
 Routing: Completed - No errors found.

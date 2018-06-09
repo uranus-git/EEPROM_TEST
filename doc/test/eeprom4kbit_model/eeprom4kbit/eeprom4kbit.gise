@@ -67,17 +67,74 @@
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="eeprom4k_par.xrpt"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="eeprom4k_summary.html"/>
     <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="eeprom4k_summary.xml"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_MODELSIM_CMD" xil_pn:name="eeprom4k_top.fdo"/>
+    <file xil_pn:branch="PostRouteSimulation" xil_pn:fileType="FILE_MODELSIM_CMD" xil_pn:name="eeprom4k_top.tdo"/>
+    <file xil_pn:branch="Implementation" xil_pn:fileType="FILE_XST_PROJECT" xil_pn:name="eeprom4k_top_beh.prj"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_ISIM_EXE" xil_pn:name="eeprom4k_top_isim_beh.exe"/>
+    <file xil_pn:fileType="FILE_ISIM_MISC" xil_pn:name="eeprom4k_top_isim_beh.wdb"/>
     <file xil_pn:fileType="FILE_WEBTALK" xil_pn:name="eeprom4k_usage.xml"/>
     <file xil_pn:fileType="FILE_XRPT" xil_pn:name="eeprom4k_xst.xrpt"/>
+    <file xil_pn:fileType="FILE_LOG" xil_pn:name="fuse.log"/>
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="ipcore_dir/coregen.log"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="isim"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_CMD" xil_pn:name="isim.cmd"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_LOG" xil_pn:name="isim.log"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="netgen"/>
+    <file xil_pn:branch="PostRouteSimulation" xil_pn:fileType="FILE_NETGEN_REPORT" xil_pn:name="netgen/par/eeprom4k_timesim.nlf"/>
+    <file xil_pn:branch="PostRouteSimulation" xil_pn:fileType="FILE_SDF" xil_pn:name="netgen/par/eeprom4k_timesim.sdf"/>
+    <file xil_pn:branch="PostRouteSimulation" xil_pn:fileType="FILE_VERILOG" xil_pn:name="netgen/par/eeprom4k_timesim.v"/>
     <file xil_pn:fileType="FILE_HTML" xil_pn:name="usage_statistics_webtalk.html"/>
+    <file xil_pn:fileType="FILE_MODELSIM_LOG" xil_pn:name="vsim.wlf">
+      <branch xil_pn:name="BehavioralSim"/>
+      <branch xil_pn:name="PostRouteSimulation"/>
+    </file>
     <file xil_pn:fileType="FILE_LOG" xil_pn:name="webtalk.log"/>
     <file xil_pn:fileType="FILE_FITTER_REPORT" xil_pn:name="webtalk_pn.xml"/>
+    <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="work"/>
+    <file xil_pn:branch="BehavioralSim" xil_pn:fileType="FILE_INI" xil_pn:name="xilinxsim.ini"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xlnx_auto_0_xdb"/>
     <file xil_pn:fileType="FILE_DIRECTORY" xil_pn:name="xst"/>
   </files>
 
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
+    <transform xil_pn:end_ts="1528507285" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1528507285">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1528511587" xil_pn:in_ck="-8206383431547160493" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1528511587">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="../1code/eeprom4k_top.v"/>
+      <outfile xil_pn:name="../1code/eeprom4kbit.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1528507285" xil_pn:name="TRAN_xawsToSimhdl" xil_pn:prop_ck="-8821991948489557200" xil_pn:start_ts="1528507285">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1528507285" xil_pn:name="TRAN_schematicsToHdlSim" xil_pn:prop_ck="1686637474930422510" xil_pn:start_ts="1528507285">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+    </transform>
+    <transform xil_pn:end_ts="1528507285" xil_pn:in_ck="-5111984416595381261" xil_pn:name="TRAN_regenerateCoresSim" xil_pn:prop_ck="-1348106124534651726" xil_pn:start_ts="1528507285">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="ipcore_dir/clock.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1528511587" xil_pn:in_ck="-8206383431547160493" xil_pn:name="TRAN_copyPostAbstractToPreSimulation" xil_pn:start_ts="1528511587">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="../1code/eeprom4k_top.v"/>
+      <outfile xil_pn:name="../1code/eeprom4kbit.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1528511588" xil_pn:in_ck="-7704271279343443566" xil_pn:name="TRAN_MSimulateBehavioralModel" xil_pn:prop_ck="5418583846023243621" xil_pn:start_ts="1528511587">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
+      <outfile xil_pn:name="eeprom4k_top.fdo"/>
+      <outfile xil_pn:name="vsim.wlf"/>
+      <outfile xil_pn:name="work"/>
+    </transform>
     <transform xil_pn:end_ts="1524627090" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1524627090">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -107,7 +164,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1528469898" xil_pn:in_ck="-4103065492807798097" xil_pn:name="TRANEXT_xstsynthesize_spartan6" xil_pn:prop_ck="-3124593483231081535" xil_pn:start_ts="1528469847">
+    <transform xil_pn:end_ts="1528511880" xil_pn:in_ck="-4103065492807798097" xil_pn:name="TRANEXT_xstsynthesize_spartan6" xil_pn:prop_ck="-3124593483231081535" xil_pn:start_ts="1528511844">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -121,6 +178,7 @@
       <outfile xil_pn:name="eeprom4k.stx"/>
       <outfile xil_pn:name="eeprom4k.syr"/>
       <outfile xil_pn:name="eeprom4k.xst"/>
+      <outfile xil_pn:name="eeprom4k_top_beh.prj"/>
       <outfile xil_pn:name="eeprom4k_xst.xrpt"/>
       <outfile xil_pn:name="webtalk_pn.xml"/>
       <outfile xil_pn:name="xst"/>
@@ -129,7 +187,7 @@
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
     </transform>
-    <transform xil_pn:end_ts="1528469917" xil_pn:in_ck="7370278478649670565" xil_pn:name="TRANEXT_ngdbuild_FPGA" xil_pn:prop_ck="4052545384779089619" xil_pn:start_ts="1528469898">
+    <transform xil_pn:end_ts="1528511897" xil_pn:in_ck="7370278478649670565" xil_pn:name="TRANEXT_ngdbuild_FPGA" xil_pn:prop_ck="4052545384779089619" xil_pn:start_ts="1528511880">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="_ngo"/>
@@ -140,7 +198,7 @@
       <outfile xil_pn:name="eeprom4k_cs.ngc"/>
       <outfile xil_pn:name="eeprom4k_ngdbuild.xrpt"/>
     </transform>
-    <transform xil_pn:end_ts="1528469947" xil_pn:in_ck="493132497785056582" xil_pn:name="TRANEXT_map_spartan6" xil_pn:prop_ck="170182801565208134" xil_pn:start_ts="1528469917">
+    <transform xil_pn:end_ts="1528511918" xil_pn:in_ck="493132497785056582" xil_pn:name="TRANEXT_map_spartan6" xil_pn:prop_ck="170182801565208134" xil_pn:start_ts="1528511897">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -156,7 +214,7 @@
       <outfile xil_pn:name="eeprom4k_summary.xml"/>
       <outfile xil_pn:name="eeprom4k_usage.xml"/>
     </transform>
-    <transform xil_pn:end_ts="1528470047" xil_pn:in_ck="-942460975034667169" xil_pn:name="TRANEXT_par_spartan6" xil_pn:prop_ck="-1178055513630676559" xil_pn:start_ts="1528469947">
+    <transform xil_pn:end_ts="1528511964" xil_pn:in_ck="-942460975034667169" xil_pn:name="TRANEXT_par_spartan6" xil_pn:prop_ck="-1178055513630676559" xil_pn:start_ts="1528511918">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="_xmsgs/par.xmsgs"/>
@@ -170,7 +228,7 @@
       <outfile xil_pn:name="eeprom4k_pad.txt"/>
       <outfile xil_pn:name="eeprom4k_par.xrpt"/>
     </transform>
-    <transform xil_pn:end_ts="1528470086" xil_pn:in_ck="5264805525814505386" xil_pn:name="TRANEXT_bitFile_spartan6" xil_pn:prop_ck="5341574683187206424" xil_pn:start_ts="1528470047">
+    <transform xil_pn:end_ts="1528511976" xil_pn:in_ck="5264805525814505386" xil_pn:name="TRANEXT_bitFile_spartan6" xil_pn:prop_ck="5341574683187206424" xil_pn:start_ts="1528511964">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="WarningsGenerated"/>
       <status xil_pn:value="ReadyToRun"/>
@@ -186,8 +244,34 @@
     <transform xil_pn:end_ts="1528470315" xil_pn:in_ck="5264805525814492532" xil_pn:name="TRAN_analyzeDesignUsingChipscope" xil_pn:prop_ck="4052545384779089619" xil_pn:start_ts="1528470315">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="InputChanged"/>
     </transform>
-    <transform xil_pn:end_ts="1528470047" xil_pn:in_ck="493132497785056450" xil_pn:name="TRAN_postRouteTrce" xil_pn:prop_ck="445577401284416184" xil_pn:start_ts="1528470035">
+    <transform xil_pn:end_ts="1528512089" xil_pn:in_ck="5264805525814505386" xil_pn:name="TRAN_postParSimModel" xil_pn:prop_ck="-7274902080888511997" xil_pn:start_ts="1528512070">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="netgen"/>
+      <outfile xil_pn:name="netgen/par/eeprom4k_timesim.nlf"/>
+      <outfile xil_pn:name="netgen/par/eeprom4k_timesim.sdf"/>
+      <outfile xil_pn:name="netgen/par/eeprom4k_timesim.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1528512089" xil_pn:in_ck="-626785325386558382" xil_pn:name="TRAN_copyPost-ParAbstractToPreSimulation" xil_pn:start_ts="1528512089">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <outfile xil_pn:name="../1code/eeprom4k_top.v"/>
+      <outfile xil_pn:name="netgen/par/eeprom4k_timesim.sdf"/>
+      <outfile xil_pn:name="netgen/par/eeprom4k_timesim.v"/>
+    </transform>
+    <transform xil_pn:end_ts="1528512091" xil_pn:in_ck="4740573507132054791" xil_pn:name="TRAN_MSimulatePostPlace&amp;RouteModel" xil_pn:prop_ck="4272119007609337353" xil_pn:start_ts="1528512089">
+      <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="OutputChanged"/>
+      <outfile xil_pn:name="eeprom4k_top.tdo"/>
+      <outfile xil_pn:name="vsim.wlf"/>
+      <outfile xil_pn:name="work"/>
+    </transform>
+    <transform xil_pn:end_ts="1528511964" xil_pn:in_ck="493132497785056450" xil_pn:name="TRAN_postRouteTrce" xil_pn:prop_ck="445577401284416184" xil_pn:start_ts="1528511959">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
       <outfile xil_pn:name="_xmsgs/trce.xmsgs"/>
