@@ -237,6 +237,7 @@ static void testDelay(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 
+#if 0
     while(1)
     {
         SIGNAL_BUFRST(1);
@@ -244,6 +245,7 @@ static void testDelay(void)
         SIGNAL_BUFRST(0);
         test_time.delayFunc(test_time.parameter);
     }
+#endif
 }
 
 void delayManage(void)
@@ -591,7 +593,7 @@ static S13EE_STATUS _chipErase (void)
     SIGNAL_ERASE(1);
     tw_e.delayFunc(tw_e.parameter);
     SIGNAL_ERASE(0);
-#if 0
+#if 1
     tsu_ew.delayFunc(tsu_ew.parameter);
     SIGNAL_PGM(1);
     tw_w.delayFunc(tw_w.parameter);
@@ -804,6 +806,10 @@ S13EE * S13EE_INIT (S13EE * pS13EE)
     clkInit(0);
 
 //    testDelay();
+    //extern void gpio_test(void);
+
+    //gpio_test();
+
 
     return pS13EE;
 }
@@ -813,16 +819,24 @@ S13EE_STATUS S13EE_UNINIT (S13EE * pS13EE)
     return S13EE_SUCCESS;
 }
 
+static const S13EE_OPIN_VALUE_LIST testPinValueList =
+{
+
+    .loaden = 0,
+    .bufrst = 1,
+    .din = 0,
+    .clk = 0,
+    .haddr = 0,
+    .erase = 0,
+    .read = 0,
+    .pgm = 0,
+    .sync = 0,
+    .laddr = 0
+};
+
 void gpio_test(void)
 {
-    GPIO_InitTypeDef  GPIO_InitStructure;
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-	GPIO_Init(GPIOC, &GPIO_InitStructure);
-    GPIO_SetBits(GPIOC, GPIO_Pin_6);
-    GPIO_ResetBits(GPIOC, GPIO_Pin_6);
+    pinValueInit(&testPinValueList);
     while(1);
 }
 

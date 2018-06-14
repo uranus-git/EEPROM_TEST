@@ -40,6 +40,7 @@ enum
     EEP_TEST31,
     EEP_TEST32,
     EEP_TEST33,
+    EEP_TEST34,
     EEP_EXIT = 99
 };
 
@@ -76,7 +77,7 @@ static void printbuffer (uint16_t *u16Buffer, uint32_t count)
 static void EEP_InitWakeUp(S13EE *s13ee)
 {
     uint16_t count = 0, index, addr = 0;
-    static uint16_t writeBuffer[4] = {0x5A5A, 0xA5A5, 0x0000, 0xFFFF};
+    static uint16_t writeBuffer[4] = {0x0000, 0xFFFF, 0xA5A5, 0x5A5A, };
     uint16_t data[4], rdata;
     uint8_t *buffer;
     S13EE_STATUS ret;
@@ -278,11 +279,11 @@ static void EEP_T5(S13EE *s13ee)
     uint16_t u16ReadBuffer[S13EE_WORD_MAX];
     const uint16_t u16Value = 0;
 
-    S13EE_PRINTF("%s - 200 次全0测试.\r\n", __FUNCTION__);
-    S13EE_PRINTF("TEST IN PROCESSING %02d%%.", times/2);
-    for(times = 0; times < 200; times++)
+    S13EE_PRINTF("%s - 50 次全0测试.\r\n", __FUNCTION__);
+    S13EE_PRINTF("TEST IN PROCESSING %02d%%.", times * 2);
+    for(times = 0; times < 50; times++)
     {
-        S13EE_PRINTF("\b\b\b\b%02d%%.", times/2);
+        S13EE_PRINTF("\b\b\b\b%02d%%.", times * 2);
         /* chipErase */
         if(S13EE_SUCCESS != (result = s13ee->chipErase()))
         {
@@ -317,7 +318,7 @@ static void EEP_T5(S13EE *s13ee)
         }
     }
 
-    S13EE_PRINTF("\b\b\b\b%02d%%.\r\n", times/2);
+    S13EE_PRINTF("\b\b\b\b%02d%%.\r\n", times * 2);
     S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
 }
 
@@ -329,11 +330,11 @@ static void EEP_T6(S13EE *s13ee)
     uint16_t u16ReadBuffer[S13EE_WORD_MAX];
     const uint16_t u16Value = 0xFFFF;
 
-    S13EE_PRINTF("%s - 200 次全1测试.\r\n", __FUNCTION__);
-    S13EE_PRINTF("TEST IN PROCESSING %02d%%.", times/2);
-    for(times = 0; times < 200; times++)
+    S13EE_PRINTF("%s - 50 次全1测试.\r\n", __FUNCTION__);
+    S13EE_PRINTF("TEST IN PROCESSING %02d%%.", times * 2);
+    for(times = 0; times < 50; times++)
     {
-        S13EE_PRINTF("\b\b\b\b%02d%%.", times/2);
+        S13EE_PRINTF("\b\b\b\b%02d%%.", times * 2);
         /* chipErase */
         if(S13EE_SUCCESS != (result = s13ee->chipErase()))
         {
@@ -369,7 +370,7 @@ static void EEP_T6(S13EE *s13ee)
         }
     }
 
-    S13EE_PRINTF("\b\b\b\b%02d%%.\r\n", times/2);
+    S13EE_PRINTF("\b\b\b\b%02d%%.\r\n", times * 2);
     S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
 }
 
@@ -381,7 +382,7 @@ static void EEP_T7(S13EE *s13ee)
     uint16_t count = 0;
     S13EE_STATUS ret;
 
-    S13EE_PRINTF("\r\n100 march算法测试.\r\n\r\n");
+    S13EE_PRINTF("\r\n20 march算法测试.\r\n\r\n");
     S13EE_PRINTF("march算法测试说明 :\r\n");
     S13EE_PRINTF("1. 从起始位置开始,按照地址递增顺序把全部单元写为0x0000.\r\n");
     S13EE_PRINTF("2. 从起始位置开始,按照地址递增顺序,读A0单元的0x0000，再改写为0x5555；"
@@ -401,11 +402,11 @@ static void EEP_T7(S13EE *s13ee)
     S13EE_PRINTF("4. 从起始位置开始，按照地址递增顺序，读全部单元，若读回的数据不一致，"
         "\r\n  则返回失败\r\n");
 
-    S13EE_PRINTF("测试中 %02d%%.", count);
+    S13EE_PRINTF("测试中 %02d%%.", count * 5);
 #if 1
-    for(count = 0; count < 100; count++)
+    for(count = 0; count < 20; count++)
     {
-        S13EE_PRINTF("\b\b\b\b%02d%%.", count);
+        S13EE_PRINTF("\b\b\b\b%02d%%.", 5 * count);
 
         /* 1. 从起始位置开始,按照地址递增顺序把全部单元写为0x0000 */
         for(addr = 0, wdata = 0; addr < S13EE_WORD_MAX; addr++)
@@ -485,7 +486,7 @@ static void EEP_T7(S13EE *s13ee)
          }
     }
 #endif
-    S13EE_PRINTF("\b\b\b\b%02d%%.\r\n", count);
+    S13EE_PRINTF("\b\b\b\b%02d%%.\r\n", 5 * count);
     S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
     return;
 
@@ -1080,8 +1081,8 @@ EEP_T30_ERR:
 void EEP_T31(S13EE *s13ee)
 {
     uint16_t index, addr = 0;
-    static uint16_t writeBuffer[8] = {0x5A5A, 0xA5A5, 0x0000, 0xFFFF,
-        0x5A5A, 0xA5A5, 0x0000, 0xFFFF};
+    static uint16_t writeBuffer[8] = {0x5555, 0x5555, 0x5555, 0x5555,
+        0xaaaa, 0xaaaa, 0xaaaa, 0xaaaa};
     uint16_t readBuffer[8];
     uint8_t *buffer;
     S13EE_STATUS ret;
@@ -1229,6 +1230,33 @@ EEP_T30_ERR:
     S13EE_PRINTF("%s FAILED : %s.\r\n", __FUNCTION__, s13ee->errToString(ret));
 }
 
+static void EEP_T34(S13EE *s13ee)
+{
+    S13EE_STATUS result;
+    uint16_t u16Buffer[S13EE_WORD_MAX];
+    uint16_t n, index;
+    uint8_t startAddr;
+
+    S13EE_PRINTF("%s - 单个Word读addr0~addr(n-1).\r\n", __FUNCTION__);
+
+    startAddr = DIAG_GetNumber("起始地址", INPUT_DATA_FORMAT_DEC, 0, 255);
+    n = DIAG_GetNumber("n的值", INPUT_DATA_FORMAT_DEC, 0, S13EE_WORD_MAX - startAddr + 1);
+
+    for(index = 0; index < n; index++)
+    {
+        if(S13EE_SUCCESS != (result = s13ee->read(startAddr + index, &u16Buffer[startAddr + index], 1)))
+        {
+            S13EE_PRINTF("read failed(result = %d)\r\n", result);
+            return;
+        }
+    }
+
+    printbuffer(&u16Buffer[startAddr], n);
+    S13EE_PRINTF("\r\n");
+    S13EE_PRINTF("%s SUCCUSS.\r\n", __FUNCTION__);
+}
+
+
 enum
 {
     INITIALIZE_AND_WAKEUP_TEST = 1,
@@ -1368,6 +1396,7 @@ static void basicFunctionTest(S13EE *s13ee)
         S13EE_PRINTF("%2d. EEP_T%d - 棋盘格测试\r\n", EEP_TEST31, EEP_TEST31);
         S13EE_PRINTF("%2d. EEP_T%d - 全片读、校验\r\n", EEP_TEST32, EEP_TEST32);
         S13EE_PRINTF("%2d. EEP_T%d - 往addr0~addr(n-1)，写data0-data(n-1)，重复m遍(写一次，读一次)\r\n", EEP_TEST33, EEP_TEST33);
+        S13EE_PRINTF("%2d. EEP_T%d - 单个Word读addr0~addr(n-1)\r\n", EEP_TEST34, EEP_TEST34);
         S13EE_PRINTF("%2d. 退出\r\n", EEP_EXIT);
 
         option = getOption();
@@ -1397,6 +1426,9 @@ static void basicFunctionTest(S13EE *s13ee)
                 break;
             case EEP_TEST33:
                 EEP_T33(s13ee);
+                break;
+            case EEP_TEST34:
+                EEP_T34(s13ee);
                 break;
         }
     }while(option != EEP_EXIT);
