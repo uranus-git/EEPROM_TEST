@@ -9,12 +9,7 @@
 #include <stdlib.h>
 
 //#define DEVELOP_BOARD
-//#ifndef ENABLE
-//#define ENABLE 1
-//#endif
-//#ifndef DISABLE
-//#define DISABLE 0
-//#endif
+
 /*
  * HADDR - addr[13:12] - PG[ 9:8]  - GPIOG_ODR 0x40020814
  * LADDR - addr[11: 4] - PG[ 7:0]
@@ -25,7 +20,8 @@
  * ERASE - erase       - PD[14]    - bitband addr 0x42418280 + 14 * 4 = 0x424182B8
  * TESTMR- margin_rd   - PD[12]    - bitband addr 0x42418280 + 12 * 4 = 0x424182B0
  * SYNC  - sync        - PA[6]     - bitband addr 0x42400280 +  6 * 4 = 0x42400298
- * CLK   - clk         - PA[7]     - bitband addr 0x42400280 +  6 * 4 = 0x4240029C
+ * CLK   - clk         - PA[7]     - bitband addr 0x42400280 +  7 * 4 = 0x4240029C
+ * VPP CONTROL         - PA[12]    - bitband addr 0x42400280 + 12 * 4 = 0x424002B0
  * BUFEST- burfst      - PD[13]    - bitband addr 0x42418280 + 13 * 4 = 0x424182B4
  * LOAD  - loaden      - PD[15]    - bitband addr 0x42418280 + 13 * 4 = 0x424182BC
  * DBY2  - dby2        - PD[11]    - bitband addr 0x42418280 + 13 * 4 = 0x424182AC
@@ -45,6 +41,9 @@
 #define SIGNAL_BUFRST(val)        *((__IO uint32_t  *)(0x424182B4)) = (val)
 #define SIGNAL_LOAD(val)          *((__IO uint32_t  *)(0x424182BC)) = (val)
 #define SIGNAL_DBY2(val)          *((__IO uint32_t  *)(0x424182AC)) = (val)
+#ifdef S13EE_DEBUG
+#define SIGNAL_VPPCONTROL(val)    *((__IO uint32_t  *)(0x424002B0)) = (val)
+#endif
 #else
 /* HADDR - addr[13:12] - PC[ 9:8]  - GPIOC_ODR 0x40021814
  * LADDR - addr[11: 4] - PC[ 7:0]
@@ -123,7 +122,7 @@ typedef struct
     S13EE_DELAY *
 }S13EE_DELAY_INFO;
 */
-static void nsDelay(uint32_t nsDelay);
+void nsDelay(int32_t nsDelay);
 static void nsDelay_141_24(int32_t nsDelay);
 
 /* Buffer Reset and Data Loading Timing */
@@ -159,6 +158,12 @@ static S13EE_DELAY trcyc_s  = {"trcyc_s", 	1500, 1500, nsDelay_141_24};
 static S13EE_DELAY tsac     = {"tsac   ", 	150, 150, nsDelay_141_24};
 static S13EE_DELAY trsu_as  = {"trsu_as", 	200, 200, nsDelay_141_24};
 static S13EE_DELAY trh_as   = {"trh_as ", 	200, 200, nsDelay_141_24};
+/* VPP CONTROL */
+static S13EE_DELAY vpp_open = {"vpp_open", 	500000000, 500000000, nsDelay_141_24};
+static S13EE_DELAY vpp_close= {"vpp_clos", 	500000000, 500000000, nsDelay_141_24};
+
+
+
 
 static const char *_errToString(S13EE_STATUS result)
 {
@@ -180,14 +185,26 @@ static S13EE_DELAY * const s13eeDelayArray[] =
     /* Write-Erase and Program-Timing */
     &tsu_ae,&tsu_ew,&th_aw,		&tw_e,		&tw_w,		&tw_c_l,	&tw_c_h,	&tcyc_c,	&tsu_c,		&th_c,
     /* Read Timing */
-    &tsu_wr,&tsu_rs,&th_rs,		&trw_s_h,	&trw_s_l,	&trcyc_s,	&tsac,		&trsu_as,	&trh_as
+    &tsu_wr,&tsu_rs,&th_rs,		&trw_s_h,	&trw_s_l,	&trcyc_s,	&tsac,		&trsu_as,	&trh_as,
+    /* vpp control */
+    &vpp_open,  &vpp_close
 };
 
 
-static void nsDelay(uint32_t nsDelay)
+void nsDelay(int32_t nsDelay)
 {
-    while(nsDelay--);
+    nsDelay -= 141;
+
+    while(nsDelay > 0)
+        nsDelay -= 24;
 }
+
+void usDelay(int32_t usDelay)
+{
+    while(usDelay--)
+        nsDelay(1000);
+}
+
 
 static void nsDelay_60_37(uint32_t nsDelay)
 {
@@ -228,7 +245,7 @@ static void testDelay(void)
         test_time.delayFunc(test_time.parameter);
     }
 }
-#if 1
+
 void delayManage(void)
 {
     uint32_t index = 0;
@@ -240,15 +257,14 @@ void delayManage(void)
     {
         S13EE_PRINTF("%s - %8d(ns) :", s13eeDelayArray[index]->name, s13eeDelayArray[index]->nsDelay);
         p = S13EE_GETLINE;
-        nsDelayCount = atoi(p);
+        nsDelayCount = atoi((const char *)p);
         if(nsDelayCount > 0)
         {
-            s13eeDelayArray[index]->nsDelay = nsDelayCount;
+            s13eeDelayArray[index]->parameter = nsDelayCount;
         }
         index++;
     }
 }
-#endif
 
 static void clkInit(uint32_t nsCycle)
 {
@@ -340,6 +356,7 @@ static S13EE_STATUS bufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer, uint1
     SIGNAL_BUFRST(0);
     tsu_bx.delayFunc(tsu_bx.parameter);
     SIGNAL_LOAD(1);
+
     while(index < cnt)
     {
         LADDR_BUS(addr);
@@ -372,13 +389,6 @@ static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
 {
     S13EE_STATUS result;
     uint16_t step = (cnt >= 4) ? 4 : (cnt % 4);
-#ifdef CHECK_PARAM
-    if(!((cnt > 0) && (cnt < 5)))
-    {
-        assert_param(0);
-        return S13EE_PRAM_ERR;
-    }
-#endif
 
     while(cnt)
     {
@@ -386,6 +396,11 @@ static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
         return result;
 
     pinValueInit(&wrErasePinValueList);
+
+#ifdef S13EE_DEBUG
+    SIGNAL_VPPCONTROL(1);
+    vpp_open.delayFunc(vpp_open.parameter);
+#endif
 
     LADDR_BUS(addr);
     SIGNAL_CLK(ENABLE);
@@ -400,7 +415,14 @@ static S13EE_STATUS _write(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
     th_aw.delayFunc(th_aw.parameter);
     SIGNAL_CLK(DISABLE);
 
+#ifdef S13EE_DEBUG
+    SIGNAL_VPPCONTROL(0);
+    vpp_close.delayFunc(vpp_close.parameter);
+#endif
+
     cnt -= step;
+    addr += step;
+    u16Buffer += step;
     step = (cnt >= 4) ? 4 : (cnt % 4);
     }
 
@@ -507,13 +529,14 @@ static const S13EE_OPIN_VALUE_LIST testModeBufRstDataLoadPinValueList =
     .sync = 0
 };
 
-static S13EE_STATUS testModeBufferResetDataLoad(uint8_t addr, uint16_t *u16Buffer, uint16_t cnt)
+static S13EE_STATUS testModeBufferResetDataLoad(uint8_t haddr, uint8_t addr, uint16_t *u16Buffer)
 {
     uint8_t index = 0;
+    const uint16_t cnt = 4;
 
     pinValueInit(&testModeBufRstDataLoadPinValueList);
 
-    HADDR_BUS(3);
+    HADDR_BUS(haddr);
     SIGNAL_BUFRST(1);
     tw_b.delayFunc(tw_b.parameter);
     SIGNAL_BUFRST(0);
@@ -550,12 +573,17 @@ static const S13EE_OPIN_VALUE_LIST testModeWrErasePinValueList =
 static S13EE_STATUS _chipErase (void)
 {
     S13EE_STATUS result;
-    uint16_t u16Arry[4] = {0xffff, 0xffff, 0xffff, 0xffff};
+    uint16_t u16Arry[4] = {0x0, 0x0, 0x0, 0x0};
 
-//    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, u16Arry, 4)))
-//        return result;
+    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(3, 0, u16Arry)))
+        return result;
 
     pinValueInit(&testModeWrErasePinValueList);
+
+#ifdef S13EE_DEBUG
+    SIGNAL_VPPCONTROL(1);
+    vpp_open.delayFunc(vpp_open.parameter);
+#endif
 
     HADDR_BUS(3);
     SIGNAL_CLK(ENABLE);
@@ -572,12 +600,18 @@ static S13EE_STATUS _chipErase (void)
     th_aw.delayFunc(th_aw.parameter);
     SIGNAL_CLK(DISABLE);
 
+#ifdef S13EE_DEBUG
+    SIGNAL_VPPCONTROL(0);
+    vpp_close.delayFunc(vpp_close.parameter);
+#endif
+
     return S13EE_SUCCESS;
 }
 
 static S13EE_STATUS _chipWrite (uint16_t (*u16Arry)[4])
 {
     S13EE_STATUS result;
+    const uint8_t haddr = 3;
 #ifdef CHECK_PARAM
     if(NULL == u16Arry)
     {
@@ -586,12 +620,17 @@ static S13EE_STATUS _chipWrite (uint16_t (*u16Arry)[4])
     }
 #endif
 
-    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, (uint16_t *)u16Arry, 4)))
+    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(haddr, 0, (uint16_t *)u16Arry)))
         return result;
 
     pinValueInit(&testModeWrErasePinValueList);
 
-    HADDR_BUS(3);
+#ifdef S13EE_DEBUG
+    SIGNAL_VPPCONTROL(1);
+    vpp_open.delayFunc(vpp_open.parameter);
+#endif
+
+    HADDR_BUS(haddr);
     tsu_ae.delayFunc(tsu_ae.parameter);
     SIGNAL_CLK(ENABLE);
     tcyc_c.delayFunc(tcyc_c.parameter);
@@ -605,12 +644,20 @@ static S13EE_STATUS _chipWrite (uint16_t (*u16Arry)[4])
     SIGNAL_PGM(0);
     th_aw.delayFunc(th_aw.parameter);
     SIGNAL_CLK(DISABLE);
+
+#ifdef S13EE_DEBUG
+    SIGNAL_VPPCONTROL(0);
+    vpp_close.delayFunc(vpp_close.parameter);
+#endif
+
     return S13EE_SUCCESS;
 }
 
 static S13EE_STATUS _halfWrite(uint16_t (*u16Arry)[4], uint8_t isUpper)
 {
     S13EE_STATUS result;
+    uint8_t haddr;
+
 #ifdef CHECK_PARAM
     if(NULL == u16Arry)
     {
@@ -619,15 +666,22 @@ static S13EE_STATUS _halfWrite(uint16_t (*u16Arry)[4], uint8_t isUpper)
     }
 #endif
 
-    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(0, (uint16_t *)u16Arry, 4)))
+    if(isUpper)
+        haddr = 2;
+    else
+        haddr = 1;
+
+    if(S13EE_SUCCESS != (result = testModeBufferResetDataLoad(haddr, 0, (uint16_t *)u16Arry)))
         return result;
 
     pinValueInit(&testModeWrErasePinValueList);
 
-    if(isUpper)
-        HADDR_BUS(2);
-    else
-        HADDR_BUS(1);
+#ifdef S13EE_DEBUG
+    SIGNAL_VPPCONTROL(1);
+    vpp_open.delayFunc(vpp_open.parameter);
+#endif
+
+    HADDR_BUS(haddr);
 
     SIGNAL_CLK(ENABLE);
     tsu_ae.delayFunc(tsu_ae.parameter);
@@ -640,6 +694,11 @@ static S13EE_STATUS _halfWrite(uint16_t (*u16Arry)[4], uint8_t isUpper)
     SIGNAL_PGM(0);
     th_aw.delayFunc(th_aw.parameter);
     SIGNAL_CLK(DISABLE);
+
+#ifdef S13EE_DEBUG
+    SIGNAL_VPPCONTROL(0);
+    vpp_close.delayFunc(vpp_close.parameter);
+#endif
 
     return S13EE_SUCCESS;
 }
@@ -695,9 +754,9 @@ S13EE * S13EE_INIT (S13EE * pS13EE)
     GPIO_InitStructure.GPIO_Pin = GPIO_Pin_12;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
-    /* SYNC */
+    /* SYNC /VPP CONTROL */
     RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOA, ENABLE);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_12;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 #else
@@ -766,6 +825,7 @@ void gpio_test(void)
     GPIO_ResetBits(GPIOC, GPIO_Pin_6);
     while(1);
 }
+
 void uart3_test(void)
 {
     while(1)

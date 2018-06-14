@@ -1,7 +1,7 @@
 /*
 *********************************************************************************************************
-*	                                  
-*	模块名称 : printf模块    
+*
+*	模块名称 : printf模块
 *	文件名称 : bsp_printf.c
 *	版    本 : V2.0
 *	说    明 : 实现printf和scanf函数重定向到串口1，即支持printf信息到USART1
@@ -9,7 +9,7 @@
 *				int fputc(int ch, FILE *f);
 *				int fgetc(FILE *f);
 *				对于KEIL MDK编译器，编译选项中需要在MicorLib前面打钩，否则不会有数据打印到USART1。
-*				
+*
 *				这个c模块无对应的h文件。
 *
 *	修改记录 :
@@ -25,6 +25,9 @@
 #include "stm32f4xx.h"
 #include <stdio.h>
 
+extern void nsDelay(int32_t nsDelay);
+extern void usDelay(int32_t usDelay);
+
 /*
 *********************************************************************************************************
 *	函 数 名: fputc
@@ -35,6 +38,14 @@
 */
 int fputc(int ch, FILE *f)
 {
+    static uint32_t count = 0;
+#if 1
+    if(++count == 2)
+    {
+        count = 0;
+        usDelay(1000);
+    }
+#endif
 	/* 写一个字节到USART1 */
 	USART_SendData(USART1, (uint8_t) ch);
 

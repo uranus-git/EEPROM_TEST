@@ -40,11 +40,13 @@ typedef struct
     S13EE_STATUS (*chipErase)(void);
     S13EE_STATUS (*chipWrite)(uint16_t (*u16Arry)[4]);
     S13EE_STATUS (*halfWrite)(uint16_t (*u16Arry)[4], uint8_t isUpper);
-    char  (*errToString)(S13EE_STATUS result);
+    const char * (*errToString)(S13EE_STATUS result);
 }S13EE;
 
 extern S13EE * S13EE_INIT (S13EE * pS13EE);
 extern S13EE_STATUS S13EE_UNINIT (S13EE * pS13EE);
+extern void delayManage(void);
+
 
 #endif
 
