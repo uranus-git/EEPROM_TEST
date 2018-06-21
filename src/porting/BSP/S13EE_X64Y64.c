@@ -143,9 +143,9 @@ static S13EE_DELAY tsu_ew   = {"tsu_ew ", 	200000, 200000, nsDelay_141_24};
 static S13EE_DELAY th_aw    = {"th_aw  ", 	100000, 100000, nsDelay_141_24};
 static S13EE_DELAY tw_e     = {"tw_e   ", 	2400000, 2400000, nsDelay_141_24};
 static S13EE_DELAY tw_w     = {"tw_w   ", 	2400000, 2400000, nsDelay_141_24};
-static S13EE_DELAY tw_c_l   = {"tw_c_l ", 	260, 260, nsDelay_141_24};
-static S13EE_DELAY tw_c_h   = {"tw_c_h ", 	260, 260, nsDelay_141_24};
-static S13EE_DELAY tcyc_c   = {"tcyc_c ", 	520, 520, nsDelay_141_24};
+static S13EE_DELAY tw_c_l   = {"tw_c_l ", 	250, 250, nsDelay_141_24};
+static S13EE_DELAY tw_c_h   = {"tw_c_h ", 	250, 250, nsDelay_141_24};
+static S13EE_DELAY tcyc_c   = {"tcyc_c ", 	500, 500, nsDelay_141_24};
 static S13EE_DELAY tsu_c    = {"tsu_c  ", 	200, 200, nsDelay_141_24};
 static S13EE_DELAY th_c     = {"th_c   ", 	200, 200, nsDelay_141_24};
 /* Read Timing */
@@ -273,6 +273,12 @@ static void clkInit(uint32_t nsCycle)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	TIM_OCInitTypeDef  TIM_OCInitStructure;
+    uint32_t nPeriod, nPulse;
+    
+
+    nPeriod = (uint32_t) (nsCycle / (1.0e9 / (168000000 / 2)));
+    nPeriod = (nPeriod % 2) ? (nPeriod + 1) : nPeriod;
+    nPulse = nPeriod / 2;
 
     SIGNAL_CLK(DISABLE);
 
@@ -304,14 +310,14 @@ static void clkInit(uint32_t nsCycle)
 
 	TIM_TimeBaseStructure.TIM_Prescaler = 1 - 1;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_Period = 42-1;
+	TIM_TimeBaseStructure.TIM_Period = nPeriod - 1;
 	TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
 	TIM_TimeBaseInit(TIM14, &TIM_TimeBaseStructure);//3
 
 	TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1;
  	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
 	TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_Low;
-	TIM_OCInitStructure.TIM_Pulse = 21;
+	TIM_OCInitStructure.TIM_Pulse = nPulse;
 	TIM_OC1Init(TIM14, &TIM_OCInitStructure);
 
 	TIM_OC1PreloadConfig(TIM14, TIM_OCPreload_Enable);
@@ -321,6 +327,7 @@ static void clkInit(uint32_t nsCycle)
 
 static void pinValueInit(const S13EE_OPIN_VALUE_LIST *pPinValueList)
 {
+    clkInit(tcyc_c.parameter);
     HADDR_BUS(pPinValueList->haddr);
     LADDR_BUS(pPinValueList->laddr);
     IDATA_BUS(pPinValueList->din);
@@ -329,7 +336,6 @@ static void pinValueInit(const S13EE_OPIN_VALUE_LIST *pPinValueList)
     SIGNAL_ERASE(pPinValueList->erase);
     SIGNAL_TESTMR(pPinValueList->testmr);
     SIGNAL_SYNC(pPinValueList->sync);
-    SIGNAL_CLK(DISABLE);
     SIGNAL_BUFRST(pPinValueList->bufrst);
     SIGNAL_LOAD(pPinValueList->loaden);
     SIGNAL_DBY2(pPinValueList->dby2);
@@ -803,7 +809,6 @@ S13EE * S13EE_INIT (S13EE * pS13EE)
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 #endif
 #endif
-    clkInit(0);
 
 //    testDelay();
     //extern void gpio_test(void);
