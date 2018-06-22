@@ -257,7 +257,7 @@ void delayManage(void)
 
     while(index < size)
     {
-        S13EE_PRINTF("%s - %8d(ns) :", s13eeDelayArray[index]->name, s13eeDelayArray[index]->nsDelay);
+        S13EE_PRINTF("%s - %8d(ns) :", s13eeDelayArray[index]->name, s13eeDelayArray[index]->parameter);
         p = S13EE_GETLINE;
         nsDelayCount = atoi((const char *)p);
         if(nsDelayCount > 0)

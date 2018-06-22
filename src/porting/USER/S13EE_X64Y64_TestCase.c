@@ -942,10 +942,14 @@ static void EEP_T26(S13EE *s13ee)
 
     S13EE_PRINTF("%s - T = 25¡æ, vcca = 1.8V , Write opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
+    memset(writeBuffer, 0x5a5a, sizeof(writeBuffer));
+    
     do
     {
+        /* write */
         if(S13EE_SUCCESS != (ret = s13ee->write(0, writeBuffer, S13EE_WORD_MAX)))
             goto EEP_T26_ERR;
+        
         buffer = S13EE_GETLINE_NOWAIT;
     }while(!(buffer && (buffer[0] == 'q')));
 
@@ -963,8 +967,11 @@ static void EEP_T27(S13EE *s13ee)
 
     S13EE_PRINTF("%s - T = 25¡æ, vcca = 1.5V , Write opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
+    memset(writeBuffer, 0x5a5a, sizeof(writeBuffer));
+
     do
     {
+        /* write */
         if(S13EE_SUCCESS != (ret = s13ee->write(0, writeBuffer, S13EE_WORD_MAX)))
             goto EEP_T27_ERR;
         buffer = S13EE_GETLINE_NOWAIT;
@@ -984,8 +991,11 @@ static void EEP_T28(S13EE *s13ee)
 
     S13EE_PRINTF("%s - T = 25¡æ, vcca = 1.2V , Write opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
+    memset(writeBuffer, 0x5a5a, sizeof(writeBuffer));
+
     do
     {
+        /* write */
         if(S13EE_SUCCESS != (ret = s13ee->write(0, writeBuffer, S13EE_WORD_MAX)))
             goto EEP_T28_ERR;
         buffer = S13EE_GETLINE_NOWAIT;
@@ -1005,8 +1015,11 @@ static void EEP_T29(S13EE *s13ee)
 
     S13EE_PRINTF("%s - T = 25¡æ, vcca = 1.1V , Write opreate current test.(Input \'q\' to exit) : ", __FUNCTION__);
 
+    memset(writeBuffer, 0x5a5a, sizeof(writeBuffer));
+
     do
     {
+        /* write */
         if(S13EE_SUCCESS != (ret = s13ee->write(0, writeBuffer, S13EE_WORD_MAX)))
             goto EEP_T29_ERR;
         buffer = S13EE_GETLINE_NOWAIT;
