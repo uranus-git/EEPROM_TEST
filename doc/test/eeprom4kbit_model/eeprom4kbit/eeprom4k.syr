@@ -4,13 +4,13 @@ Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.13 secs
+Total CPU time to Xst completion: 0.29 secs
  
 --> Parameter xsthdpdir set to xst
 
 
 Total REAL time to Xst completion: 0.00 secs
-Total CPU time to Xst completion: 0.13 secs
+Total CPU time to Xst completion: 0.29 secs
  
 --> Reading design: eeprom4k.prj
 
@@ -108,9 +108,9 @@ Cores Search Directories           : {"ipcore_dir"  }
 =========================================================================
 *                          HDL Parsing                                  *
 =========================================================================
-Analyzing Verilog file "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" into library work
+Analyzing Verilog file "D:\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" into library work
 Parsing module <clock>.
-Analyzing Verilog file "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\1code\eeprom4kbit.v" into library work
+Analyzing Verilog file "D:\test\eeprom4kbit_model\1code\eeprom4kbit.v" into library work
 Parsing module <eeprom4k>.
 
 =========================================================================
@@ -124,12 +124,12 @@ Elaborating module <clock>.
 Elaborating module <IBUFG>.
 
 Elaborating module <PLL_BASE(BANDWIDTH="OPTIMIZED",CLK_FEEDBACK="CLKFBOUT",COMPENSATION="SYSTEM_SYNCHRONOUS",DIVCLK_DIVIDE=1,CLKFBOUT_MULT=20,CLKFBOUT_PHASE=0.0,CLKOUT0_DIVIDE=3,CLKOUT0_PHASE=0.0,CLKOUT0_DUTY_CYCLE=0.5,CLKIN_PERIOD=20.0,REF_JITTER=0.01)>.
-WARNING:HDLCompiler:1127 - "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 114: Assignment to clkout1_unused ignored, since the identifier is never used
-WARNING:HDLCompiler:1127 - "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 115: Assignment to clkout2_unused ignored, since the identifier is never used
-WARNING:HDLCompiler:1127 - "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 116: Assignment to clkout3_unused ignored, since the identifier is never used
-WARNING:HDLCompiler:1127 - "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 117: Assignment to clkout4_unused ignored, since the identifier is never used
-WARNING:HDLCompiler:1127 - "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 118: Assignment to clkout5_unused ignored, since the identifier is never used
-WARNING:HDLCompiler:1127 - "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 119: Assignment to locked_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "D:\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 114: Assignment to clkout1_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "D:\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 115: Assignment to clkout2_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "D:\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 116: Assignment to clkout3_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "D:\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 117: Assignment to clkout4_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "D:\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 118: Assignment to clkout5_unused ignored, since the identifier is never used
+WARNING:HDLCompiler:1127 - "D:\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v" Line 119: Assignment to locked_unused ignored, since the identifier is never used
 
 Elaborating module <BUFG>.
 
@@ -138,7 +138,7 @@ Elaborating module <BUFG>.
 =========================================================================
 
 Synthesizing Unit <eeprom4k>.
-    Related source file is "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\1code\eeprom4kbit.v".
+    Related source file is "D:\test\eeprom4kbit_model\1code\eeprom4kbit.v".
     Found 4-bit register for signal <buf_en_flag_reg>.
     Found 64-bit register for signal <n6172>.
     Found 256-bit register for signal <word_decode_wire>.
@@ -4247,7 +4247,7 @@ Synthesizing Unit <eeprom4k>.
 Unit <eeprom4k> synthesized.
 
 Synthesizing Unit <clock>.
-    Related source file is "D:\work\myproj\EEPROM_TEST\doc\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v".
+    Related source file is "D:\test\eeprom4kbit_model\eeprom4kbit\ipcore_dir\clock.v".
     Summary:
 	no macro.
 Unit <clock> synthesized.
@@ -4573,12 +4573,12 @@ sync           |    3.220|         |    2.192|         |
 =========================================================================
 
 
-Total REAL time to Xst completion: 48.00 secs
-Total CPU time to Xst completion: 48.08 secs
+Total REAL time to Xst completion: 31.00 secs
+Total CPU time to Xst completion: 31.62 secs
  
 --> 
 
-Total memory usage is 342384 kilobytes
+Total memory usage is 341608 kilobytes
 
 Number of errors   :    0 (   0 filtered)
 Number of warnings :    6 (   0 filtered)

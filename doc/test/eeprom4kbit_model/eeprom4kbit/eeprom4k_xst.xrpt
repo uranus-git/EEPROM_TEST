@@ -5,14 +5,14 @@
     The structure and the elements are likely to change over the next few releases.
     This means code written to parse this file will need to be revisited each subsequent release.-->
 
-  <application stringID="Xst" timeStamp="Fri Jun 08 22:57:29 2018">
+  <application stringID="Xst" timeStamp="Sat Jun 09 10:37:27 2018">
     <section stringID="User_Env">
       <table stringID="User_EnvVar">
         <column stringID="variable"/>
         <column stringID="value"/>
         <row stringID="row" value="0">
           <item stringID="variable" value="Path"/>
-          <item stringID="value" value="d:\Xilinx\14.7\ISE_DS\ISE\\lib\nt64;d:\Xilinx\14.7\ISE_DS\ISE\\bin\nt64;d:\Xilinx\14.7\ISE_DS\ISE\bin\nt64;d:\Xilinx\14.7\ISE_DS\ISE\lib\nt64;d:\Xilinx\14.7\ISE_DS\ISE\..\..\..\DocNav;d:\Xilinx\14.7\ISE_DS\PlanAhead\bin;d:\Xilinx\14.7\ISE_DS\EDK\bin\nt64;d:\Xilinx\14.7\ISE_DS\EDK\lib\nt64;d:\Xilinx\14.7\ISE_DS\EDK\gnu\microblaze\nt\bin;d:\Xilinx\14.7\ISE_DS\EDK\gnu\powerpc-eabi\nt\bin;d:\Xilinx\14.7\ISE_DS\EDK\gnuwin\bin;d:\Xilinx\14.7\ISE_DS\EDK\gnu\arm\nt\bin;d:\Xilinx\14.7\ISE_DS\EDK\gnu\microblaze\linux_toolchain\nt64_be\bin;d:\Xilinx\14.7\ISE_DS\EDK\gnu\microblaze\linux_toolchain\nt64_le\bin;d:\Xilinx\14.7\ISE_DS\common\bin\nt64;d:\Xilinx\14.7\ISE_DS\common\lib\nt64;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\TortoiseGit\bin;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;c:\Program Files\Arinc429Driver\lib"/>
+          <item stringID="value" value="e:\Xilinx\14.7\ISE_DS\ISE\\lib\nt64;e:\Xilinx\14.7\ISE_DS\ISE\\bin\nt64;e:\Xilinx\14.7\ISE_DS\ISE\bin\nt64;e:\Xilinx\14.7\ISE_DS\ISE\lib\nt64;e:\Xilinx\14.7\ISE_DS\ISE\..\..\..\DocNav;e:\Xilinx\14.7\ISE_DS\PlanAhead\bin;e:\Xilinx\14.7\ISE_DS\EDK\bin\nt64;e:\Xilinx\14.7\ISE_DS\EDK\lib\nt64;e:\Xilinx\14.7\ISE_DS\EDK\gnu\microblaze\nt\bin;e:\Xilinx\14.7\ISE_DS\EDK\gnu\powerpc-eabi\nt\bin;e:\Xilinx\14.7\ISE_DS\EDK\gnuwin\bin;e:\Xilinx\14.7\ISE_DS\EDK\gnu\arm\nt\bin;e:\Xilinx\14.7\ISE_DS\EDK\gnu\microblaze\linux_toolchain\nt64_be\bin;e:\Xilinx\14.7\ISE_DS\EDK\gnu\microblaze\linux_toolchain\nt64_le\bin;e:\Xilinx\14.7\ISE_DS\common\bin\nt64;e:\Xilinx\14.7\ISE_DS\common\lib\nt64;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;e:\Program Files\MATLAB\R2016a\runtime\win64;e:\Program Files\MATLAB\R2016a\bin;e:\Program Files\MATLAB\R2016a\polyspace\bin;C:\Program Files\Git\cmd;C:\Program Files\TortoiseGit\bin;E:\Xilinx\SDK\2016.2\gnu\arm\nt\bin;E:\Xilinx\SDK\2016.2\bin;e:\modeltech64_10.4\win64;C:\Users\Administrator\AppData\Roaming\搜狐影音\5.2.3.15;D:\Program Files (x86)\Notepad++"/>
         </row>
         <row stringID="row" value="1">
           <item stringID="variable" value="PATHEXT"/>
@@ -20,32 +20,36 @@
         </row>
         <row stringID="row" value="2">
           <item stringID="variable" value="XILINX"/>
-          <item stringID="value" value="d:\Xilinx\14.7\ISE_DS\ISE\"/>
+          <item stringID="value" value="e:\Xilinx\14.7\ISE_DS\ISE\"/>
         </row>
         <row stringID="row" value="3">
           <item stringID="variable" value="XILINX_DSP"/>
-          <item stringID="value" value="d:\Xilinx\14.7\ISE_DS\ISE"/>
+          <item stringID="value" value="e:\Xilinx\14.7\ISE_DS\ISE"/>
         </row>
         <row stringID="row" value="4">
           <item stringID="variable" value="XILINX_EDK"/>
-          <item stringID="value" value="d:\Xilinx\14.7\ISE_DS\EDK"/>
+          <item stringID="value" value="e:\Xilinx\14.7\ISE_DS\EDK"/>
         </row>
         <row stringID="row" value="5">
+          <item stringID="variable" value="XILINX_FOR_ALTIUM_OVERRIDE"/>
+          <item stringID="value" value=" "/>
+        </row>
+        <row stringID="row" value="6">
           <item stringID="variable" value="XILINX_PLANAHEAD"/>
-          <item stringID="value" value="d:\Xilinx\14.7\ISE_DS\PlanAhead"/>
+          <item stringID="value" value="e:\Xilinx\14.7\ISE_DS\PlanAhead"/>
         </row>
       </table>
       <item stringID="User_EnvOs" value="OS Information">
         <item stringID="User_EnvOsname" value="Microsoft Windows 7 , 64-bit"/>
         <item stringID="User_EnvOsrelease" value="Service Pack 1  (build 7601)"/>
       </item>
-      <item stringID="User_EnvHost" value="E5J6XF0UDO4NO56"/>
+      <item stringID="User_EnvHost" value="skylark-pc"/>
       <table stringID="User_EnvCpu">
         <column stringID="arch"/>
         <column stringID="speed"/>
         <row stringID="row" value="0">
-          <item stringID="arch" value="Intel(R) Core(TM) i5-4210U CPU @ 1.70GHz"/>
-          <item stringID="speed" value="2394 MHz"/>
+          <item stringID="arch" value="Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz"/>
+          <item stringID="speed" value="4200 MHz"/>
         </row>
       </table>
     </section>
